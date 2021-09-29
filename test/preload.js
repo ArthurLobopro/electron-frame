@@ -1,4 +1,4 @@
-const { insertFrame } = require('../src/renderer')
+const { insertFrame } = require('../dist/renderer')
 
 window.addEventListener('DOMContentLoaded', () => {
     insertFrame()
