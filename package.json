@@ -1,6 +1,6 @@
 {
   "name": "electron-frame",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Um pacote simples para construção de um window frame",
   "main": "index.js",
   "keywords": [
@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
-    "test": "electron ./test/main.js"
+    "test": "yarn build && electron ./test/main.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
@@ -22,7 +22,6 @@
     "typescript": "^4.4.3"
   },
   "files": [
-    "src",
-    "assets"
+    "dist/*"
   ]
 }
