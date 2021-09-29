@@ -1,5 +1,5 @@
-const { makeFrame } = require('./frame')
-const { injectCSS } = require('./Util')
+import { makeFrame } from './frame'
+import { injectCSS } from './Util'
 
 async function insertFrame() {
     const frame = await makeFrame()
