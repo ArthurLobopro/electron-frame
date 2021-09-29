@@ -1,4 +1,4 @@
-const { ipcMain, BrowserWindow } = require('electron')
+import { ipcMain, BrowserWindow } from 'electron'
 
 const mainWindowControlEvents = {
     init() {
@@ -23,4 +23,4 @@ const mainWindowControlEvents = {
     }
 }
 
-module.exports = { mainWindowControlEvents }
+export { mainWindowControlEvents }

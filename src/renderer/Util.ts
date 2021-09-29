@@ -1,5 +1,5 @@
-const path = require('path')
-const fs = require('fs')
+import path from 'path'
+import fs from 'fs'
 
 function loadSVG(...PathSegments) {
     return fs.readFileSync(path.resolve(...PathSegments))
@@ -27,4 +27,4 @@ async function getIconString() {
     })
 }
 
-module.exports = { loadSVG, getIconString, injectCSS }
+export { loadSVG, getIconString, injectCSS }

@@ -1,8 +1,8 @@
-const path = require('path')
-const { loadSVG, getIconString } = require('./Util')
-const { minimize, expand, close } = require('./renderer-actions')
+import path from 'path'
+import { loadSVG, getIconString } from './Util'
+import { minimize, expand, close } from './renderer-actions'
 
-const assetsFolder = path.resolve(__dirname, "../../", "assets")
+const assetsFolder = path.resolve(__dirname, "assets")
 
 async function makeFrame() {
     const windowIconString = await getIconString()
@@ -28,10 +28,12 @@ async function makeFrame() {
         </div>
     </div>`
 
-    header.querySelector('#minimize').onclick = minimize
-    header.querySelector('#expand').onclick = expand
-    header.querySelector('#close').onclick = close
+    const headerGet = (id:string) => header.querySelector(`#${id}`) as HTMLElement
+
+    headerGet('minimize').onclick = minimize
+    headerGet('expand').onclick = expand
+    headerGet('close').onclick = close
     return header
 }
 
-module.exports = { makeFrame }
+export { makeFrame }

@@ -6,4 +6,4 @@ const expand = () => ipcRenderer.send('expand')
 
 const close = () => ipcRenderer.send('close')
 
-module.exports = { minimize, expand, close }
+export { minimize, expand, close }

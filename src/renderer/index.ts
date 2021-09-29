@@ -7,4 +7,4 @@ async function insertFrame() {
     document.body.appendChild(frame)
 }
 
-module.exports = { insertFrame }
+export { insertFrame }
