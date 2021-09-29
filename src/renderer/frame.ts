@@ -7,11 +7,11 @@ const assetsFolder = path.resolve(__dirname, "assets")
 async function makeFrame() {
     const windowIconString = await getIconString()
 
-    const header = document.createElement('div')
+    const frame = document.createElement('div')
     const name = document.title
 
-    header.id = "electron-header"
-    header.innerHTML = `
+    frame.id = "electron-frame"
+    frame.innerHTML = `
     <div class="left">
         ${windowIconString}
         <div id="window-name">${name}</div>
@@ -28,12 +28,12 @@ async function makeFrame() {
         </div>
     </div>`
 
-    const headerGet = (id:string) => header.querySelector(`#${id}`) as HTMLElement
+    const frameGet = (id:string) => frame.querySelector(`#${id}`) as HTMLElement
 
-    headerGet('minimize').onclick = minimize
-    headerGet('expand').onclick = expand
-    headerGet('close').onclick = close
-    return header
+    frameGet('minimize').onclick = minimize
+    frameGet('expand').onclick = expand
+    frameGet('close').onclick = close
+    return frame
 }
 
 export { makeFrame }

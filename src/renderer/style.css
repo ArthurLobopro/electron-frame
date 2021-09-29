@@ -1,8 +1,9 @@
+/*#region Windows*/
 body{
-    padding-top: 40px;
+  padding-top: 30px;
 }
 
-#electron-header {
+#electron-frame {
   font-size: 15px;
   padding: 0 5px;
   position: fixed;
@@ -23,12 +24,12 @@ body{
   -webkit-app-region: drag;
 }
 
-#electron-header .left {
+#electron-frame .left {
   display: flex;
   align-items: center;
 }
 
-#electron-header .left #window-icon {
+#electron-frame .left #window-icon {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,21 +41,21 @@ body{
   height: 20px;
 }
 
-#electron-header .left #window-icon > img {
+#electron-frame .left #window-icon > img {
   max-width: 20px;
   max-height: 20px;
 }
 
-#electron-header .left #window-name {
+#electron-frame .left #window-name {
   font-family: "Nunito", Arial, Helvetica, sans-serif;
 }
 
-#electron-header > .right {
+#electron-frame > .right {
   display: flex;
   height: 100%;
 }
 
-#electron-header > .right div {
+#electron-frame > .right div {
   -webkit-app-region: no-drag;
   margin: 0;
   width: 45px;
@@ -64,16 +65,18 @@ body{
   align-items: center;
 }
 
-#electron-header > .right div:hover {
+#electron-frame > .right div:hover {
   background-color: #505050;
 }
 
-#electron-header > .right div:hover:last-child {
+#electron-frame > .right div:hover:last-child {
   background-color: rgba(255, 0, 0, 0.712);
 }
 
-#electron-header > .right div svg {
+#electron-frame > .right div svg {
   width: 20px;
   height: 20px;
   margin: auto;
 }
+
+/*#endregion*/
