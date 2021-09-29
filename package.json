@@ -1,15 +1,19 @@
 {
   "name": "electron-frame",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Um pacote simples para construção de um window frame",
   "main": "index.js",
+  "keywords": ["electron"],
+  "author": "Arthur Lobo",
+  "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "electron ./test/main.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "electron": "^15.0.0"
-  }
+  "devDependencies": {
+    "electron": "^13.4.0"
+  },
+  "files": [
+    "src",
+    "assets"
+  ]
 }
