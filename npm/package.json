@@ -1,11 +1,17 @@
 {
   "name": "electron-frame",
-  "version": "0.1.1-refactor",
+  "version": "0.2.0",
   "description": "Um pacote simples para construção de um window frame",
   "main": "index.js",
   "keywords": [
-    "electron"
+    "electron",
+    "frame",
+    "frameless"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArthurLobopro/electron-frame.git"
+  },
   "author": "Arthur Lobo",
   "license": "MIT"
 }
