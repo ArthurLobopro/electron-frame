@@ -1,9 +1,25 @@
 const { ipcRenderer } = require('electron')
 
-const minimize = () => ipcRenderer.send('minimize')
+const isDisabled = event => {
+    return event.currentTarget.classList.contains('disable')
+}
 
-const expand = () => ipcRenderer.send('expand')
+const minimize = (event) => {
+    if (!isDisabled(event)) {
+        ipcRenderer.send('minimize')
+    }
+}
 
-const close = () => ipcRenderer.send('close')
+const expand = event => {
+    if (!isDisabled(event)) {
+        ipcRenderer.send('expand')
+    }
+}
+
+const close = event => {
+    if (!isDisabled(event)) {
+        ipcRenderer.send('close')
+    }
+}
 
 export { minimize, expand, close }
