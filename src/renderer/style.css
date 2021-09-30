@@ -3,6 +3,10 @@ body{
   padding-top: 30px;
 }
 
+.disable{
+  opacity: 0.4;
+}
+
 #electron-frame.dark{
   --background: #1e1e1e;
   --color: #ddd;
