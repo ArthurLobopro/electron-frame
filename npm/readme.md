@@ -24,5 +24,6 @@ const { insertFrame } = require('electron-frame/renderer')
 
 document.addEventListener("DOMContentLoaded", ()=> {
     insertFrame()
+    //ou insertFrame({ darkMode = false}) para usar o frame claro
 })
 ```
