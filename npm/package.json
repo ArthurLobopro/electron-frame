@@ -1,6 +1,6 @@
 {
   "name": "electron-frame",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Um pacote simples para construção de um window frame",
   "main": "index.js",
   "keywords": [
