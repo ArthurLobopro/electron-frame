@@ -2,12 +2,12 @@ import { ipcMain, BrowserWindow } from 'electron'
 
 const mainWindowControlEvents = {
     init() {
-        ipcMain.on('minimize', (event, arg) => {
+        ipcMain.on('minimize', () => {
             const win = BrowserWindow.getFocusedWindow()
             win.minimize()
         })
 
-        ipcMain.on('expand', (event, arg) => {
+        ipcMain.on('expand', () => {
             const win = BrowserWindow.getFocusedWindow()
             if (win.isMaximized()) {
                 win.restore()
@@ -16,7 +16,7 @@ const mainWindowControlEvents = {
             }
         })
 
-        ipcMain.on('close', (event, isMacOS = process.platform == "darwin") => {
+        ipcMain.on('close', () => {
             const win = BrowserWindow.getFocusedWindow()
             win.close()
         })
