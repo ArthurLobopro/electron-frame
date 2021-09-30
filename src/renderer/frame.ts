@@ -4,7 +4,7 @@ import { minimize, expand, close } from './renderer-actions'
 
 const assetsFolder = path.resolve(__dirname, "assets")
 
-async function makeFrame({ darkMode = true }) {
+async function makeFrame({ darkMode = true, minimizable = true, maximizable = true, closeable = true }) {
     const windowIconString = await getIconString()
 
     const frame = document.createElement('div')
@@ -19,13 +19,13 @@ async function makeFrame({ darkMode = true }) {
         <div id="window-name">${name}</div>
     </div>
     <div class="right">
-        <div id="minimize">
+        <div id="minimize" class="${minimizable ? "" : "disable"}">
             ${loadSVG(assetsFolder, 'minimize.svg')}
         </div>
-        <div id="expand">
+        <div id="expand" class="${maximizable ? "" : "disable"}">
             ${loadSVG(assetsFolder, 'square.svg')}
         </div>
-        <div id="close">
+        <div id="close" class="${closeable ? "" : "disable"}">
             ${loadSVG(assetsFolder, 'close.svg')}
         </div>
     </div>`
