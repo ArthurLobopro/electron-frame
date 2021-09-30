@@ -3,6 +3,20 @@ body{
   padding-top: 30px;
 }
 
+#electron-frame.dark{
+  --background: #1e1e1e;
+  --color: #ddd;
+  --button-hover: #505050;
+  --svg-icons-color: #ccc;
+}
+
+#electron-frame.light{
+  --color: #1e1e1e;
+  --background: #fff;
+  --button-hover: #ddd;
+  --svg-icons-color: #555;
+}
+
 #electron-frame {
   font-size: 15px;
   padding: 0 5px;
@@ -18,8 +32,8 @@ body{
   margin: 0;
   padding: 0 0 0 2px;
   box-sizing: border-box;
-  background-color: #1e1e1e;
-  color: #ddd;
+  background-color: var(--background);
+  color: var(--color);
   user-select: none;
   -webkit-app-region: drag;
 }
@@ -66,17 +80,26 @@ body{
 }
 
 #electron-frame > .right div:hover {
-  background-color: #505050;
+  background-color: var(--button-hover);
 }
 
 #electron-frame > .right div:hover:last-child {
   background-color: rgba(255, 0, 0, 0.712);
 }
 
+#electron-frame.light > .right div:hover:last-child svg > *{
+  fill: #eee;
+}
+
 #electron-frame > .right div svg {
   width: 20px;
   height: 20px;
   margin: auto;
+}
+
+
+#electron-frame > .right div svg > *{
+  fill: var(--svg-icons-color)
 }
 
 /*#endregion*/

@@ -4,11 +4,13 @@ import { minimize, expand, close } from './renderer-actions'
 
 const assetsFolder = path.resolve(__dirname, "assets")
 
-async function makeFrame() {
+async function makeFrame({ darkMode = true }) {
     const windowIconString = await getIconString()
 
     const frame = document.createElement('div')
     const name = document.title
+
+    frame.className = darkMode ? "dark" : "light"
 
     frame.id = "electron-frame"
     frame.innerHTML = `
@@ -28,7 +30,7 @@ async function makeFrame() {
         </div>
     </div>`
 
-    const frameGet = (id:string) => frame.querySelector(`#${id}`) as HTMLElement
+    const frameGet = (id: string) => frame.querySelector(`#${id}`) as HTMLElement
 
     frameGet('minimize').onclick = minimize
     frameGet('expand').onclick = expand

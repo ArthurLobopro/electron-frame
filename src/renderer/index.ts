@@ -1,8 +1,8 @@
 import { makeFrame } from './frame'
 import { injectCSS } from './Util'
 
-async function insertFrame() {
-    const frame = await makeFrame()
+async function insertFrame({darkMode = true}) {
+    const frame = await makeFrame({darkMode})
     injectCSS(__dirname, 'style.css')
     document.body.appendChild(frame)
 }
