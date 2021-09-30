@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron")
 const path = require("path")
 
-const { mainWindowControlEvents } = require('../dist/main')
+const { mainWindowControlEvents } = require('../npm/main')
 mainWindowControlEvents.init()
 
 function mainWindow() {

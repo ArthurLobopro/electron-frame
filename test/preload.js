@@ -1,5 +1,5 @@
-const { insertFrame } = require('../dist/renderer')
+const { insertFrame } = require('../npm/renderer')
 
 window.addEventListener('DOMContentLoaded', () => {
-    insertFrame()
+    insertFrame({ darkMode: true })
 })
