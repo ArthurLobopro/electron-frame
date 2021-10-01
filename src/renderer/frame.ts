@@ -4,18 +4,29 @@ import { minimize, expand, close } from './renderer-actions'
 
 const assetsFolder = path.resolve(__dirname, "assets")
 
-async function makeFrame({ darkMode = true, minimizable = true, maximizable = true, closeable = true }) {
-    const windowIconString = await getIconString()
+interface makeFrame {
+    darkMode?: boolean
+    title?: string
+    icon: HTMLImageElement | string
+    minimizable: boolean
+    maximizable: boolean
+    closeable: boolean
+}
+
+async function makeFrame({ darkMode = true, title, icon, minimizable = true, maximizable = true, closeable = true }: makeFrame) {
+    const windowIconString = icon || await getIconString()
 
     const frame = document.createElement('div')
-    const name = document.title
+    const name = title || document.title
 
     frame.className = darkMode ? "dark" : "light"
 
     frame.id = "electron-frame"
     frame.innerHTML = `
     <div class="left">
-        ${windowIconString}
+        <div id="window-icon">${
+            windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString
+        }</div>
         <div id="window-name">${name}</div>
     </div>
     <div class="right">
