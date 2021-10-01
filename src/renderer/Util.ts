@@ -20,7 +20,7 @@ async function getIconString() {
                 const windowIcon = document.getElementById("window-icon")
                 const image = new Image()
                 image.src = e.href
-                resolve(`<div id="window-icon">${image.outerHTML}</div>`)
+                resolve(`${image.outerHTML}`)
             }
         }
         resolve('')
