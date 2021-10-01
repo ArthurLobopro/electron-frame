@@ -1,20 +1,25 @@
-/*#region Windows*/
-body{
+body {
   padding-top: 30px;
 }
 
-.disable{
+#electron-frame * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.disable {
   opacity: 0.4;
 }
 
-#electron-frame.dark{
+#electron-frame.dark {
   --background: #1e1e1e;
   --color: #ddd;
   --button-hover: #505050;
   --svg-icons-color: #ccc;
 }
 
-#electron-frame.light{
+#electron-frame.light {
   --color: #1e1e1e;
   --background: #fff;
   --button-hover: #ddd;
@@ -22,44 +27,36 @@ body{
 }
 
 #electron-frame {
-  font-size: 15px;
-  padding: 0 5px;
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   width: 100vw;
   height: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin: 0;
   padding: 0 0 0 2px;
-  box-sizing: border-box;
+  font-size: 15px;
+  user-select: none;
   background-color: var(--background);
   color: var(--color);
-  user-select: none;
   -webkit-app-region: drag;
 }
 
-#electron-frame .left {
+#electron-frame, #electron-frame .left, #electron-frame .left #window-icon, #electron-frame>.right div {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 #electron-frame .left #window-icon {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: fit-content;
   height: fit-content;
-  box-sizing: border-box;
   margin: 0 5px;
   width: 20px;
   height: 20px;
 }
 
-#electron-frame .left #window-icon > img {
+#electron-frame .left #window-icon>img {
   max-width: 20px;
   max-height: 20px;
 }
@@ -68,42 +65,36 @@ body{
   font-family: "Nunito", Arial, Helvetica, sans-serif;
 }
 
-#electron-frame > .right {
+#electron-frame>.right {
   display: flex;
   height: 100%;
 }
 
-#electron-frame > .right div {
+#electron-frame>.right div {
   -webkit-app-region: no-drag;
   margin: 0;
   width: 45px;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-#electron-frame > .right div:hover {
+#electron-frame>.right div:hover {
   background-color: var(--button-hover);
 }
 
-#electron-frame > .right div:hover:last-child {
+#electron-frame>.right div:hover:last-child {
   background-color: rgba(255, 0, 0, 0.712);
 }
 
-#electron-frame.light > .right div:hover:last-child svg > *{
+#electron-frame>.right div:hover:last-child svg>* {
   fill: #eee;
 }
 
-#electron-frame > .right div svg {
+#electron-frame>.right div svg {
   width: 20px;
   height: 20px;
   margin: auto;
 }
 
-
-#electron-frame > .right div svg > *{
+#electron-frame>.right div svg>* {
   fill: var(--svg-icons-color)
 }
-
-/*#endregion*/
