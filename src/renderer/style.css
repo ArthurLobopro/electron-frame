@@ -40,15 +40,19 @@ body {
   background-color: var(--background);
   color: var(--color);
   -webkit-app-region: drag;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-#electron-frame, #electron-frame .left, #electron-frame .left #window-icon, #electron-frame>.right div {
+#electron-frame .left, #electron-frame .left #window-icon, #electron-frame>.right div {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-#electron-frame .left #window-icon {
+#electron-frame .left #window-icon:not(:empty) {
   width: fit-content;
   height: fit-content;
   margin: 0 5px;
