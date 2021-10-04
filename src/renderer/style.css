@@ -10,16 +10,30 @@
 
 #electron-frame.dark {
   --background: #1e1e1e;
+  --background-button-hover: #505050;
   --color: #ddd;
-  --button-hover: #505050;
   --svg-icons-color: #ccc;
+  --svg-icons-color-hover: #ccc;
 }
 
 #electron-frame.light {
-  --color: #1e1e1e;
   --background: #fff;
-  --button-hover: #ddd;
+  --background-button-hover: #ddd;
+  --color: #1e1e1e;
   --svg-icons-color: #555;
+  --svg-icons-color-hover: #555;
+}
+
+#electron-frame>.right div:hover {
+  background-color: var(--background-button-hover);
+}
+
+#electron-frame>.right div svg>* {
+  fill: var(--svg-icons-color)
+}
+
+#electron-frame>.right div svg:hover>* {
+  fill: var(--svg-icons-color-hover)
 }
 
 #electron-frame {
@@ -36,7 +50,6 @@
   background-color: var(--background);
   color: var(--color);
   -webkit-app-region: drag;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -77,10 +90,6 @@
   height: 100%;
 }
 
-#electron-frame>.right div:hover {
-  background-color: var(--button-hover);
-}
-
 #electron-frame>.right div:hover:last-child {
   background-color: rgba(255, 0, 0, 0.712);
 }
@@ -93,8 +102,4 @@
   width: 20px;
   height: 20px;
   margin: auto;
-}
-
-#electron-frame>.right div svg>* {
-  fill: var(--svg-icons-color)
 }
