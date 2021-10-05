@@ -4,28 +4,28 @@ const mainWindowControlEvents = {
     init() {
         ipcMain.on('minimize', () => {
             const win = BrowserWindow.getFocusedWindow()
-            win.minimize()
+            win?.minimize()
         })
 
         ipcMain.on('expand', () => {
             const win = BrowserWindow.getFocusedWindow()
-            if (win.isMaximized()) {
-                win.restore()
+            if (win?.isMaximized()) {
+                win?.restore()
             } else {
-                win.maximize()
+                win?.maximize()
             }
         })
 
         ipcMain.on('close', () => {
             const win = BrowserWindow.getFocusedWindow()
-            win.close()
+            win?.close()
         })
 
         ipcMain.on('request-window-config', (event) => {
             const win = BrowserWindow.getFocusedWindow()
-            const minimizable = win.isMinimizable()
-            const maximizable = win.isMaximizable()
-            const closeable = win.isClosable()
+            const minimizable = win?.isMinimizable()
+            const maximizable = win?.isMaximizable()
+            const closeable = win?.isClosable()
             event.returnValue = { minimizable, maximizable, closeable }
         })
     }
