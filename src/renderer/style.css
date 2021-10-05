@@ -14,6 +14,7 @@
   --color: #ddd;
   --svg-icons-color: #ccc;
   --svg-icons-color-hover: #ccc;
+  --last-svg-icon-hover: #eee;
 }
 
 #electron-frame.light {
@@ -22,18 +23,27 @@
   --color: #1e1e1e;
   --svg-icons-color: #555;
   --svg-icons-color-hover: #555;
+  --last-svg-icon-hover: #eee;
 }
 
 #electron-frame>.right div:hover {
   background-color: var(--background-button-hover);
 }
 
-#electron-frame>.right div svg>* {
+#electron-frame>.right div svg > * {
   fill: var(--svg-icons-color)
 }
 
-#electron-frame>.right div svg:hover>* {
+#electron-frame>.right div:hover svg > * {
   fill: var(--svg-icons-color-hover)
+}
+
+#electron-frame>.right div.disable:hover svg > * {
+  fill: var(--svg-icons-color)
+}
+
+#electron-frame>.right div:hover:last-child svg>* {
+  fill: var(--last-svg-icon-hover);
 }
 
 #electron-frame {
@@ -92,10 +102,6 @@
 
 #electron-frame>.right div:hover:last-child {
   background-color: rgba(255, 0, 0, 0.712);
-}
-
-#electron-frame>.right div:hover:last-child svg>* {
-  fill: #eee;
 }
 
 #electron-frame>.right div svg {
