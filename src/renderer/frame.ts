@@ -1,6 +1,6 @@
 import path from 'path'
 import { loadSVG, getIconString } from './Util'
-import { minimize, expand, close } from './renderer-actions'
+import { minimize, expand, close as closeWindow } from './renderer-actions'
 
 const assetsFolder = path.resolve(__dirname, "assets")
 
@@ -17,6 +17,9 @@ interface makeFrameOptions {
         svgIconsColor?: string
         svgIconsColorHover?: string
         lastSvgIconHover?: string
+    },
+    onClose?: {
+        beforeCallback?: () => true | false
     }
 }
 
@@ -26,7 +29,8 @@ async function makeFrame(frameOptions: makeFrameOptions) {
     const {
         title, icon,
         darkMode = true, minimizable = true, maximizable = true, closeable = true,
-        colors = {}
+        colors = {},
+        onClose = {}
     } = frameOptions
 
     const colorsArray = Object.entries(colors)
@@ -69,6 +73,14 @@ async function makeFrame(frameOptions: makeFrameOptions) {
     `
 
     const frameGet = (id: string) => frame.querySelector(`#${id}`) as HTMLElement
+
+    const close = (event: MouseEvent) => {
+        const canClose = onClose.beforeCallback ? onClose.beforeCallback() : true
+
+        if(canClose){
+            closeWindow(event)
+        }
+    }
 
     frameGet('minimize').onclick = minimize
     frameGet('expand').onclick = expand
