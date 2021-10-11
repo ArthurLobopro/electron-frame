@@ -11,6 +11,8 @@ interface insertFrameOptions {
     }
 }
 
-declare module 'electron-frame/renderer'{
-    export function insertFrame( options: insertFrameOptions ) : void
+declare module "electron-frame/renderer" {
+    export function insertFrame(options: insertFrameOptions): void
 }
+
+declare module "electron-frame/main" { }

@@ -1,5 +1,7 @@
 # Electron Frame
 
+Electron Frame is a simple and customizable window frame build on HTML for you application.
+
 <details>
 
 <summary>Como usar ?</summary>
@@ -15,8 +17,7 @@ ou
 No processo principal adicione 
 
 ```js
-const { mainWindowControlEvents } = require('electron-frame/main')
-mainWindowControlEvents.init()
+require('electron-frame/main')
 ```
 
 No processo renderizador (preload.js) adicione:
@@ -46,8 +47,7 @@ or
 In the main process add:
 
 ```js
-const { mainWindowControlEvents } = require('electron-frame/main')
-mainWindowControlEvents.init()
+require('electron-frame/main')
 ```
 
 In the renderer process (preload.js) add:
