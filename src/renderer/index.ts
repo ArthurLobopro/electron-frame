@@ -1,18 +1,8 @@
 import { ipcRenderer } from 'electron'
 import { makeFrame } from './frame'
 import { injectCSS } from './Util'
-interface insertFrameOptions {
-    darkMode?: boolean
-    title?: string
-    icon?: HTMLImageElement | string
-    colors?: {
-        background?: string
-        color?: string
-        svgIconsColor?: string
-        svgIconsColorHover?: string
-        lastSvgIconHover?: string
-    }
-}
+
+import { insertFrameOptions } from "../../npm/index"
 
 async function insertFrame( options: insertFrameOptions = {}) {
     const frame = await makeFrame({...options, ...ipcRenderer.sendSync('request-window-config')})
