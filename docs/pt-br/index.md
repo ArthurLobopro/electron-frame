@@ -34,4 +34,47 @@ document.addEventListener("DOMContentLoaded", ()=> {
 })
 ```
 
-Para ver todas as opções, [clique aqui](opcoes.md)
+As opções são:
+
+```ts
+darkMode?: boolean
+/**
+ * Define se o modo escuro está ativado. Por padrão é `true`
+ */
+title?: string
+/**
+ * Define o título da janela. Por padrão é o título da página carregada
+ */
+icon?: HTMLImageElement | string
+/**
+ * Define o ícone da janela. Por padrão é o ícone da página carregada
+ */
+colors?: {
+    background?: string
+    /**
+     * A cor de fundo do frame.
+     */
+    color?: string
+    /**
+     * A cor da fonte do frame.
+     */
+    svgIconsColor?: string
+    /**
+     * A cor dos ícones dos controles de janela
+     */
+    svgIconsColorHover?: string
+    /**
+     * A cor dos ícones dos controles de janela ao ser sobrepostos pelo mouse
+     */
+    lastSvgIconHover?: string
+    /**
+     * A cor do ícone de fechar o ser sobreposto pelo mouse
+     */
+}
+onClose?: {
+    beforeCallback?: () => true | false
+    /**
+     * Função chamada antes da janela ser fechada, se a função retornar `false` a janela não irá ser fechada
+     */
+}
+```
