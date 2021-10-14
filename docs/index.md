@@ -1,4 +1,4 @@
 # Electron Frame Docs
 
-* [Portuguese Docs]("./pt-br/index")
-* [English Docs]("./en")
+* [Portuguese Docs](./pt-br/)
+* [English Docs](./en)
