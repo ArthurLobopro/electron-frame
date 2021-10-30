@@ -43,6 +43,7 @@ export interface insertFrameOptions {
 
 declare module "electron-frame/renderer" {
     export function insertFrame(options?: insertFrameOptions): void
+    export class electronFrame {}
 }
 
-declare module "electron-frame/main" { }
+declare module "electron-frame/main";
