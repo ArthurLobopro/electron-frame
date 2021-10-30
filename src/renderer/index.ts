@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { makeFrame } from './frame'
+import { makeFrame, electronFrame } from './frame'
 import { injectCSS } from './Util'
 
 import { insertFrameOptions } from "../../npm/index"
@@ -17,4 +17,4 @@ async function insertFrame( options: insertFrameOptions = {}) {
     }, 50);
 }
 
-export { insertFrame }
+export { insertFrame, electronFrame }
