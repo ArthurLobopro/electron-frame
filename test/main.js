@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron")
 const path = require("path")
 
-require('../npm/main')
+require('electron-frame/main')
 
 function mainWindow() {
     const win = new BrowserWindow({
