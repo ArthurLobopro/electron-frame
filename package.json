@@ -3,7 +3,8 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir npm --copy-files --no-copy-ignored",
-    "test": "yarn build && electron ./test/main.js",
+    "update-test": "yarn add file:./npm",
+    "test": " yarn build  && yarn update-test && electron ./test/main.js",
     "publish": "yarn build && cd npm && npm publish"
   },
   "devDependencies": {
