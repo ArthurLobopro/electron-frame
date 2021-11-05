@@ -104,6 +104,16 @@ class electronFrame {
         this.setEvents()
     }
 
+    setTitle(title: string){
+        this.options.title = title
+        this.update()
+    }
+
+    setIcon(icon: HTMLImageElement | string){
+        this.options.icon = icon
+        this.update()
+    }
+
     async insert() {
         //Rebuild with DOM content
         this.build()
