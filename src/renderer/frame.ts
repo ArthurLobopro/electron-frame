@@ -64,7 +64,8 @@ class electronFrame {
         } = this.options
 
         const colorsArray = Object.entries(colors)
-        const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
+       
+        const properties = this.buildStyle()
 
         const windowIconString = icon || getIconString()
 
@@ -104,6 +105,17 @@ class electronFrame {
         this.setEvents()
     }
 
+    private buildStyle(){
+        const {
+            colors = {}
+        } = this.options
+
+        const colorsArray = Object.entries(colors)
+        const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
+
+        return properties
+    }
+
     setTitle(title: string){
         this.options.title = title
         this.update()
@@ -139,12 +151,22 @@ class electronFrame {
         document.body.appendChild(this.frame)
     }
 
+    updateStyle(){
+        const properties = this.buildStyle()
+        const styleTag = this.frame.querySelector('style') as HTMLElement
+        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
+
+        if(!this.frame.classList.contains("custom")){
+            this.frame.classList.add("custom")
+        }
+    }
+
     setColors(colors: frameColors){
         this.options.colors = {
             ...this.options.colors,
             ...colors
         }
-        this.update()
+        this.updateStyle()
     }
 }
 
