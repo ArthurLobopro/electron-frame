@@ -17,4 +17,16 @@ async function insertFrame( options: insertFrameOptions = {}) {
     }, 50);
 }
 
-export { insertFrame, electronFrame }
+function removeFrame() {
+    const frame = document.getElementById("electron-frame")
+
+    if(frame){
+        const bodyPaddingTop = getComputedStyle(document.body).paddingTop
+        const frameHeight = getComputedStyle(frame).height
+
+        document.body.style.paddingTop = `calc(${bodyPaddingTop} - ${frameHeight})`
+        document.body.removeChild(frame)
+    }
+}
+
+export { insertFrame, removeFrame, electronFrame }
