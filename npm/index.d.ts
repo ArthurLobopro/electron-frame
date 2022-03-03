@@ -1,3 +1,28 @@
+interface frameColors {
+
+    background?: string
+    /**
+     * The background-color of the frame.
+     */
+    color?: string
+    /**
+     * The font color of the frame.
+     */
+    svgIconsColor?: string
+    /**
+     * The window control icons color
+     */
+    svgIconsColorHover?: string
+    /**
+     * The window control icons color on hover
+     */
+    lastSvgIconHover?: string
+    /**
+     * The last window control icon color on hover
+     */
+
+}
+
 export interface insertFrameOptions {
     darkMode?: boolean
     /**
@@ -11,28 +36,7 @@ export interface insertFrameOptions {
     /**
      * The icon of window. Default is HTML favicon
      */
-    colors?: {
-        background?: string
-        /**
-         * The background-color of the frame.
-         */
-        color?: string
-        /**
-         * The font color of the frame.
-         */
-        svgIconsColor?: string
-        /**
-         * The window control icons color
-         */
-        svgIconsColorHover?: string
-        /**
-         * The window control icons color on hover
-         */
-        lastSvgIconHover?: string
-        /**
-         * The last window control icon color on hover
-         */
-    }
+    colors?: frameColors
     onClose?: {
         beforeCallback?: () => true | false
         /**
@@ -43,7 +47,39 @@ export interface insertFrameOptions {
 
 declare module "electron-frame/renderer" {
     export function insertFrame(options?: insertFrameOptions): void
-    export class electronFrame {}
+    /**
+     * Insert frame in the window
+     */
+
+    export function removeFrame(): void
+    /**
+     * Remore frame from window
+     */
+    export class electronFrame {
+
+        setTitle(title: string): void
+        /**
+         * Set the frame title.
+         */
+
+        setIcon(icon: HTMLImageElement | string): void
+        /**
+         * Set the frame icon.
+         */
+
+        async insert(): Promise<void>
+        /**
+         * Insert the frame.
+         */
+
+        remove(): void
+
+        update(): void
+
+        updateStyle(): void
+
+        setColors(colors: frameColors): void
+    }
 }
 
 declare module "electron-frame/main";
