@@ -1,6 +1,6 @@
 {
   "name": "electron-frame",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Electron Frame is a simple and customizable window frame build on HTML for you application.",
   "main": "index.js",
   "keywords": [
