@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { makeFrame, electronFrame } from './Frame'
+import { makeFrame, electronFrame } from './frame'
 import { injectCSS } from './Util'
 
 interface frameColors {
