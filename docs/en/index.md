@@ -25,44 +25,32 @@ document.addEventListener("DOMContentLoaded", ()=> {
 The supported options are: 
 
 ```ts
-darkMode?: boolean
 /**
- * Define if DarkMode is enabled. Default is `true`
- */
-title?: string
-/**
- * The title of window. Default is HTML title
- */
-icon?: HTMLImageElement | string
-/**
- * The icon of window. Default is HTML favicon
- */
-colors?: {
-    background?: string
-    /**
-     * The background-color of the frame.
-     */
-    color?: string
-    /**
-     * The font color of the frame.
-     */
-    svgIconsColor?: string
-    /**
-     * The window control icons color
-     */
-    svgIconsColorHover?: string
-    /**
-     * The window control icons color on hover
-     */
-    lastSvgIconHover?: string
-    /**
-     * The last window control icon color on hover
-     */
-}
-onClose?: {
-    beforeCallback?: () => true | false
-    /**
-     * Callback called before the window is closed and if it returns false the window will not be closed
-     */
-}
+         * Define if DarkMode is enabled. Default is `true`
+         */
+        darkMode?: boolean
+    
+        /**
+        * The title of window. Default is HTML title
+        */
+        title?: string
+    
+        /**
+         * The icon of window. Default is HTML favicon
+         */
+        icon?: HTMLImageElement | string
+    
+        /**
+         * The colors of frame components
+         */
+        colors?: frameColors
+        /**
+         * On close options
+         */
+        onClose?: {
+            /**
+             * Callback called before the window is closed and if it returns false the window will not be closed
+             */
+            beforeCallback?: () => true | false
+        }
 ```
