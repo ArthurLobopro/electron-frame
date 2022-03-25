@@ -37,10 +37,10 @@ class electronFrame {
     constructor(frameOptions: makeFrameOptions = { ...ipcRenderer.sendSync('request-window-config') }) {
         this.options = frameOptions
 
-        this.build()
+        this._build()
     }
 
-    private setEvents() {
+    private _setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         const close = (event: MouseEvent) => {
@@ -56,7 +56,7 @@ class electronFrame {
         frameGet('close').onclick = close
     }
 
-    private build() {
+    private _build() {
         const {
             title, icon,
             darkMode = true, minimizable = true, maximizable = true, closeable = true,
@@ -64,8 +64,8 @@ class electronFrame {
         } = this.options
 
         const colorsArray = Object.entries(colors)
-       
-        const properties = this.buildStyle()
+
+        const properties = this._buildStyle()
 
         const windowIconString = icon || getIconString()
 
@@ -102,13 +102,11 @@ class electronFrame {
         </style>`
 
         this.frame = frame
-        this.setEvents()
+        this._setEvents()
     }
 
-    private buildStyle(){
-        const {
-            colors = {}
-        } = this.options
+    private _buildStyle() {
+        const { colors = {} } = this.options
 
         const colorsArray = Object.entries(colors)
         const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
@@ -116,19 +114,29 @@ class electronFrame {
         return properties
     }
 
-    setTitle(title: string){
+    private _updateStyle() {
+        const properties = this._buildStyle()
+        const styleTag = this.frame.querySelector('style') as HTMLElement
+        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
+
+        if (!this.frame.classList.contains("custom")) {
+            this.frame.classList.add("custom")
+        }
+    }
+
+    setTitle(title: string) {
         this.options.title = title
         this.update()
     }
 
-    setIcon(icon: HTMLImageElement | string){
+    setIcon(icon: HTMLImageElement | string) {
         this.options.icon = icon
         this.update()
     }
 
     async insert() {
         //Rebuild with DOM content
-        this.build()
+        this._build()
 
         injectCSS(__dirname, 'style.css')
         document.body.appendChild(this.frame)
@@ -147,26 +155,16 @@ class electronFrame {
 
     update() {
         this.remove()
-        this.build()
+        this._build()
         document.body.appendChild(this.frame)
     }
 
-    updateStyle(){
-        const properties = this.buildStyle()
-        const styleTag = this.frame.querySelector('style') as HTMLElement
-        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
-
-        if(!this.frame.classList.contains("custom")){
-            this.frame.classList.add("custom")
-        }
-    }
-
-    setColors(colors: frameColors){
+    setColors(colors: frameColors) {
         this.options.colors = {
             ...this.options.colors,
             ...colors
         }
-        this.updateStyle()
+        this._updateStyle()
     }
 }
 
