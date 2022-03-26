@@ -2,8 +2,9 @@
   "author": "Arthur Lobo",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --extensions \".js,.ts\" --out-dir npm --copy-files --no-copy-ignored",
-    "test": "yarn build && electron ./test/main.js",
+    "build": "babel src --extensions \".js,.ts\" --out-dir npm --copy-files --no-copy-ignored && tsc --emitDeclarationOnly",
+    "update": "yarn build && yarn add file:./npm",
+    "test": "yarn update && electron ./test/main.js",
     "publish": "yarn build && cd npm && npm publish"
   },
   "devDependencies": {
@@ -12,7 +13,8 @@
     "@babel/node": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-typescript": "^7.10.1",
-    "electron": "^13.4.0",
+    "electron": "^17.2.0",
+    "electron-frame": "file:./npm",
     "typescript": "^4.4.3"
   }
 }

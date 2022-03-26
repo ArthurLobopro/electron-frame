@@ -1,30 +1,27 @@
 import path from 'path'
 import fs from 'fs'
 
-function loadSVG(...PathSegments) {
+function loadSVG(...PathSegments: string[]) {
     return fs.readFileSync(path.resolve(...PathSegments))
 }
 
-function injectCSS(...pathSegments) {
+function injectCSS(...pathSegments: string[]) {
     const css = document.createElement('link')
     css.rel = "stylesheet"
     css.href = path.resolve(...pathSegments)
     document.head.appendChild(css)
 }
 
-async function getIconString() {
-    return new Promise(resolve => {
-        const links = document.querySelectorAll("link")
+function getIconString() {
+    const links = document.querySelectorAll("link")
         for (let e of links) {
             if (e.rel.search("icon") !== -1) {
-                const windowIcon = document.getElementById("window-icon")
                 const image = new Image()
                 image.src = e.href
-                resolve(`${image.outerHTML}`)
+                return `${image.outerHTML}`
             }
         }
-        resolve('')
-    })
+        return ''
 }
 
 export { loadSVG, getIconString, injectCSS }

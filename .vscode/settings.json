@@ -3,6 +3,7 @@
         "**/.git": true,
         "node_modules": true,
         "npm/main": true,
-        "npm/renderer": true
+        "npm/renderer": true,
+        "npm/@types": true
     }
 }
