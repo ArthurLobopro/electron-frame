@@ -3,6 +3,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir npm --copy-files --no-copy-ignored && tsc --emitDeclarationOnly",
+    "build:scss": "yarn sass-compiler --compile",
     "update": "yarn build && yarn add file:./npm",
     "test": "yarn update && electron ./test/main.js",
     "publish": "yarn build && cd npm && npm publish"
@@ -14,7 +15,7 @@
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-typescript": "^7.10.1",
     "electron": "^17.2.0",
-    "electron-frame": "file:./npm",
+    "sass-compiler": "1.1.1-beta",
     "typescript": "^4.4.3"
   }
 }
