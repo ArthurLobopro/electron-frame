@@ -13,15 +13,16 @@ function injectCSS(...pathSegments: string[]) {
 }
 
 function getIconString() {
-    const links = document.querySelectorAll("link")
-        for (let e of links) {
-            if (e.rel.search("icon") !== -1) {
-                const image = new Image()
-                image.src = e.href
-                return `${image.outerHTML}`
-            }
-        }
-        return ''
+    const links = Array.from(document.querySelectorAll("link"))
+    const iconLink = links.find(link => link.rel.includes('icon'))
+
+    if (iconLink) {
+        const image = new Image()
+        image.src = iconLink.href
+        return `${image.outerHTML}`
+    }
+
+    return ''
 }
 
 export { loadSVG, getIconString, injectCSS }
