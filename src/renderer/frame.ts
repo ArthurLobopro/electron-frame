@@ -80,18 +80,18 @@ class electronFrame {
         frame.id = "electron-frame"
         frame.innerHTML = `
         <div class="left">
-            <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString
-            }</div>
+            <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}>
+            </div>
             <div id="window-name">${name}</div>
         </div>
         <div class="right">
-            <div id="minimize" class="${minimizable ? "" : "disable"}">
+            <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
                 ${loadSVG(assetsFolder, 'minimize.svg')}
             </div>
-            <div id="expand" class="${maximizable ? "" : "disable"}">
+            <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
                 ${loadSVG(assetsFolder, 'square.svg')}
             </div>
-            <div id="close" class="${closeable ? "" : "disable"}">
+            <div id="close" class="frame-button ${closeable ? "" : "disable"}">
                 ${loadSVG(assetsFolder, 'close.svg')}
             </div>
         </div>
