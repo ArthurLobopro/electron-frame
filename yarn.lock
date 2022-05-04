@@ -194,13 +194,9 @@ config-chain@^1.1.11:
     ini "^1.3.4"
     proto-list "~1.2.1"
 
-"copydirectory@C:\\Users\\ifsuldeminas\\Documents\\GitHub\\copy-directory":
-  version "0.0.8"
-  dependencies:
-    chalk "^2.3.0"
-
-"copydirectory@file:../../../Documents/GitHub/copy-directory":
-  version "0.0.8"
+"copydirectory@https://github.com/ArthurLobopro/copy-directory":
+  version "1.0.0"
+  resolved "https://github.com/ArthurLobopro/copy-directory#586d0940c869c6b308bb4cc16411df940ce9ff17"
   dependencies:
     chalk "^2.3.0"
 
