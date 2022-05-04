@@ -25,7 +25,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
   
-  build:
+  publish-to-npm:
     runs-on: windows-latest
     needs: build
     steps:
