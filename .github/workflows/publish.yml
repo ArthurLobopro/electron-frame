@@ -24,3 +24,29 @@ jobs:
           dir
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
+  
+  build:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '15.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install and Build
+        run: |
+          yarn install
+          yarn build
+          dir
+      - name: publish
+        run: |
+          dir
+          cd npm && npm publish
+          dir
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
