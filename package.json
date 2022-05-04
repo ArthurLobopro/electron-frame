@@ -9,7 +9,7 @@
   ],
   "description": "Electron Frame is a simple and customizable window frame build on HTML for you application.",
   "scripts": {
-    "build": "tsc && yarn build:scss",
+    "build": "tsc && yarn build:scss && node ./build/index.js",
     "build:scss": "yarn sass-compiler --compile",
     "update": "yarn build && yarn add file:./npm",
     "test": "yarn update && electron ./test/main.js",
