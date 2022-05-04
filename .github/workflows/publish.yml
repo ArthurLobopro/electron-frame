@@ -21,7 +21,7 @@ jobs:
       - name: Install and publish
         run: |
           yarn install
-          yarn prepub
+          yarn build
           ls -la
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
