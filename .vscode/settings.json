@@ -2,8 +2,6 @@
     "files.exclude": {
         "**/.git": true,
         "node_modules": true,
-        "npm/main": true,
-        "npm/renderer": true,
         "**/*.css": { "when": "$(basename).css" }
     }
 }
