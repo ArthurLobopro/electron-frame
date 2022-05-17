@@ -183,7 +183,6 @@ class electronFrame {
         if (frameStyle !== this.options.frameStyle) {
             this.options.frameStyle = frameStyle
             this.update()
-            console.log('a');
         }
     }
 
