@@ -248,6 +248,9 @@ duplexer3@^0.1.4:
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
 
+"electron-frame@file:./npm":
+  version "0.6.3"
+
 electron-to-chromium@^1.3.30:
   version "1.4.103"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.103.tgz#abfe376a4d70fa1e1b4b353b95df5d6dfd05da3a"
@@ -740,10 +743,10 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
 
-sass-compiler@1.1.1-beta:
-  version "1.1.1-beta"
-  resolved "https://registry.yarnpkg.com/sass-compiler/-/sass-compiler-1.1.1-beta.tgz#3152353a00f6cb055f5bdf4d76a695b70b2d29f8"
-  integrity sha512-qQC/ZVh6MH8PC4kJONQfWMZAfZVFW8nt7BCezmkJNU1hl+RixvQaLJ3enr2Yxakx+qVuWlXYrnG3u6iLpQBIlg==
+sass-compiler@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/sass-compiler/-/sass-compiler-1.2.0.tgz#a133387612fc260648aec9b8fbd9b69b34dde9a2"
+  integrity sha512-3AJJXK40pi13+Lw2ATTqgXQ0wGERAtyKOLl40vbizMrfXux76tkdMcRQRiBgvXVponl/CUR90MYRkAV5G2Wtzg==
   dependencies:
     autoprefixer "^7.2.6"
     glob "^7.1.2"
@@ -846,10 +849,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.4.3:
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
-  integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==
+typescript@^4.6.4:
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
+  integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
 
 universalify@^0.1.0:
   version "0.1.2"
