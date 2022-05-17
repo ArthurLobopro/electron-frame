@@ -179,6 +179,14 @@ class electronFrame {
         document.body.appendChild(this.frame)
     }
 
+    setFrameStyle(frameStyle: "windows" | "macos") {
+        if (frameStyle !== this.options.frameStyle) {
+            this.options.frameStyle = frameStyle
+            this.update()
+            console.log('a');
+        }
+    }
+
     setColors(colors: frameColors) {
         this.options.colors = {
             ...this.options.colors,
