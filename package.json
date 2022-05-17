@@ -20,8 +20,8 @@
     "copydirectory": "https://github.com/ArthurLobopro/copy-directory",
     "electron": "^17.2.0",
     "electron-frame": "file:./npm",
-    "sass-compiler": "1.1.1-beta",
-    "typescript": "^4.4.3"
+    "sass-compiler": "^1.2.0",
+    "typescript": "^4.6.4"
   },
   "repository": {
     "type": "git",
