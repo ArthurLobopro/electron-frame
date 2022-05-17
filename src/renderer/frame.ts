@@ -12,6 +12,7 @@ interface frameColors {
     svgIconsColorHover?: string
     lastSvgIconHover?: string
 }
+
 interface makeFrameOptions {
     darkMode?: boolean
     title?: string
@@ -20,9 +21,15 @@ interface makeFrameOptions {
     maximizable: boolean
     closeable: boolean
     colors?: frameColors
+    frameStyle?: "windows" | "macos"
     onClose?: {
         beforeCallback?: () => true | false
     }
+}
+interface windowConfig {
+    minimizable: boolean
+    maximizable: boolean
+    closeable: boolean
 }
 
 const format = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
@@ -34,9 +41,17 @@ async function makeFrame(frameOptions: makeFrameOptions) {
 class electronFrame {
     frame!: HTMLDivElement
     options: makeFrameOptions
-    constructor(frameOptions: makeFrameOptions = { ...ipcRenderer.sendSync('request-window-config') }) {
-        this.options = frameOptions
-
+    frameStyle!: "windows" | "macos"
+    constructor(frameOptions: makeFrameOptions) {
+        const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
+        const defaultConfig: makeFrameOptions = {
+            darkMode: true,
+            colors: {},
+            frameStyle: "windows",
+            title: document.title,
+            ...windowConfig
+        }
+        this.options = { ...defaultConfig, ...frameOptions }
         this._build()
     }
 
@@ -60,7 +75,8 @@ class electronFrame {
         const {
             title, icon,
             darkMode = true, minimizable = true, maximizable = true, closeable = true,
-            colors = {}
+            colors = {},
+            frameStyle
         } = this.options
 
         const colorsArray = Object.entries(colors)
@@ -72,29 +88,33 @@ class electronFrame {
         const frame = document.createElement('div')
         const name = title || document.title
 
-        frame.className = darkMode ? "dark" : "light"
+        const isWindowsStyle = frameStyle === "windows"
+
+        frame.id = "electron-frame"
+
+        frame.classList.add(darkMode ? "dark" : "light")
+        frame.classList.add(isWindowsStyle ? "windows-style" : "macos-style")
+
         if (colorsArray.length !== 0) {
             frame.classList.add('custom')
         }
 
-        frame.id = "electron-frame"
         frame.innerHTML = `
-        <div class="left">
-            <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}>
-            </div>
-            <div id="window-name">${name}</div>
-        </div>
-        <div class="right">
+        <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>
+        <div id="window-name">${name}</div>
+        
+        <div class="window-controls">
             <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                ${loadSVG(assetsFolder, 'minimize.svg')}
+                ${isWindowsStyle ? loadSVG(assetsFolder, 'minimize.svg') : ""}
             </div>
             <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                ${loadSVG(assetsFolder, 'square.svg')}
+                ${isWindowsStyle ? loadSVG(assetsFolder, 'square.svg') : ""}
             </div>
             <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-                ${loadSVG(assetsFolder, 'close.svg')}
+                ${isWindowsStyle ? loadSVG(assetsFolder, 'close.svg') : ""}
             </div>
         </div>
+
         <style>
             #electron-frame.custom {
                 ${properties}
@@ -157,6 +177,13 @@ class electronFrame {
         this.remove()
         this._build()
         document.body.appendChild(this.frame)
+    }
+
+    setFrameStyle(frameStyle: "windows" | "macos") {
+        if (frameStyle !== this.options.frameStyle) {
+            this.options.frameStyle = frameStyle
+            this.update()
+        }
     }
 
     setColors(colors: frameColors) {
