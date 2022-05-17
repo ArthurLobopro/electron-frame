@@ -4,8 +4,8 @@ const { insertFrame, electronFrame, removeFrame } = require('electron-frame/rend
 const frame = new electronFrame()
 
 window.addEventListener('DOMContentLoaded', () => {
-    // const icon = new Image()
-    // icon.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/microsoft/209/waving-hand-sign_1f44b.png"
+    const icon = new Image()
+    icon.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/microsoft/209/waving-hand-sign_1f44b.png"
     // insertFrame({
     //     icon,
     //     onClose: {
@@ -13,12 +13,6 @@ window.addEventListener('DOMContentLoaded', () => {
     //         //If the condition is true, the window will close
     //     }
     // })
+    frame.setIcon(icon)
     frame.insert()
-    setTimeout(() => {
-        // const icon = new Image()
-        // icon.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/microsoft/209/waving-hand-sign_1f44b.png"
-        // frame.setIcon(icon)
-        // frame.setColors({background: '#eee'})
-        removeFrame()
-    }, 10000);
 })
