@@ -20,6 +20,12 @@
     --last-svg-icon-hover: #eee;
 }
 
+.macos-style {
+    --red: #ef6a5f;
+    --green: #5fc554;
+    --yellow: #f7c050;
+}
+
 .flex-center {
     display: flex;
     align-items: center;
@@ -40,8 +46,7 @@
     background-color: var(--background);
     color: var(--color);
     -webkit-app-region: drag;
-    @extend .flex-center;
-    justify-content: space-between;
+    display: flex;
 
     & * {
         margin: 0;
@@ -49,58 +54,69 @@
         box-sizing: border-box;
     }
 
-    &>.right {
+    & > #window-name {
+        font-family: "Nunito", Arial, Helvetica, sans-serif;
+        align-self: center;
+    }
+
+    & > .window-controls{
+        display: flex;
         height: 100%;
-        @extend .flex-center;
-
-        & .frame-button {
+        & > .frame-button{
             -webkit-app-region: no-drag;
-            margin: 0;
-            width: 45px;
-            height: 100%;
-            @extend .flex-center;
-
-
-            & svg {
-                width: 20px;
-                height: 20px;
-                margin: auto;
-            }
-
-            & svg>* {
-                fill: var(--svg-icons-color)
-            }
-
-            &:hover {
-                background-color: var(--background-button-hover);
-
-                & svg>* {
-                    fill: var(--svg-icons-color-hover)
-                }
-
-                &:last-child {
-                    background-color: rgba(255, 0, 0, 0.712);
-
-                    & svg>* {
-                        fill: var(--last-svg-icon-hover);
-                    }
-                }
-            }
-
-            &.disable:hover svg>* {
-                fill: var(--svg-icons-color)
-            }
         }
     }
 
-    &>.left {
-        @extend .flex-center;
-
-        & #window-name {
-            font-family: "Nunito", Arial, Helvetica, sans-serif;
+    &.windows-style{
+        & > .window-controls {
+            height: 100%;
+            position: absolute;
+            right: 0;
+    
+            & .frame-button {
+                margin: 0;
+                width: 45px;
+                height: 100%;
+                @extend .flex-center;
+    
+    
+                & svg {
+                    width: 20px;
+                    height: 20px;
+                    margin: auto;
+                }
+    
+                & svg>* {
+                    fill: var(--svg-icons-color)
+                }
+    
+                &:hover {
+                    background-color: var(--background-button-hover);
+    
+                    & svg>* {
+                        fill: var(--svg-icons-color-hover)
+                    }
+    
+                    &:last-child {
+                        background-color: rgba(255, 0, 0, 0.712);
+    
+                        & svg>* {
+                            fill: var(--last-svg-icon-hover);
+                        }
+                    }
+                }
+    
+                &.disable:hover svg>* {
+                    fill: var(--svg-icons-color)
+                }
+            }
         }
 
-        & #window-icon {
+        & > #window-name, > #window-icon{
+            justify-self: left;
+        }
+
+        & > #window-icon {
             &>img {
                 max-width: 20px;
                 max-height: 20px;
@@ -113,6 +129,48 @@
                 margin: 0 5px;
                 width: 20px;
                 height: 20px;
+            }
+        }
+    }
+
+    &.macos-style{
+        justify-content: center;
+
+        & > #window-icon{
+            display: none;
+        }
+
+        & > #window-name{
+            justify-self: center;
+            order: 1;
+        }
+
+        & > .window-controls{
+            justify-self: left;
+            order: 0;
+            position: absolute;
+            left: 5px;
+
+            & > .frame-button{
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                margin: auto 2.5px;
+            }
+
+            & > #expand{
+                background-color: var(--yellow);
+                order: 1;
+            }
+
+            & > #close{
+                background-color: var(--red);
+                order: 0;
+            }
+
+            & > #minimize{
+                background-color: var(--green);
+                order: 2;
             }
         }
     }
