@@ -13,6 +13,8 @@ interface frameColors {
     lastSvgIconHover?: string
 }
 
+type frameStyle = "windows" | "macos"
+
 interface makeFrameOptions {
     darkMode?: boolean
     title?: string
@@ -21,7 +23,21 @@ interface makeFrameOptions {
     maximizable: boolean
     closeable: boolean
     colors?: frameColors
-    frameStyle?: "windows" | "macos"
+    frameStyle?: frameStyle
+    onClose?: {
+        beforeCallback?: () => true | false
+    }
+}
+
+interface frameOptions {
+    darkMode: boolean
+    title: string
+    icon: HTMLImageElement | string
+    minimizable: boolean
+    maximizable: boolean
+    closeable: boolean
+    colors: frameColors
+    frameStyle: frameStyle
     onClose?: {
         beforeCallback?: () => true | false
     }
@@ -34,14 +50,13 @@ interface windowConfig {
 
 const format = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
 
-async function makeFrame(frameOptions: makeFrameOptions) {
+export async function makeFrame(frameOptions: makeFrameOptions) {
     return new electronFrame(frameOptions).frame
 }
 
-class electronFrame {
+export class electronFrame {
     frame!: HTMLDivElement
-    options: makeFrameOptions
-    frameStyle!: "windows" | "macos"
+    options: frameOptions
     constructor(frameOptions: makeFrameOptions) {
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makeFrameOptions = {
@@ -49,9 +64,11 @@ class electronFrame {
             colors: {},
             frameStyle: "windows",
             title: document.title,
+            icon: "",
+            onClose: { beforeCallback() { return true }, },
             ...windowConfig
         }
-        this.options = { ...defaultConfig, ...frameOptions }
+        this.options = { ...defaultConfig, ...frameOptions } as frameOptions
         this._build()
     }
 
@@ -174,7 +191,9 @@ class electronFrame {
     }
 
     update() {
-        this.remove()
+        if (document.querySelector("#electron-frame")) {
+            this.remove()
+        }
         this._build()
         document.body.appendChild(this.frame)
     }
@@ -193,6 +212,28 @@ class electronFrame {
         }
         this._updateStyle()
     }
-}
 
-export { makeFrame, electronFrame }
+    get colors() {
+        return this.options.colors
+    }
+
+    get frameStyle() {
+        return this.options.frameStyle
+    }
+
+    get title() {
+        return this.options.title
+    }
+
+    set colors(colors: frameColors) {
+        this.setColors(colors)
+    }
+
+    set title(title: string) {
+        this.setTitle(title)
+    }
+
+    set frameStyle(frameStyle: frameStyle) {
+        this.setFrameStyle(frameStyle)
+    }
+}
