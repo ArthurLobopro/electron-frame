@@ -116,19 +116,21 @@ export class electronFrame {
             frame.classList.add('custom')
         }
 
+        const iconPrefix = isWindowsStyle ? "win" : "mac"
+
         frame.innerHTML = `
         <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>
         <div id="window-name">${name}</div>
         
         <div class="window-controls">
             <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                ${isWindowsStyle ? loadSVG(assetsFolder, 'minimize.svg') : ""}
+                ${loadSVG(assetsFolder, `${iconPrefix}-minimize.svg`)}
             </div>
             <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                ${isWindowsStyle ? loadSVG(assetsFolder, 'square.svg') : ""}
+                ${loadSVG(assetsFolder, `${iconPrefix}-expand.svg`)}
             </div>
             <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-                ${isWindowsStyle ? loadSVG(assetsFolder, 'close.svg') : ""}
+                ${loadSVG(assetsFolder, `${iconPrefix}-close.svg`)}
             </div>
         </div>
 
@@ -187,15 +189,20 @@ export class electronFrame {
     }
 
     remove() {
-        document.body.removeChild(this.frame)
+        this.frame.remove()
     }
 
     update() {
-        if (document.querySelector("#electron-frame")) {
+        const hasFrame = Array.from(document.body.childNodes).includes(this.frame)
+        if (hasFrame) {
             this.remove()
         }
+
         this._build()
-        document.body.appendChild(this.frame)
+
+        if (hasFrame) {
+            document.body.appendChild(this.frame)
+        }
     }
 
     setFrameStyle(frameStyle: "windows" | "macos") {

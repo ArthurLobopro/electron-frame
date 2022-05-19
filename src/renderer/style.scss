@@ -54,70 +54,69 @@
         box-sizing: border-box;
     }
 
-    & > #window-name {
+    &>#window-name {
         font-family: "Nunito", Arial, Helvetica, sans-serif;
         align-self: center;
     }
 
-    & > .window-controls{
+    &>.window-controls {
         display: flex;
         height: 100%;
-        & > .frame-button{
-            -webkit-app-region: no-drag;
-        }
+        -webkit-app-region: no-drag;
     }
 
-    &.windows-style{
-        & > .window-controls {
+    &.windows-style {
+        &>.window-controls {
             height: 100%;
             position: absolute;
             right: 0;
-    
+
             & .frame-button {
                 margin: 0;
                 width: 45px;
                 height: 100%;
                 @extend .flex-center;
-    
-    
+
+
                 & svg {
                     width: 20px;
                     height: 20px;
                     margin: auto;
                 }
-    
+
                 & svg>* {
                     fill: var(--svg-icons-color)
                 }
-    
+
                 &:hover {
                     background-color: var(--background-button-hover);
-    
+
                     & svg>* {
                         fill: var(--svg-icons-color-hover)
                     }
-    
+
                     &:last-child {
                         background-color: rgba(255, 0, 0, 0.712);
-    
+
                         & svg>* {
                             fill: var(--last-svg-icon-hover);
                         }
                     }
                 }
-    
+
                 &.disable:hover svg>* {
                     fill: var(--svg-icons-color)
                 }
             }
         }
 
-        & > #window-name, > #window-icon{
+        &>#window-name,
+        >#window-icon {
             justify-self: left;
             align-self: center;
         }
 
-        & > #window-icon {
+        &>#window-icon {
             &>img {
                 max-width: 20px;
                 max-height: 20px;
@@ -134,34 +133,48 @@
         }
     }
 
-    &.macos-style{
+    &.macos-style {
         justify-content: center;
 
-        & > #window-icon{
+        &>#window-icon {
             display: none;
         }
 
-        & > #window-name{
+        &>#window-name {
             justify-self: center;
             order: 1;
         }
 
-        & > .window-controls{
+        &>.window-controls {
             justify-self: left;
             order: 0;
             position: absolute;
             left: 5px;
 
-            & > .frame-button{
-                width: 16px;
-                height: 16px;
+
+            &>.frame-button {
+                width: 18px;
+                height: 18px;
                 border-radius: 50%;
-                margin: auto 2.5px;
+                align-self: center;
+                @extend .flex-center;
+                &>svg{
+                    display: none;
+                }
+            }
+
+            &:hover>.frame-button>svg {
+                display: flex;
+                animation: fall 500ms;
             }
 
             &>#expand {
                 background-color: var(--green);
                 order: 2;
+
+                &>svg {
+                    opacity: 0.65;
+                }
             }
 
             &>#close {
@@ -175,5 +188,19 @@
                 margin: auto 5px;
             }
         }
+    }
+}
+
+@keyframes fall {
+    0% {
+        display: flex;
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    100% {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0px);
     }
 }
