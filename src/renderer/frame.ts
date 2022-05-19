@@ -1,6 +1,5 @@
 import path from 'path'
 import { loadSVG, getIconString, injectCSS } from './Util'
-import { minimize, expand, close as closeWindow } from './renderer-actions'
 import { ipcRenderer } from 'electron'
 
 const assetsFolder = path.resolve(__dirname, "assets")
@@ -48,6 +47,41 @@ interface windowConfig {
     closeable: boolean
 }
 
+const actions = {
+    close(frame: electronFrame) {
+        if (frame.closeable) {
+            if (frame.options.onClose?.beforeCallback) {
+                frame.options.onClose?.beforeCallback() ? ipcRenderer.send('close') : void 0
+            } else {
+                ipcRenderer.send('close')
+            }
+        }
+    },
+    expand(frame: electronFrame) {
+        if (frame.maximizable) {
+            ipcRenderer.send('expand')
+            frame.toggleExpandIcon()
+        }
+    },
+    minimize(frame: electronFrame) {
+        frame.minimizable ? ipcRenderer.send('minimize') : void 0
+    }
+}
+
+const icons = {
+    macos: {
+        minimize: loadSVG(assetsFolder, "mac-minimize.svg").toString(),
+        expand: loadSVG(assetsFolder, "mac-expand.svg").toString(),
+        close: loadSVG(assetsFolder, "mac-close.svg").toString(),
+        restore: loadSVG(assetsFolder, "mac-restore.svg").toString()
+    },
+    windows: {
+        minimize: loadSVG(assetsFolder, "win-minimize.svg").toString(),
+        expand: loadSVG(assetsFolder, "win-expand.svg").toString(),
+        close: loadSVG(assetsFolder, "win-close.svg").toString()
+    }
+}
+
 const format = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
 
 export async function makeFrame(frameOptions: makeFrameOptions) {
@@ -75,17 +109,9 @@ export class electronFrame {
     private _setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
-        const close = (event: MouseEvent) => {
-            const canClose = this?.options?.onClose?.beforeCallback ? this.options.onClose.beforeCallback() : true
-
-            if (canClose) {
-                closeWindow(event)
-            }
-        }
-
-        frameGet('minimize').onclick = minimize
-        frameGet('expand').onclick = expand
-        frameGet('close').onclick = close
+        frameGet('minimize').onclick = () => actions.minimize(this)
+        frameGet('expand').onclick = () => actions.expand(this)
+        frameGet('close').onclick = () => actions.close(this)
     }
 
     private _build() {
@@ -116,7 +142,7 @@ export class electronFrame {
             frame.classList.add('custom')
         }
 
-        const iconPrefix = isWindowsStyle ? "win" : "mac"
+        const iconProvider = isWindowsStyle ? icons.windows : icons.macos
 
         frame.innerHTML = `
         <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>
@@ -124,13 +150,13 @@ export class electronFrame {
         
         <div class="window-controls">
             <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                ${loadSVG(assetsFolder, `${iconPrefix}-minimize.svg`)}
+                ${iconProvider.minimize}
             </div>
             <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                ${loadSVG(assetsFolder, `${iconPrefix}-expand.svg`)}
+                ${iconProvider.expand}
             </div>
             <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-                ${loadSVG(assetsFolder, `${iconPrefix}-close.svg`)}
+                ${iconProvider.close}
             </div>
         </div>
 
@@ -142,6 +168,16 @@ export class electronFrame {
 
         this.frame = frame
         this._setEvents()
+    }
+
+    toggleExpandIcon() {
+        if (this.frameStyle === "macos") {
+            const expand_div = this.frame.querySelector("#expand") as HTMLElement
+            //Ao inserir o svg dentro de um elemento html ele muda, isso é realmente necessário para comparação
+            const temp_div = document.createElement('div')
+            temp_div.innerHTML = icons.macos.expand
+            expand_div.innerHTML = expand_div.innerHTML.trim() == temp_div.innerHTML.trim() ? icons.macos.restore : icons.macos.expand
+        }
     }
 
     private _buildStyle() {
@@ -242,5 +278,17 @@ export class electronFrame {
 
     set frameStyle(frameStyle: frameStyle) {
         this.setFrameStyle(frameStyle)
+    }
+
+    get closeable() {
+        return this.options.closeable
+    }
+
+    get maximizable() {
+        return this.options.maximizable
+    }
+
+    get minimizable() {
+        return this.options.minimizable
     }
 }
