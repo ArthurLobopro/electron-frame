@@ -159,19 +159,20 @@
                 margin: auto 2.5px;
             }
 
-            & > #expand{
-                background-color: var(--yellow);
-                order: 1;
+            &>#expand {
+                background-color: var(--green);
+                order: 2;
             }
 
-            & > #close{
+            &>#close {
                 background-color: var(--red);
                 order: 0;
             }
 
-            & > #minimize{
-                background-color: var(--green);
-                order: 2;
+            &>#minimize {
+                background-color: var(--yellow);
+                order: 1;
+                margin: auto 5px;
             }
         }
     }
