@@ -2,7 +2,7 @@
   "name": "electron-frame",
   "author": "Arthur Lobo",
   "license": "MIT",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "keywords": [
     "electron",
     "frame",
@@ -20,7 +20,7 @@
     "copydirectory": "https://github.com/ArthurLobopro/copy-directory",
     "electron": "^17.2.0",
     "electron-frame": "file:./npm",
-    "sass-compiler": "^1.2.0",
+    "sass-compiler": "^1.2.3",
     "typescript": "^4.6.4"
   },
   "repository": {
