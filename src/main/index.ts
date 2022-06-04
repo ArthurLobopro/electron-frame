@@ -20,9 +20,9 @@ ipcMain.on('close', (event) => {
 })
 
 ipcMain.on('request-window-config', (event) => {
-    const win = BrowserWindow.getFocusedWindow()
-    const minimizable = win?.isMinimizable()
-    const maximizable = win?.isMaximizable()
-    const closeable = win?.isClosable()
+    const win = BrowserWindow.fromId(event.frameId)
+    const minimizable = win?.minimizable
+    const maximizable = win?.maximizable
+    const closeable = win?.closable
     event.returnValue = { minimizable, maximizable, closeable }
 })
