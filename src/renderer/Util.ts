@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 
 function loadSVG(...PathSegments: string[]) {
-    return fs.readFileSync(path.resolve(...PathSegments))
+    return fs.readFileSync(path.resolve(...PathSegments), { encoding: "utf-8" })
 }
 
 function injectCSS(...pathSegments: string[]) {

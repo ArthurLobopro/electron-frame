@@ -18,7 +18,7 @@ const copyList = [
     },
     {
         input: path.resolve(baseDir, "src/renderer/assets/"),
-        out: path.resolve(npmDir, "renderer/assets/"),
+        out: path.resolve(npmDir, "renderer/"),
         isDir: true
     }
 ]
