@@ -69,17 +69,17 @@ const actions = {
 }
 
 const icons = {
-    macos: {
-        minimize: loadSVG(assetsFolder, "mac-minimize.svg").toString(),
-        expand: loadSVG(assetsFolder, "mac-expand.svg").toString(),
-        close: loadSVG(assetsFolder, "mac-close.svg").toString(),
-        restore: loadSVG(assetsFolder, "mac-restore.svg").toString()
-    },
-    windows: {
-        minimize: loadSVG(assetsFolder, "win-minimize.svg").toString(),
-        expand: loadSVG(assetsFolder, "win-expand.svg").toString(),
-        close: loadSVG(assetsFolder, "win-close.svg").toString()
-    }
+    // macos: {
+    //     minimize: loadSVG(assetsFolder, "mac-minimize.svg").toString(),
+    //     expand: loadSVG(assetsFolder, "mac-expand.svg").toString(),
+    //     close: loadSVG(assetsFolder, "mac-close.svg").toString(),
+    //     restore: loadSVG(assetsFolder, "mac-restore.svg").toString()
+    // },
+    // windows: {
+    //     minimize: loadSVG(assetsFolder, "win-minimize.svg").toString(),
+    //     expand: loadSVG(assetsFolder, "win-expand.svg").toString(),
+    //     close: loadSVG(assetsFolder, "win-close.svg").toString()
+    // }
 }
 
 const format = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
@@ -142,7 +142,7 @@ export class electronFrame {
             frame.classList.add('custom')
         }
 
-        const iconProvider = isWindowsStyle ? icons.windows : icons.macos
+        // const iconProvider = isWindowsStyle ? icons.windows : icons.macos
 
         frame.innerHTML = `
         <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>
@@ -150,13 +150,13 @@ export class electronFrame {
         
         <div class="window-controls">
             <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                ${iconProvider.minimize}
+                ${/*iconProvider.minimize*/""}
             </div>
             <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                ${iconProvider.expand}
+                ${/*iconProvider.expand*/""}
             </div>
             <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-                ${iconProvider.close}
+                ${/*iconProvider.close*/""}
             </div>
         </div>
 
@@ -175,8 +175,8 @@ export class electronFrame {
             const expand_div = this.frame.querySelector("#expand") as HTMLElement
             //Ao inserir o svg dentro de um elemento html ele muda, isso é realmente necessário para comparação
             const temp_div = document.createElement('div')
-            temp_div.innerHTML = icons.macos.expand
-            expand_div.innerHTML = expand_div.innerHTML.trim() == temp_div.innerHTML.trim() ? icons.macos.restore : icons.macos.expand
+            //temp_div.innerHTML = icons.macos.expand
+            //expand_div.innerHTML = expand_div.innerHTML.trim() == temp_div.innerHTML.trim() ? icons.macos.restore : icons.macos.expand
         }
     }
 
@@ -221,7 +221,7 @@ export class electronFrame {
             const bodyPaddingTop = getComputedStyle(document.body).paddingTop
             const frameHeight = getComputedStyle(this.frame).height
             document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
-        }, 50);
+        }, 50)
     }
 
     remove() {

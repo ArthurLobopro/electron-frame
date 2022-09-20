@@ -2,7 +2,7 @@ const generatePackage = require('./package')
 const fs = require('fs')
 const path = require('path')
 const { copy } = require('./copy')
-const { copyDir } = require('copydirectory')
+const { copyDir } = require('copy-directory')
 
 const baseDir = path.resolve(__dirname, '../')
 const npmDir = path.resolve(baseDir, "npm")
@@ -29,4 +29,4 @@ if (!fs.existsSync(npmDir)) {
 
 
 copyList.forEach(({ input, out, isDir }) => isDir ? copyDir(input, out) : copy(input, out))
-fs.writeFileSync(path.resolve(npmDir, "package.json"), generatePackage());
+fs.writeFileSync(path.resolve(npmDir, "package.json"), generatePackage())
