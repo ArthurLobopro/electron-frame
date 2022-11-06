@@ -1,6 +1,7 @@
 import { ipcRenderer } from "electron"
+import { actions } from "./actions"
 import { icons } from "./icons"
-import { format } from "./Util"
+import { format, injectCSS } from "./Util"
 
 const os = process.platform === "darwin" ? "macos" : process.platform === "win32" ? "windows" : "linux"
 
@@ -72,6 +73,15 @@ export class PopUpFrame {
         }
     }
 
+    async insert() {
+        //Rebuild with DOM content
+        this._build()
+
+        injectCSS(__dirname, 'style.css')
+        document.body.appendChild(this.frame)
+        this._setEvents()
+    }
+
     private _build() {
 
         if (os === "linux") {
@@ -87,7 +97,7 @@ export class PopUpFrame {
         const properties = this._buildStyle()
 
         const PopUpFrame = document.createElement('div')
-        PopUpFrame.id = 'window-controls-wrapper'
+        PopUpFrame.id = 'electron-popup-frame'
 
         PopUpFrame.innerHTML = `
         <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
@@ -109,6 +119,59 @@ export class PopUpFrame {
         this.frame = PopUpFrame
     }
 
+    setColors(colors: frameColors) {
+        this.options.colors = {
+            ...this.options.colors,
+            ...colors
+        }
+        this._updateStyle()
+    }
+
+    private _setEvents() {
+        const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
+
+        const hideMenu = () => this.frame.classList.remove('active')
+
+        frameGet('minimize').onclick = () => {
+            actions.minimize(this)
+            hideMenu()
+        }
+        frameGet('expand').onclick = () => {
+            actions.expand(this)
+            hideMenu()
+        }
+        frameGet('close').onclick = () => {
+            actions.close(this)
+            hideMenu()
+        }
+
+        window.addEventListener('mousemove', event => {
+            const { pageX, pageY } = event
+            const { x, height, y } = this.frame.getBoundingClientRect()
+            if (pageY <= 10 && pageX > x) {
+                if (!this.frame.classList.contains('active')) {
+                    this.frame.classList.add('active')
+                }
+            }
+
+            if (pageY > y + height + 10 || pageX < x) {
+                if (this.frame.classList.contains('active')) {
+                    hideMenu()
+                }
+            }
+        })
+    }
+
+    private _updateStyle() {
+        const properties = this._buildStyle()
+        const styleTag = this.frame.querySelector('style') as HTMLElement
+        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
+
+        if (!this.frame.classList.contains("custom")) {
+            this.frame.classList.add("custom")
+        }
+    }
+
     private _buildStyle() {
         const { colors = {} } = this.options
 
@@ -116,5 +179,17 @@ export class PopUpFrame {
         const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
 
         return properties
+    }
+
+    get closeable() {
+        return this.options.closeable
+    }
+
+    get maximizable() {
+        return this.options.maximizable
+    }
+
+    get minimizable() {
+        return this.options.minimizable
     }
 }

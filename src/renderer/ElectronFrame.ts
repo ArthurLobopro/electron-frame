@@ -2,8 +2,7 @@ import path from 'path'
 import { format, getIconString, injectCSS } from './Util'
 import { ipcRenderer } from 'electron'
 import { icons } from "./icons"
-
-export const assetsFolder = path.resolve(__dirname, "assets")
+import { actions } from "./actions"
 
 interface frameColors {
     background?: string
@@ -48,28 +47,6 @@ interface windowConfig {
     maximizable: boolean
     closeable: boolean
 }
-
-const actions = {
-    close(frame: ElectronFrame) {
-        if (frame.closeable) {
-            if (frame.options.onClose?.beforeCallback) {
-                frame.options.onClose?.beforeCallback() ? ipcRenderer.send('close') : void 0
-            } else {
-                ipcRenderer.send('close')
-            }
-        }
-    },
-    expand(frame: ElectronFrame) {
-        if (frame.maximizable) {
-            ipcRenderer.send('expand')
-            frame.toggleExpandIcon()
-        }
-    },
-    minimize(frame: ElectronFrame) {
-        frame.minimizable ? ipcRenderer.send('minimize') : void 0
-    }
-}
-
 
 export async function makeFrame(frameOptions: makeElectronFrameOptions) {
     return new ElectronFrame(frameOptions).frame
