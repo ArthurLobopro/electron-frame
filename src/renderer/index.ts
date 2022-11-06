@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { makeFrame, electronFrame } from './frame'
+import { makeFrame, ElectronFrame } from './ElectronFrame'
 import { injectCSS } from './Util'
 
 interface frameColors {
@@ -29,7 +29,7 @@ async function insertFrame(options: insertFrameOptions = {}) {
         const bodyPaddingTop = getComputedStyle(document.body).paddingTop
         const frameHeight = getComputedStyle(frame).height
         document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
-    }, 50);
+    }, 50)
 }
 
 function removeFrame() {
@@ -44,4 +44,4 @@ function removeFrame() {
     }
 }
 
-export { insertFrame, removeFrame, electronFrame }
+export { insertFrame, removeFrame, ElectronFrame }

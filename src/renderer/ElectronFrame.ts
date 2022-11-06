@@ -1,8 +1,9 @@
 import path from 'path'
-import { loadSVG, getIconString, injectCSS } from './Util'
+import { format, getIconString, injectCSS } from './Util'
 import { ipcRenderer } from 'electron'
+import { icons } from "./icons"
 
-const assetsFolder = path.resolve(__dirname, "assets")
+export const assetsFolder = path.resolve(__dirname, "assets")
 
 interface frameColors {
     background?: string
@@ -14,7 +15,7 @@ interface frameColors {
 
 type frameStyle = "windows" | "macos"
 
-interface makeFrameOptions {
+interface makeElectronFrameOptions {
     darkMode?: boolean
     title?: string
     icon?: HTMLImageElement | string
@@ -41,6 +42,7 @@ interface frameOptions {
         beforeCallback?: () => true | false
     }
 }
+
 interface windowConfig {
     minimizable: boolean
     maximizable: boolean
@@ -48,7 +50,7 @@ interface windowConfig {
 }
 
 const actions = {
-    close(frame: electronFrame) {
+    close(frame: ElectronFrame) {
         if (frame.closeable) {
             if (frame.options.onClose?.beforeCallback) {
                 frame.options.onClose?.beforeCallback() ? ipcRenderer.send('close') : void 0
@@ -57,43 +59,28 @@ const actions = {
             }
         }
     },
-    expand(frame: electronFrame) {
+    expand(frame: ElectronFrame) {
         if (frame.maximizable) {
             ipcRenderer.send('expand')
             frame.toggleExpandIcon()
         }
     },
-    minimize(frame: electronFrame) {
+    minimize(frame: ElectronFrame) {
         frame.minimizable ? ipcRenderer.send('minimize') : void 0
     }
 }
 
-const icons = {
-    macos: {
-        minimize: loadSVG(assetsFolder, "mac-minimize.svg").toString(),
-        expand: loadSVG(assetsFolder, "mac-expand.svg").toString(),
-        close: loadSVG(assetsFolder, "mac-close.svg").toString(),
-        restore: loadSVG(assetsFolder, "mac-restore.svg").toString()
-    },
-    windows: {
-        minimize: loadSVG(assetsFolder, "win-minimize.svg").toString(),
-        expand: loadSVG(assetsFolder, "win-expand.svg").toString(),
-        close: loadSVG(assetsFolder, "win-close.svg").toString()
-    }
+
+export async function makeFrame(frameOptions: makeElectronFrameOptions) {
+    return new ElectronFrame(frameOptions).frame
 }
 
-const format = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
-
-export async function makeFrame(frameOptions: makeFrameOptions) {
-    return new electronFrame(frameOptions).frame
-}
-
-export class electronFrame {
+export class ElectronFrame {
     frame!: HTMLDivElement
     options: frameOptions
-    constructor(frameOptions: makeFrameOptions) {
+    constructor(frameOptions: makeElectronFrameOptions) {
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
-        const defaultConfig: makeFrameOptions = {
+        const defaultConfig: makeElectronFrameOptions = {
             darkMode: true,
             colors: {},
             frameStyle: "windows",
