@@ -1,5 +1,7 @@
 import { loadSVG } from './Util'
-import { assetsFolder } from "./ElectronFrame"
+import path from "path"
+
+const assetsFolder = path.resolve(__dirname, "assets")
 
 export const icons = {
     macos: {
