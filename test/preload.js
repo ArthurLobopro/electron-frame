@@ -1,7 +1,7 @@
 const { contextBridge } = require('electron')
-const { insertFrame, electronFrame, removeFrame } = require('electron-frame/renderer')
+const { insertFrame, ElectronFrame, removeFrame } = require('electron-frame/renderer')
 
-const frame = new electronFrame()
+const frame = new ElectronFrame()
 
 window.addEventListener('DOMContentLoaded', () => {
     const icon = new Image()
@@ -13,6 +13,6 @@ window.addEventListener('DOMContentLoaded', () => {
     //         //If the condition is true, the window will close
     //     }
     // })
-    frame.setIcon(icon)
+    // frame.setIcon(icon)
     frame.insert()
 })
