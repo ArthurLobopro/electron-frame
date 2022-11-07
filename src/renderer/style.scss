@@ -38,12 +38,12 @@
 #electron-popup-frame {
     position: fixed;
     background-color: var(--background);
-    height: 35px;
+    height: 30px;
     top: 0;
     right: 0;
     display: flex;
     z-index: 100;
-    margin-top: -35px;
+    margin-top: -30px;
     transition: 300ms;
 
     &.active {
