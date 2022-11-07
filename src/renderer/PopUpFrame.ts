@@ -3,8 +3,6 @@ import { actions } from "./actions"
 import { icons } from "./icons"
 import { format, injectCSS } from "./Util"
 
-const os = process.platform === "darwin" ? "macos" : process.platform === "win32" ? "windows" : "linux"
-
 interface makePopUpFrameOptions {
     darkMode?: boolean
     minimizable: boolean
@@ -84,7 +82,7 @@ export class PopUpFrame {
 
     private _build() {
 
-        if (os === "linux") {
+        if (process.platform === "linux") {
             throw new Error("PopUpFrame is not supported on Linux")
         }
 
@@ -96,18 +94,23 @@ export class PopUpFrame {
 
         const properties = this._buildStyle()
 
+        const isWindowsStyle = frameStyle === "windows"
+
         const PopUpFrame = document.createElement('div')
         PopUpFrame.id = 'electron-popup-frame'
 
+        PopUpFrame.classList.add(darkMode ? "dark" : "light")
+        PopUpFrame.classList.add(isWindowsStyle ? "windows-style" : "macos-style")
+
         PopUpFrame.innerHTML = `
         <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-            ${icons[os].minimize})}
+            ${icons[frameStyle].minimize}
         </div>
         <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-            ${icons[os].expand})}
+            ${icons[frameStyle].expand}
         </div>
         <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-            ${icons[os].close})}
+            ${icons[frameStyle].close}
         </div>
         
         <style>
@@ -145,9 +148,7 @@ export class PopUpFrame {
             hideMenu()
         }
 
-        window.addEventListener('mousemove', event => {
-            const { pageX, pageY } = event
-            const { x, height, y } = this.frame.getBoundingClientRect()
+        const windowsMouseMove = ({ pageX, pageY, x, y, height }: { pageX: number, pageY: number, x: number, y: number, height: number }) => {
             if (pageY <= 10 && pageX > x) {
                 if (!this.frame.classList.contains('active')) {
                     this.frame.classList.add('active')
@@ -159,6 +160,27 @@ export class PopUpFrame {
                     hideMenu()
                 }
             }
+        }
+
+        const macosMouseMove = ({ pageY, pageX, x, y, height, width }: { pageX: number, pageY: number, x: number, y: number, height: number, width: number }) => {
+            if (pageY <= 10 && pageX < x + width) {
+                if (!this.frame.classList.contains('active')) {
+                    this.frame.classList.add('active')
+                }
+            }
+
+            if (pageY > y + height + 15 || pageX > x + width + 10) {
+                if (this.frame.classList.contains('active')) {
+                    hideMenu()
+                }
+            }
+        }
+
+        window.addEventListener('mousemove', event => {
+            const { pageX, pageY } = event
+            const { x, height, y, width } = this.frame.getBoundingClientRect()
+
+            this.options.frameStyle === "windows" ? windowsMouseMove({ pageX, pageY, x, y, height }) : macosMouseMove({ pageX, pageY, x, y, height, width })
         })
     }
 

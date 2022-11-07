@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron'
 import { makeFrame, ElectronFrame } from './ElectronFrame'
+import { PopUpFrame } from "./PopUpFrame"
 import { injectCSS } from './Util'
 
 interface frameColors {
@@ -44,4 +45,4 @@ function removeFrame() {
     }
 }
 
-export { insertFrame, removeFrame, ElectronFrame }
+export { insertFrame, removeFrame, ElectronFrame, PopUpFrame }
