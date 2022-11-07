@@ -25,4 +25,6 @@ function getIconString() {
     return ''
 }
 
+export const format = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
+
 export { loadSVG, getIconString, injectCSS }

@@ -6,7 +6,6 @@ require('electron-frame/main')
 function mainWindow() {
     const win = new BrowserWindow({
         frame: false,
-        maximizable: false,
         webPreferences: {
             nodeIntegration: true,
             preload: path.join(__dirname, "preload.js")
