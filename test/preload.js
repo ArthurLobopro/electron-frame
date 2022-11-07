@@ -1,7 +1,53 @@
 const { contextBridge } = require('electron')
-const { insertFrame, ElectronFrame, removeFrame } = require('electron-frame/renderer')
+const { insertFrame, ElectronFrame, PopUpFrame, removeFrame } = require('electron-frame/renderer')
 
-const frame = new ElectronFrame()
+// const frame = new ElectronFrame({
+//     frameStyle: "macos"
+// })
+
+let frameStyle = "windows"
+let frameType = "popup"
+
+const frames = {
+    "popup": PopUpFrame,
+    "electron": ElectronFrame
+}
+
+let frame = new PopUpFrame({
+    frameStyle
+})
+
+const debug = {
+    insertFrame: () => {
+        frame.insert()
+    },
+    removeFrame: () => {
+        frame.remove()
+    },
+    toggleFrameType() {
+        frameType = frameType === "popup" ? "electron" : "popup"
+        debug.update()
+    },
+    toggleFrameStyle() {
+        if (frameStyle === "windows") {
+            frameStyle = "macos"
+        } else {
+            frameStyle = "windows"
+        }
+
+        debug.update()
+    },
+    update() {
+        frame.remove()
+        frame = new frames[frameType]({
+            frameStyle: frameStyle
+        })
+        frame.insert()
+    }
+}
+
+
+contextBridge.exposeInMainWorld('debug', debug)
 
 window.addEventListener('DOMContentLoaded', () => {
     const icon = new Image()
