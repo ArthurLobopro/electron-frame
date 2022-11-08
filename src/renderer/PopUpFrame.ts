@@ -1,5 +1,6 @@
 import { ipcRenderer } from "electron"
 import { actions } from "./actions"
+import { Frame } from "./Frame"
 import { icons } from "./icons"
 import { format, injectCSS } from "./Util"
 
@@ -43,12 +44,13 @@ interface PopUpFrameOptions {
     }
 }
 
-export class PopUpFrame {
+export class PopUpFrame extends Frame {
 
     frame!: HTMLDivElement
     options: PopUpFrameOptions
 
     constructor(frameOptions: makePopUpFrameOptions) {
+        super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makePopUpFrameOptions = {
             darkMode: true,

@@ -3,6 +3,7 @@ import { format, getIconString, injectCSS } from './Util'
 import { ipcRenderer } from 'electron'
 import { icons } from "./icons"
 import { actions } from "./actions"
+import { Frame } from "./Frame"
 
 interface frameColors {
     background?: string
@@ -52,10 +53,11 @@ export async function makeFrame(frameOptions: makeElectronFrameOptions) {
     return new ElectronFrame(frameOptions).frame
 }
 
-export class ElectronFrame {
+export class ElectronFrame extends Frame {
     frame!: HTMLDivElement
     options: frameOptions
     constructor(frameOptions: makeElectronFrameOptions) {
+        super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makeElectronFrameOptions = {
             darkMode: true,
