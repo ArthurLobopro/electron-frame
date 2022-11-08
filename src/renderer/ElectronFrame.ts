@@ -245,16 +245,4 @@ export class ElectronFrame extends Frame {
     set frameStyle(frameStyle: frameStyle) {
         this.setFrameStyle(frameStyle)
     }
-
-    get closeable() {
-        return this.options.closeable
-    }
-
-    get maximizable() {
-        return this.options.maximizable
-    }
-
-    get minimizable() {
-        return this.options.minimizable
-    }
 }
