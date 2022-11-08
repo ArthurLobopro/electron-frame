@@ -73,10 +73,6 @@ export class PopUpFrame extends Frame {
         }
     }
 
-    remove() {
-        this.frame.remove()
-    }
-
     async insert() {
         //Rebuild with DOM content
         this._build()

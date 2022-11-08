@@ -54,7 +54,6 @@ export async function makeFrame(frameOptions: makeElectronFrameOptions) {
 }
 
 export class ElectronFrame extends Frame {
-    frame!: HTMLDivElement
     options: frameOptions
     constructor(frameOptions: makeElectronFrameOptions) {
         super()
@@ -188,10 +187,6 @@ export class ElectronFrame extends Frame {
             const frameHeight = getComputedStyle(this.frame).height
             document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
         }, 50)
-    }
-
-    remove() {
-        this.frame.remove()
     }
 
     update() {

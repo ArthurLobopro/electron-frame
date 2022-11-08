@@ -22,8 +22,13 @@ type frameStyle = "windows" | "macos"
 
 export class Frame {
     options!: BaseFrameOptions
+    frame!: HTMLDivElement
 
     constructor() { }
+
+    remove() {
+        this.frame.remove()
+    }
 
     get closeable() {
         return this.options.closeable
