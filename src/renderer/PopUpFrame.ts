@@ -186,14 +186,4 @@ export class PopUpFrame extends Frame {
             this.options.frameStyle === "windows" ? windowsMouseMove({ pageX, pageY, x, y, height }) : macosMouseMove({ pageX, pageY, x, y, height, width })
         })
     }
-
-    private _updateStyle() {
-        const properties = this._buildStyle()
-        const styleTag = this.frame.querySelector('style') as HTMLElement
-        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
-
-        if (!this.frame.classList.contains("custom")) {
-            this.frame.classList.add("custom")
-        }
-    }
 }

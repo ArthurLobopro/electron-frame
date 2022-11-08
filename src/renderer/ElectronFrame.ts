@@ -145,16 +145,6 @@ export class ElectronFrame extends Frame {
         }
     }
 
-    private _updateStyle() {
-        const properties = this._buildStyle()
-        const styleTag = this.frame.querySelector('style') as HTMLElement
-        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
-
-        if (!this.frame.classList.contains("custom")) {
-            this.frame.classList.add("custom")
-        }
-    }
-
     setTitle(title: string) {
         this.options.title = title
         this.update()

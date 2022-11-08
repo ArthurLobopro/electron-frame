@@ -39,6 +39,16 @@ export abstract class Frame {
         return properties
     }
 
+    _updateStyle() {
+        const properties = this._buildStyle()
+        const styleTag = this.frame.querySelector('style') as HTMLElement
+        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
+
+        if (!this.frame.classList.contains("custom")) {
+            this.frame.classList.add("custom")
+        }
+    }
+
     remove() {
         this.frame.remove()
     }
