@@ -79,7 +79,7 @@ export class ElectronFrame extends Frame {
         frameGet('close').onclick = () => actions.close(this)
     }
 
-    private _build() {
+    _build() {
         const {
             title, icon,
             darkMode = true, minimizable = true, maximizable = true, closeable = true,
@@ -145,15 +145,6 @@ export class ElectronFrame extends Frame {
         }
     }
 
-    private _buildStyle() {
-        const { colors = {} } = this.options
-
-        const colorsArray = Object.entries(colors)
-        const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
-
-        return properties
-    }
-
     private _updateStyle() {
         const properties = this._buildStyle()
         const styleTag = this.frame.querySelector('style') as HTMLElement
@@ -189,25 +180,7 @@ export class ElectronFrame extends Frame {
         }, 50)
     }
 
-    update() {
-        const hasFrame = Array.from(document.body.childNodes).includes(this.frame)
-        if (hasFrame) {
-            this.remove()
-        }
 
-        this._build()
-
-        if (hasFrame) {
-            document.body.appendChild(this.frame)
-        }
-    }
-
-    setFrameStyle(frameStyle: "windows" | "macos") {
-        if (frameStyle !== this.options.frameStyle) {
-            this.options.frameStyle = frameStyle
-            this.update()
-        }
-    }
 
     setColors(colors: frameColors) {
         this.options.colors = {
@@ -221,10 +194,6 @@ export class ElectronFrame extends Frame {
         return this.options.colors
     }
 
-    get frameStyle() {
-        return this.options.frameStyle
-    }
-
     get title() {
         return this.options.title
     }
@@ -235,9 +204,5 @@ export class ElectronFrame extends Frame {
 
     set title(title: string) {
         this.setTitle(title)
-    }
-
-    set frameStyle(frameStyle: frameStyle) {
-        this.setFrameStyle(frameStyle)
     }
 }

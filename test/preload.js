@@ -26,7 +26,7 @@ const debug = {
     },
     toggleFrameType() {
         frameType = frameType === "popup" ? "electron" : "popup"
-        debug.update()
+        debug.reinsert()
     },
     toggleFrameStyle() {
         if (frameStyle === "windows") {
@@ -34,15 +34,18 @@ const debug = {
         } else {
             frameStyle = "windows"
         }
-
-        debug.update()
+        frame.frameStyle = frameStyle
+        frame.update()
     },
-    update() {
+    reinsert() {
         frame.remove()
         frame = new frames[frameType]({
             frameStyle: frameStyle
         })
         frame.insert()
+    },
+    update() {
+        frame.update()
     }
 }
 

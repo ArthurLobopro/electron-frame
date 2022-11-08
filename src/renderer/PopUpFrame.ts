@@ -82,7 +82,7 @@ export class PopUpFrame extends Frame {
         this._setEvents()
     }
 
-    private _build() {
+    _build() {
 
         if (process.platform === "linux") {
             throw new Error("PopUpFrame is not supported on Linux")
@@ -122,6 +122,7 @@ export class PopUpFrame extends Frame {
         </style>`
 
         this.frame = PopUpFrame
+        this._setEvents()
     }
 
     setColors(colors: frameColors) {
@@ -194,14 +195,5 @@ export class PopUpFrame extends Frame {
         if (!this.frame.classList.contains("custom")) {
             this.frame.classList.add("custom")
         }
-    }
-
-    private _buildStyle() {
-        const { colors = {} } = this.options
-
-        const colorsArray = Object.entries(colors)
-        const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
-
-        return properties
     }
 }
