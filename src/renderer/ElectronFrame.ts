@@ -146,11 +146,7 @@ export class ElectronFrame extends Frame {
     }
 
     async insert() {
-        //Rebuild with DOM content
-        this._build()
-
-        injectCSS(__dirname, 'style.css')
-        document.body.appendChild(this.frame)
+        super.insert()
 
         //This delay is necessary, dont quest
         setTimeout(() => {

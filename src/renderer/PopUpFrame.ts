@@ -63,15 +63,6 @@ export class PopUpFrame extends Frame {
         this._build()
     }
 
-    async insert() {
-        //Rebuild with DOM content
-        this._build()
-
-        injectCSS(__dirname, 'style.css')
-        document.body.appendChild(this.frame)
-        this._setEvents()
-    }
-
     _build() {
 
         if (process.platform === "linux") {

@@ -1,5 +1,5 @@
 import { icons } from "./icons"
-import { format } from "./Util"
+import { format, injectCSS } from "./Util"
 
 export interface BaseFrameOptions {
     darkMode: boolean
@@ -32,6 +32,15 @@ export abstract class Frame {
     abstract _build(): void
 
     abstract _setEvents(): void
+
+    async insert() {
+        //Rebuild with DOM content
+        this._build()
+
+        injectCSS(__dirname, 'style.css')
+        document.body.appendChild(this.frame)
+        this._setEvents()
+    }
 
     _buildStyle() {
         const { colors = {} } = this.options
