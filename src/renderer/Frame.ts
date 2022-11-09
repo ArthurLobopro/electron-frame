@@ -31,6 +31,8 @@ export abstract class Frame {
 
     abstract _build(): void
 
+    abstract _setEvents(): void
+
     _buildStyle() {
         const { colors = {} } = this.options
 

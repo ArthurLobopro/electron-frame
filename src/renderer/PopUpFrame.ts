@@ -123,7 +123,7 @@ export class PopUpFrame extends Frame {
         this._updateStyle()
     }
 
-    private _setEvents() {
+    _setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         const hideMenu = () => this.frame.classList.remove('active')
