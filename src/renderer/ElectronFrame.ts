@@ -3,6 +3,7 @@ import { format, getIconString, injectCSS } from './Util'
 import { ipcRenderer } from 'electron'
 import { icons } from "./icons"
 import { actions } from "./actions"
+import { Frame } from "./Frame"
 
 interface frameColors {
     background?: string
@@ -52,10 +53,11 @@ export async function makeFrame(frameOptions: makeElectronFrameOptions) {
     return new ElectronFrame(frameOptions).frame
 }
 
-export class ElectronFrame {
-    frame!: HTMLDivElement
+export class ElectronFrame extends Frame {
     options: frameOptions
+
     constructor(frameOptions: makeElectronFrameOptions) {
+        super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makeElectronFrameOptions = {
             darkMode: true,
@@ -67,18 +69,10 @@ export class ElectronFrame {
             ...windowConfig
         }
         this.options = { ...defaultConfig, ...frameOptions } as frameOptions
-        this._build()
+        this.__build()
     }
 
-    private _setEvents() {
-        const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
-
-        frameGet('minimize').onclick = () => actions.minimize(this)
-        frameGet('expand').onclick = () => actions.expand(this)
-        frameGet('close').onclick = () => actions.close(this)
-    }
-
-    private _build() {
+    __build() {
         const {
             title, icon,
             darkMode = true, minimizable = true, maximizable = true, closeable = true,
@@ -88,7 +82,7 @@ export class ElectronFrame {
 
         const colorsArray = Object.entries(colors)
 
-        const properties = this._buildStyle()
+        const properties = this.__buildStyle()
 
         const windowIconString = icon || getIconString()
 
@@ -131,36 +125,26 @@ export class ElectronFrame {
         </style>`
 
         this.frame = frame
-        this._setEvents()
+        this.__setEvents()
     }
 
-    toggleExpandIcon() {
-        if (this.frameStyle === "macos") {
-            const expand_div = this.frame.querySelector("#expand") as HTMLElement
-            //Ao inserir o svg dentro de um elemento html ele muda, isso é realmente necessário para comparação
-            const temp_div = document.createElement('div')
-            temp_div.innerHTML = icons.macos.expand
-            expand_div.innerHTML = expand_div.innerHTML.trim() == temp_div.innerHTML.trim() ? icons.macos.restore : icons.macos.expand
-        }
+    __setEvents() {
+        const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
+
+        frameGet('minimize').onclick = () => actions.minimize(this)
+        frameGet('expand').onclick = () => actions.expand(this)
+        frameGet('close').onclick = () => actions.close(this)
     }
 
-    private _buildStyle() {
-        const { colors = {} } = this.options
+    async insert() {
+        super.insert()
 
-        const colorsArray = Object.entries(colors)
-        const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
-
-        return properties
-    }
-
-    private _updateStyle() {
-        const properties = this._buildStyle()
-        const styleTag = this.frame.querySelector('style') as HTMLElement
-        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
-
-        if (!this.frame.classList.contains("custom")) {
-            this.frame.classList.add("custom")
-        }
+        //This delay is necessary, dont quest
+        setTimeout(() => {
+            const bodyPaddingTop = getComputedStyle(document.body).paddingTop
+            const frameHeight = getComputedStyle(this.frame).height
+            document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
+        }, 50)
     }
 
     setTitle(title: string) {
@@ -173,86 +157,11 @@ export class ElectronFrame {
         this.update()
     }
 
-    async insert() {
-        //Rebuild with DOM content
-        this._build()
-
-        injectCSS(__dirname, 'style.css')
-        document.body.appendChild(this.frame)
-
-        //This delay is necessary, dont quest
-        setTimeout(() => {
-            const bodyPaddingTop = getComputedStyle(document.body).paddingTop
-            const frameHeight = getComputedStyle(this.frame).height
-            document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
-        }, 50)
-    }
-
-    remove() {
-        this.frame.remove()
-    }
-
-    update() {
-        const hasFrame = Array.from(document.body.childNodes).includes(this.frame)
-        if (hasFrame) {
-            this.remove()
-        }
-
-        this._build()
-
-        if (hasFrame) {
-            document.body.appendChild(this.frame)
-        }
-    }
-
-    setFrameStyle(frameStyle: "windows" | "macos") {
-        if (frameStyle !== this.options.frameStyle) {
-            this.options.frameStyle = frameStyle
-            this.update()
-        }
-    }
-
-    setColors(colors: frameColors) {
-        this.options.colors = {
-            ...this.options.colors,
-            ...colors
-        }
-        this._updateStyle()
-    }
-
-    get colors() {
-        return this.options.colors
-    }
-
-    get frameStyle() {
-        return this.options.frameStyle
-    }
-
     get title() {
         return this.options.title
     }
 
-    set colors(colors: frameColors) {
-        this.setColors(colors)
-    }
-
     set title(title: string) {
         this.setTitle(title)
-    }
-
-    set frameStyle(frameStyle: frameStyle) {
-        this.setFrameStyle(frameStyle)
-    }
-
-    get closeable() {
-        return this.options.closeable
-    }
-
-    get maximizable() {
-        return this.options.maximizable
-    }
-
-    get minimizable() {
-        return this.options.minimizable
     }
 }

@@ -50,27 +50,27 @@
         margin-top: 0 !important;
     }
 
-    &.windows-style{
+    &.windows-style {
         &>.frame-button {
             width: 45px;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-    
+
             &>svg {
                 width: 20px;
                 height: 20px;
                 margin: auto;
-    
+
                 &>* {
                     fill: var(--svg-icons-color)
                 }
             }
-    
+
             &:hover {
                 background-color: var(--background-button-hover);
-    
+
                 :last-child {
                     background-color: var(--red);
                 }
@@ -89,6 +89,7 @@
         align-items: center;
         justify-content: space-around;
         padding: 4px;
+        gap: 5px;
 
         & .frame-button {
             width: 18px;
@@ -120,7 +121,6 @@
         &>#minimize {
             background-color: var(--yellow);
             order: 1;
-            margin: auto 5px;
         }
     }
 }
@@ -243,7 +243,7 @@
             order: 0;
             position: absolute;
             left: 5px;
-
+            gap: 5px;
 
             &>.frame-button {
                 width: 18px;
@@ -279,7 +279,6 @@
             &>#minimize {
                 background-color: var(--yellow);
                 order: 1;
-                margin: auto 5px;
             }
         }
     }

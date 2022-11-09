@@ -1,5 +1,6 @@
 import { ipcRenderer } from "electron"
 import { actions } from "./actions"
+import { Frame } from "./Frame"
 import { icons } from "./icons"
 import { format, injectCSS } from "./Util"
 
@@ -43,12 +44,13 @@ interface PopUpFrameOptions {
     }
 }
 
-export class PopUpFrame {
+export class PopUpFrame extends Frame {
 
     frame!: HTMLDivElement
     options: PopUpFrameOptions
 
     constructor(frameOptions: makePopUpFrameOptions) {
+        super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makePopUpFrameOptions = {
             darkMode: true,
@@ -58,33 +60,10 @@ export class PopUpFrame {
             ...windowConfig
         }
         this.options = { ...defaultConfig, ...frameOptions } as PopUpFrameOptions
-        this._build()
+        this.__build()
     }
 
-    toggleExpandIcon() {
-        if (this.options.frameStyle === "macos") {
-            const expand_div = this.frame.querySelector("#expand") as HTMLElement
-            //Ao inserir o svg dentro de um elemento html ele muda, isso é realmente necessário para comparação
-            const temp_div = document.createElement('div')
-            temp_div.innerHTML = icons.macos.expand
-            expand_div.innerHTML = expand_div.innerHTML.trim() == temp_div.innerHTML.trim() ? icons.macos.restore : icons.macos.expand
-        }
-    }
-
-    remove() {
-        this.frame.remove()
-    }
-
-    async insert() {
-        //Rebuild with DOM content
-        this._build()
-
-        injectCSS(__dirname, 'style.css')
-        document.body.appendChild(this.frame)
-        this._setEvents()
-    }
-
-    private _build() {
+    __build() {
 
         if (process.platform === "linux") {
             throw new Error("PopUpFrame is not supported on Linux")
@@ -96,7 +75,7 @@ export class PopUpFrame {
             frameStyle
         } = this.options
 
-        const properties = this._buildStyle()
+        const properties = this.__buildStyle()
 
         const isWindowsStyle = frameStyle === "windows"
 
@@ -124,17 +103,10 @@ export class PopUpFrame {
         </style>`
 
         this.frame = PopUpFrame
+        this.__setEvents()
     }
 
-    setColors(colors: frameColors) {
-        this.options.colors = {
-            ...this.options.colors,
-            ...colors
-        }
-        this._updateStyle()
-    }
-
-    private _setEvents() {
+    __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         const hideMenu = () => this.frame.classList.remove('active')
@@ -186,36 +158,5 @@ export class PopUpFrame {
 
             this.options.frameStyle === "windows" ? windowsMouseMove({ pageX, pageY, x, y, height }) : macosMouseMove({ pageX, pageY, x, y, height, width })
         })
-    }
-
-    private _updateStyle() {
-        const properties = this._buildStyle()
-        const styleTag = this.frame.querySelector('style') as HTMLElement
-        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
-
-        if (!this.frame.classList.contains("custom")) {
-            this.frame.classList.add("custom")
-        }
-    }
-
-    private _buildStyle() {
-        const { colors = {} } = this.options
-
-        const colorsArray = Object.entries(colors)
-        const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
-
-        return properties
-    }
-
-    get closeable() {
-        return this.options.closeable
-    }
-
-    get maximizable() {
-        return this.options.maximizable
-    }
-
-    get minimizable() {
-        return this.options.minimizable
     }
 }
