@@ -156,16 +156,8 @@ export class ElectronFrame extends Frame {
         }, 50)
     }
 
-    get colors() {
-        return this.options.colors
-    }
-
     get title() {
         return this.options.title
-    }
-
-    set colors(colors: frameColors) {
-        this.setColors(colors)
     }
 
     set title(title: string) {
