@@ -60,10 +60,10 @@ export class PopUpFrame extends Frame {
             ...windowConfig
         }
         this.options = { ...defaultConfig, ...frameOptions } as PopUpFrameOptions
-        this._build()
+        this.__build()
     }
 
-    _build() {
+    __build() {
 
         if (process.platform === "linux") {
             throw new Error("PopUpFrame is not supported on Linux")
@@ -75,7 +75,7 @@ export class PopUpFrame extends Frame {
             frameStyle
         } = this.options
 
-        const properties = this._buildStyle()
+        const properties = this.__buildStyle()
 
         const isWindowsStyle = frameStyle === "windows"
 
@@ -103,10 +103,10 @@ export class PopUpFrame extends Frame {
         </style>`
 
         this.frame = PopUpFrame
-        this._setEvents()
+        this.__setEvents()
     }
 
-    _setEvents() {
+    __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         const hideMenu = () => this.frame.classList.remove('active')

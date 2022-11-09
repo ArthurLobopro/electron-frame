@@ -29,11 +29,11 @@ export abstract class Frame {
 
     constructor() { }
 
-    abstract _build(): void
+    abstract __build(): void
 
-    abstract _setEvents(): void
+    abstract __setEvents(): void
 
-    _buildStyle() {
+    __buildStyle() {
         const { colors = {} } = this.options
 
         const colorsArray = Object.entries(colors)
@@ -42,8 +42,8 @@ export abstract class Frame {
         return properties
     }
 
-    _updateStyle() {
-        const properties = this._buildStyle()
+    __updateStyle() {
+        const properties = this.__buildStyle()
         const styleTag = this.frame.querySelector('style') as HTMLElement
         styleTag.innerHTML = `#electron-frame.custom {${properties}}`
 
@@ -54,11 +54,11 @@ export abstract class Frame {
 
     async insert() {
         //Rebuild with DOM content
-        this._build()
+        this.__build()
 
         injectCSS(__dirname, 'style.css')
         document.body.appendChild(this.frame)
-        this._setEvents()
+        this.__setEvents()
     }
 
     remove() {
@@ -71,7 +71,7 @@ export abstract class Frame {
             this.remove()
         }
 
-        this._build()
+        this.__build()
 
         if (hasFrame) {
             document.body.appendChild(this.frame)
@@ -100,7 +100,7 @@ export abstract class Frame {
             ...this.options.colors,
             ...colors
         }
-        this._updateStyle()
+        this.__updateStyle()
     }
 
     get colors() {

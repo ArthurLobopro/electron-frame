@@ -69,10 +69,10 @@ export class ElectronFrame extends Frame {
             ...windowConfig
         }
         this.options = { ...defaultConfig, ...frameOptions } as frameOptions
-        this._build()
+        this.__build()
     }
 
-    _build() {
+    __build() {
         const {
             title, icon,
             darkMode = true, minimizable = true, maximizable = true, closeable = true,
@@ -82,7 +82,7 @@ export class ElectronFrame extends Frame {
 
         const colorsArray = Object.entries(colors)
 
-        const properties = this._buildStyle()
+        const properties = this.__buildStyle()
 
         const windowIconString = icon || getIconString()
 
@@ -125,10 +125,10 @@ export class ElectronFrame extends Frame {
         </style>`
 
         this.frame = frame
-        this._setEvents()
+        this.__setEvents()
     }
 
-    _setEvents() {
+    __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         frameGet('minimize').onclick = () => actions.minimize(this)
