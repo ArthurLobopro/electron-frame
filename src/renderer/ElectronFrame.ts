@@ -55,6 +55,7 @@ export async function makeFrame(frameOptions: makeElectronFrameOptions) {
 
 export class ElectronFrame extends Frame {
     options: frameOptions
+
     constructor(frameOptions: makeElectronFrameOptions) {
         super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
@@ -69,14 +70,6 @@ export class ElectronFrame extends Frame {
         }
         this.options = { ...defaultConfig, ...frameOptions } as frameOptions
         this._build()
-    }
-
-    _setEvents() {
-        const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
-
-        frameGet('minimize').onclick = () => actions.minimize(this)
-        frameGet('expand').onclick = () => actions.expand(this)
-        frameGet('close').onclick = () => actions.close(this)
     }
 
     _build() {
@@ -135,14 +128,12 @@ export class ElectronFrame extends Frame {
         this._setEvents()
     }
 
-    setTitle(title: string) {
-        this.options.title = title
-        this.update()
-    }
+    _setEvents() {
+        const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
-    setIcon(icon: HTMLImageElement | string) {
-        this.options.icon = icon
-        this.update()
+        frameGet('minimize').onclick = () => actions.minimize(this)
+        frameGet('expand').onclick = () => actions.expand(this)
+        frameGet('close').onclick = () => actions.close(this)
     }
 
     async insert() {
@@ -154,6 +145,16 @@ export class ElectronFrame extends Frame {
             const frameHeight = getComputedStyle(this.frame).height
             document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
         }, 50)
+    }
+
+    setTitle(title: string) {
+        this.options.title = title
+        this.update()
+    }
+
+    setIcon(icon: HTMLImageElement | string) {
+        this.options.icon = icon
+        this.update()
     }
 
     get title() {
