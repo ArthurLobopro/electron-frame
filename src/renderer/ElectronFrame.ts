@@ -156,16 +156,6 @@ export class ElectronFrame extends Frame {
         }, 50)
     }
 
-
-
-    setColors(colors: frameColors) {
-        this.options.colors = {
-            ...this.options.colors,
-            ...colors
-        }
-        this._updateStyle()
-    }
-
     get colors() {
         return this.options.colors
     }

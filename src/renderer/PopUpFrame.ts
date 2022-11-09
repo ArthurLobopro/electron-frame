@@ -106,14 +106,6 @@ export class PopUpFrame extends Frame {
         this._setEvents()
     }
 
-    setColors(colors: frameColors) {
-        this.options.colors = {
-            ...this.options.colors,
-            ...colors
-        }
-        this._updateStyle()
-    }
-
     _setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 

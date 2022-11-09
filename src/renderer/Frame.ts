@@ -95,6 +95,14 @@ export abstract class Frame {
         }
     }
 
+    setColors(colors: frameColors) {
+        this.options.colors = {
+            ...this.options.colors,
+            ...colors
+        }
+        this._updateStyle()
+    }
+
     set frameStyle(frameStyle: frameStyle) {
         this.setFrameStyle(frameStyle)
     }
