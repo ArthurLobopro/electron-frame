@@ -63,16 +63,6 @@ export class PopUpFrame extends Frame {
         this._build()
     }
 
-    toggleExpandIcon() {
-        if (this.options.frameStyle === "macos") {
-            const expand_div = this.frame.querySelector("#expand") as HTMLElement
-            //Ao inserir o svg dentro de um elemento html ele muda, isso é realmente necessário para comparação
-            const temp_div = document.createElement('div')
-            temp_div.innerHTML = icons.macos.expand
-            expand_div.innerHTML = expand_div.innerHTML.trim() == temp_div.innerHTML.trim() ? icons.macos.restore : icons.macos.expand
-        }
-    }
-
     async insert() {
         //Rebuild with DOM content
         this._build()
