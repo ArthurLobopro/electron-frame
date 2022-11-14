@@ -1,20 +1,18 @@
 #electron-frame,
 #electron-popup-frame {
+    --background: #fff;
+    --background-button-hover: #ddd;
+    --color: #1e1e1e;
+    --svg-icons-color: #555;
+    --svg-icons-color-hover: #555;
+    --last-svg-icon-hover: #eee;
+    
     &.dark {
         --background: #1e1e1e;
         --background-button-hover: #505050;
         --color: #ddd;
         --svg-icons-color: #ccc;
         --svg-icons-color-hover: #ccc;
-        --last-svg-icon-hover: #eee;
-    }
-
-    &.light {
-        --background: #fff;
-        --background-button-hover: #ddd;
-        --color: #1e1e1e;
-        --svg-icons-color: #555;
-        --svg-icons-color-hover: #555;
         --last-svg-icon-hover: #eee;
     }
 }
@@ -58,7 +56,7 @@
             justify-content: center;
             align-items: center;
 
-            &>svg {
+            & svg {
                 width: 20px;
                 height: 20px;
                 margin: auto;
