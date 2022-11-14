@@ -2,7 +2,7 @@
   "name": "electron-frame",
   "author": "Arthur Lobo",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "keywords": [
     "electron",
     "frame",
@@ -17,6 +17,7 @@
     "publish": "yarn build && cd npm && npm publish"
   },
   "devDependencies": {
+    "copy-directory": "https://github.com/ArthurLobopro/copy-directory",
     "electron": "^17.2.0",
     "electron-frame": "file:./npm",
     "sass-compiler": "^1.2.3",
@@ -25,8 +26,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ArthurLobopro/electron-frame.git"
-  },
-  "dependencies": {
-    "copy-directory": "https://github.com/ArthurLobopro/copy-directory"
   }
 }

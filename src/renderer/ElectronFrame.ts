@@ -136,15 +136,36 @@ export class ElectronFrame extends Frame {
         frameGet('close').onclick = () => actions.close(this)
     }
 
-    async insert() {
+    async insert(addPaddingTop = true) {
         super.insert()
 
-        //This delay is necessary, dont quest
-        setTimeout(() => {
+        if (addPaddingTop) {
+            //This delay is necessary, dont quest
+            setTimeout(() => {
+                const bodyPaddingTop = getComputedStyle(document.body).paddingTop
+                const frameHeight = getComputedStyle(this.frame).height
+                document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
+            }, 20)
+        }
+    }
+
+    remove(removePaddingTop = true) {
+        if (removePaddingTop) {
             const bodyPaddingTop = getComputedStyle(document.body).paddingTop
             const frameHeight = getComputedStyle(this.frame).height
-            document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
-        }, 50)
+            document.body.style.paddingTop = `calc(${bodyPaddingTop} - ${frameHeight})`
+        }
+
+        super.remove()
+    }
+
+    update() {
+        const hasFrame = Array.from(document.body.childNodes).includes(this.frame)
+        if (hasFrame) {
+            this.remove(false)
+        }
+
+        this.insert(false)
     }
 
     setTitle(title: string) {

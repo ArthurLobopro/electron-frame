@@ -6,15 +6,15 @@ const { insertFrame, ElectronFrame, PopUpFrame, removeFrame } = require('electro
 // })
 
 let frameStyle = "windows"
-let frameType = "popup"
+let frameType = "electron"
 
 const frames = {
     "popup": PopUpFrame,
     "electron": ElectronFrame
 }
 
-let frame = new PopUpFrame({
-    frameStyle
+let frame = new ElectronFrame({
+    frameStyle,
 })
 
 const debug = {
@@ -35,7 +35,9 @@ const debug = {
             frameStyle = "windows"
         }
         frame.frameStyle = frameStyle
-        frame.update()
+    },
+    toggleDarkMode() {
+        frame.toggleDarkMode()
     },
     reinsert() {
         frame.remove()
@@ -64,4 +66,22 @@ window.addEventListener('DOMContentLoaded', () => {
     // })
     // frame.setIcon(icon)
     frame.insert()
+
+    const selec_style = document.getElementById("style")
+    selec_style.value = frameStyle
+    selec_style.addEventListener("change", () => {
+        debug.toggleFrameStyle()
+    })
+
+    const select_type = document.getElementById("type")
+    select_type.value = frameType
+    select_type.addEventListener("change", () => {
+        debug.toggleFrameType()
+    })
+
+    const dark_mode = document.getElementById("darkmode")
+    dark_mode.checked = frame.darkMode
+    dark_mode.addEventListener("change", () => {
+        debug.toggleDarkMode()
+    })
 })

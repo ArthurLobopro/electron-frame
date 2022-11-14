@@ -55,7 +55,6 @@ export abstract class Frame {
     async insert() {
         //Rebuild with DOM content
         this.__build()
-
         injectCSS(__dirname, 'style.css')
         document.body.appendChild(this.frame)
         this.__setEvents()
@@ -71,11 +70,7 @@ export abstract class Frame {
             this.remove()
         }
 
-        this.__build()
-
-        if (hasFrame) {
-            document.body.appendChild(this.frame)
-        }
+        this.insert()
     }
 
     toggleExpandIcon() {
@@ -86,6 +81,10 @@ export abstract class Frame {
             temp_div.innerHTML = icons.macos.expand
             expand_div.innerHTML = expand_div.innerHTML.trim() == temp_div.innerHTML.trim() ? icons.macos.restore : icons.macos.expand
         }
+    }
+
+    toggleDarkMode() {
+        this.frame.classList.toggle("dark")
     }
 
     setFrameStyle(frameStyle: "windows" | "macos") {
@@ -105,6 +104,10 @@ export abstract class Frame {
 
     get colors() {
         return this.options.colors
+    }
+
+    get darkmode() {
+        return this.options.darkMode
     }
 
     set colors(colors: frameColors) {
