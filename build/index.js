@@ -2,31 +2,54 @@ const generatePackage = require('./package')
 const fs = require('fs')
 const path = require('path')
 const { copy } = require('./copy')
-const { copyDir } = require('copy-directory')
+const { copyDir, copyDirContent } = require('copy-directory')
 
 const baseDir = path.resolve(__dirname, '../')
 const npmDir = path.resolve(baseDir, "npm")
 
-const copyList = [
+const tasks = [
     {
-        input: path.resolve(baseDir, "README.md"),
-        out: path.resolve(npmDir, "README.md")
+        type: "copy",
+        args: [
+            path.resolve(baseDir, "README.md"),
+            path.resolve(npmDir, "README.md")
+        ]
     },
     {
-        input: path.resolve(baseDir, "src/renderer/style.css"),
-        out: path.resolve(npmDir, "renderer/style.css")
+        type: "copyDirContent",
+        args: [
+            path.resolve(baseDir, "src/renderer"),
+            path.resolve(npmDir, "renderer"),
+            [
+                ".ts",
+                ".scss"
+            ]
+        ]
     },
-    {
-        input: path.resolve(baseDir, "src/renderer/assets/"),
-        out: path.resolve(npmDir, "renderer/"),
-        isDir: true
-    }
+
 ]
+
+const dirs_to_delete = [
+    path.resolve(npmDir, "renderer", "assets"),
+    path.resolve(npmDir, "renderer", "public"),
+]
+
+dirs_to_delete.forEach(dir => {
+    if (fs.existsSync(dir)) {
+        fs.rmdirSync(dir, { recursive: true })
+    }
+})
 
 if (!fs.existsSync(npmDir)) {
     fs.mkdirSync(npmDir)
 }
 
+tasks.forEach(task => {
+    if (task.type === "copy") {
+        copy(...task.args)
+    } else if (task.type === "copyDirContent") {
+        copyDirContent(...task.args)
+    }
+})
 
-copyList.forEach(({ input, out, isDir }) => isDir ? copyDir(input, out) : copy(input, out))
 fs.writeFileSync(path.resolve(npmDir, "package.json"), generatePackage())
