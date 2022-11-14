@@ -196,7 +196,7 @@ config-chain@^1.1.11:
 
 "copy-directory@https://github.com/ArthurLobopro/copy-directory":
   version "1.0.3"
-  resolved "https://github.com/ArthurLobopro/copy-directory#2d5f4e388b11d70b1f630590f0b109e78608fd37"
+  resolved "https://github.com/ArthurLobopro/copy-directory#1175d3b9fa4a9d12252e9771ea82db01d8997890"
   dependencies:
     chalk "^2.3.0"
 
@@ -249,7 +249,9 @@ duplexer3@^0.1.4:
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
 
 "electron-frame@file:./npm":
-  version "0.0.0"
+  version "1.0.2"
+  dependencies:
+    copy-directory "https://github.com/ArthurLobopro/copy-directory"
 
 electron-to-chromium@^1.3.30:
   version "1.4.103"

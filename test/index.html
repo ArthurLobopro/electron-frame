@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello!</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body{
-            height: 100vh;
-            font-size: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-    Hello! 👋
+    <div class="page">
+        <h1>Controles</h1>
+        <div class="dashed-border">
+            <div>Modo escuro</div>
+            <label class="switch">
+                <input type="checkbox" id="darkmode" checked>
+                <span class="slider round"></span>
+            </label>
+            
+            <div>Tipo</div>
+            <select id="type">
+                <option value="electron" selected>Normal</option>
+                <option value="popup">Popup</option>
+            </select>
+            
+            <div>Estilo</div>
+            <select id="style">
+                <option value="windows" selected>Windows</option>
+                <option value="macos">Mac</option>
+            </select>            
+        </div>
+    </div>
 </body>
+
 </html>
