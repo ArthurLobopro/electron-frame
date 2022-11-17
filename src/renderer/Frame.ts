@@ -85,6 +85,7 @@ export abstract class Frame {
 
     toggleDarkMode() {
         this.frame.classList.toggle("dark")
+        this.options.darkMode = !this.options.darkMode
     }
 
     setFrameStyle(frameStyle: "windows" | "macos") {
