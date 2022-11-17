@@ -140,20 +140,13 @@ export class ElectronFrame extends Frame {
         super.insert()
 
         if (addPaddingTop) {
-            //This delay is necessary, dont quest
-            setTimeout(() => {
-                const bodyPaddingTop = getComputedStyle(document.body).paddingTop
-                const frameHeight = getComputedStyle(this.frame).height
-                document.body.style.paddingTop = `calc(${bodyPaddingTop} + ${frameHeight})`
-            }, 20)
+            document.body.style.paddingTop = `30px`
         }
     }
 
     remove(removePaddingTop = true) {
         if (removePaddingTop) {
-            const bodyPaddingTop = getComputedStyle(document.body).paddingTop
-            const frameHeight = getComputedStyle(this.frame).height
-            document.body.style.paddingTop = `calc(${bodyPaddingTop} - ${frameHeight})`
+            document.body.style.paddingTop = `0`
         }
 
         super.remove()
