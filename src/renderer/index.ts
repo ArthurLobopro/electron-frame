@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { makeFrame, ElectronFrame } from './ElectronFrame'
+import { makeFrame, ElectronFrame, frameStyle } from './ElectronFrame'
 import { PopUpFrame } from "./PopUpFrame"
 import { injectCSS } from './Util'
 
@@ -20,7 +20,7 @@ interface insertFrameOptions {
     }
 }
 
-async function insertFrame(options: insertFrameOptions = {}) {
+export async function insertFrame(options: insertFrameOptions = {}) {
     const frame = await makeFrame({ ...options, ...ipcRenderer.sendSync('request-window-config') })
     injectCSS(__dirname, 'style.css')
     document.body.appendChild(frame)
@@ -33,7 +33,7 @@ async function insertFrame(options: insertFrameOptions = {}) {
     }, 50)
 }
 
-function removeFrame() {
+export function removeFrame() {
     const frame = document.getElementById("electron-frame")
 
     if (frame) {
@@ -45,4 +45,4 @@ function removeFrame() {
     }
 }
 
-export { insertFrame, removeFrame, ElectronFrame, PopUpFrame }
+export { ElectronFrame, PopUpFrame, frameStyle }
