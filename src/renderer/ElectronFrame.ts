@@ -13,15 +13,15 @@ interface frameColors {
     lastSvgIconHover?: string
 }
 
-type frameStyle = "windows" | "macos"
+export type frameStyle = "windows" | "macos"
 
 interface makeElectronFrameOptions {
     darkMode?: boolean
     title?: string
     icon?: HTMLImageElement | string
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
+    minimizable?: boolean
+    maximizable?: boolean
+    closeable?: boolean
     colors?: frameColors
     frameStyle?: frameStyle
     onClose?: {
