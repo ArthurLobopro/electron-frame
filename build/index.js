@@ -2,7 +2,7 @@ const generatePackage = require('./package')
 const fs = require('fs')
 const path = require('path')
 const { copy } = require('./copy')
-const { copyDir, copyDirContent } = require('copy-directory')
+const { copyDirContent } = require('copy-directory')
 
 const baseDir = path.resolve(__dirname, '../')
 const npmDir = path.resolve(baseDir, "npm")
@@ -36,7 +36,7 @@ const dirs_to_delete = [
 
 dirs_to_delete.forEach(dir => {
     if (fs.existsSync(dir)) {
-        fs.rmdirSync(dir, { recursive: true })
+        fs.rmSync(dir, { recursive: true })
     }
 })
 
