@@ -1,6 +1,6 @@
 # Electron Frame
 
-Electron Frame is a simple and customizable window frame built on HTML for your application.
+Electron Frame is a simple and customizable window frame built with HTML for your application.
 
 ## ScreenShots
 
