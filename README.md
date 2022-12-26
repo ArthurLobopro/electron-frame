@@ -2,62 +2,39 @@
 
 Electron Frame is a simple and customizable window frame build on HTML for you application.
 
-<details>
+## ScreenShots
 
-<summary>Como usar ?</summary>
+### Windows Frame
 
-Instale o pacote usando
+![Frame Windows Dark](./.github/screenshots/windows-dark.png)
 
-`npm install electron-frame`
+![Frame Windows Dark](./.github/screenshots/windows-light.png)
 
-ou
+### Macos Frame
 
-`yarn add electron-frame` 
+![Frame Macos Dark](./.github/screenshots/macos-dark.png)
 
-No processo principal adicione 
+![Frame Macos Dark](./.github/screenshots/macos-light.png)
+
+Screenshots taken on [dicionario.js](https://github.com/arthurlobopro/dicionario.js) projetct.
+
+## How to use
+
+* Install electron-frame in your project with `yarn add electron-frame` or `npm install electron-frame`
+* On main process, add:
 
 ```js
-require('electron-frame/main')
+require("electron-frame/main")
 ```
 
-No processo renderizador (preload.js) adicione:
+* On preload script, add:
 
 ```js
-const { insertFrame } = require('electron-frame/renderer')
-
-document.addEventListener("DOMContentLoaded", ()=> {
-    insertFrame(options)
-})
-```
-</details>
-
-
-<details>
-
-<summary>How to use ?</summary>
-
-Install the package using
-
-`npm install electron-frame`
-
-or
-
-`yarn add electron-frame` 
-
-In the main process add:
-
-```js
-require('electron-frame/main')
-```
-
-In the renderer process (preload.js) add:
-
-```js
-const { insertFrame } = require('electron-frame/renderer')
-
-document.addEventListener("DOMContentLoaded", ()=> {
-    insertFrame(options)
+const { ElectronFrame } = require("electron-frame/renderer")
+window.addEventListener('DOMContentLoaded', () => {
+    const frame = new ElectronFrame()
+    frame.insert()
 })
 ```
 
-</details>
+* You can customize your frame passing some options in instance or using the special class methods.
