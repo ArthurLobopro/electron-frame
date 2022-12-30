@@ -3,5 +3,8 @@
         "**/.git": true,
         "node_modules": true,
         "**/*.css": { "when": "$(basename).scss" },
+    },
+    "markdownlint.config": {
+        "MD033": false
     }
 }
