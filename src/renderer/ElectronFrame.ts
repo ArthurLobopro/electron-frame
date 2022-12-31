@@ -24,6 +24,7 @@ interface makeElectronFrameOptions {
     closeable?: boolean
     colors?: frameColors
     frameStyle?: frameStyle
+    autoInsert?: boolean
     onClose?: {
         beforeCallback?: () => true | false
     }
@@ -68,8 +69,14 @@ export class ElectronFrame extends Frame {
             onClose: { beforeCallback() { return true }, },
             ...windowConfig
         }
+        const autoInsert = frameOptions.autoInsert || false
+        delete frameOptions.autoInsert
         this.options = { ...defaultConfig, ...frameOptions } as frameOptions
         this.__build()
+
+        if (autoInsert) {
+            this.insert()
+        }
     }
 
     __build() {
@@ -136,7 +143,7 @@ export class ElectronFrame extends Frame {
         frameGet('close').onclick = () => actions.close(this)
     }
 
-    async insert(addPaddingTop = true) {
+    insert(addPaddingTop = true) {
         super.insert()
 
         if (addPaddingTop) {
@@ -148,6 +155,8 @@ export class ElectronFrame extends Frame {
         if (removePaddingTop) {
             document.body.style.paddingTop = `0`
         }
+
+        console.log("remove")
 
         super.remove()
     }
