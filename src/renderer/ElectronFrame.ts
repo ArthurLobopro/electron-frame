@@ -109,8 +109,12 @@ export class ElectronFrame extends Frame {
 
         const iconProvider = isWindowsStyle ? icons.windows : icons.macos
 
+        const frameIcon = this.options.frameStyle === "windows" ?
+            `<div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>`
+            : ""
+
         frame.innerHTML = `
-        <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>
+        ${frameIcon}
         <div id="window-name">${name}</div>
         
         <div class="window-controls">
