@@ -1,6 +1,9 @@
 const { contextBridge } = require('electron')
 const { ElectronFrame, PopUpFrame } = require('electron-frame/renderer')
 
+const icon = new Image()
+icon.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/microsoft/209/waving-hand-sign_1f44b.png"
+
 let frameStyle = "windows"
 let frameType = "electron"
 
@@ -11,6 +14,7 @@ const frames = {
 
 let frame = new ElectronFrame({
     frameStyle,
+    icon: icon,
 })
 
 const debug = {
@@ -51,9 +55,9 @@ const debug = {
 contextBridge.exposeInMainWorld('debug', debug)
 
 window.addEventListener('DOMContentLoaded', () => {
-    const icon = new Image()
-    icon.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/microsoft/209/waving-hand-sign_1f44b.png"
 
+
+    // frame.setIcon(icon)
     frame.insert()
 
     const selec_style = document.getElementById("style")
