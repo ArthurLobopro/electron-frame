@@ -50,10 +50,6 @@ interface windowConfig {
     closeable: boolean
 }
 
-export async function makeFrame(frameOptions: makeElectronFrameOptions) {
-    return new ElectronFrame(frameOptions).frame
-}
-
 export class ElectronFrame extends Frame {
     options: frameOptions
 
