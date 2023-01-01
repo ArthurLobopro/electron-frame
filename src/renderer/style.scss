@@ -8,7 +8,7 @@
     --svg-icons-color: #555;
     --svg-icons-color-hover: #555;
     --last-svg-icon-hover: #eee;
-    
+
     &.dark {
         --background: #1e1e1e;
         --background-button-hover: #505050;
@@ -79,23 +79,26 @@
     }
 
     &.macos-style {
+        box-sizing: content-box;
         top: 0;
         left: 0;
         right: auto;
-        height: 25px;
-        width: 70px;
+        height: max-content;
         border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: space-around;
-        padding: 4px;
+        padding: 3px 4px;
         gap: 5px;
+
+        // border: 1px solid white;
 
         & .frame-button {
             width: 18px;
             height: 18px;
             border-radius: 50%;
             align-self: center;
+            margin: 0;
             @extend .flex-center;
         }
 
