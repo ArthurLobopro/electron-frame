@@ -8,8 +8,8 @@ const propertiesToAdd = {
 }
 
 
-module.exports = function generatePackage() {
-    const defaultConfig = require('../package.json')
+module.exports.clonePackage = function () {
+    const defaultConfig = require('../../package.json')
 
     Object.keys(defaultConfig).forEach(key => {
         if (propertiesToRemove.includes(key)) {

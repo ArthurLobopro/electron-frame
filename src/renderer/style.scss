@@ -8,7 +8,7 @@
     --svg-icons-color: #555;
     --svg-icons-color-hover: #555;
     --last-svg-icon-hover: #eee;
-    
+
     &.dark {
         --background: #1e1e1e;
         --background-button-hover: #505050;
@@ -51,22 +51,10 @@
     }
 
     &.windows-style {
-        &>.frame-button {
+        >.frame-button {
             width: 45px;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            & svg {
-                width: 20px;
-                height: 20px;
-                margin: auto;
-
-                &>* {
-                    fill: var(--svg-icons-color)
-                }
-            }
+            @extend .flex-center;
 
             &:hover {
                 background-color: var(--background-button-hover);
@@ -75,50 +63,63 @@
                     background-color: var(--red);
                 }
             }
+
+            svg {
+                width: 20px;
+                height: 20px;
+                margin: auto;
+
+                >* {
+                    fill: var(--svg-icons-color)
+                }
+            }
         }
     }
 
     &.macos-style {
+        box-sizing: content-box;
         top: 0;
         left: 0;
         right: auto;
-        height: 25px;
-        width: 70px;
+        height: max-content;
         border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: space-around;
-        padding: 4px;
+        padding: 3px 4px;
         gap: 5px;
 
-        & .frame-button {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            align-self: center;
-            @extend .flex-center;
-        }
+        // border: 1px solid white;
 
         &.active {
             top: 5px;
             left: 5px;
         }
 
-        &>#expand {
+        .frame-button {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            align-self: center;
+            margin: 0;
+            @extend .flex-center;
+        }
+
+        >#expand {
             background-color: var(--green);
             order: 2;
 
-            &>svg {
+            >svg {
                 opacity: 0.65;
             }
         }
 
-        &>#close {
+        >#close {
             background-color: var(--red);
             order: 0;
         }
 
-        &>#minimize {
+        >#minimize {
             background-color: var(--yellow);
             order: 1;
         }
@@ -141,81 +142,74 @@
     -webkit-app-region: drag;
     display: flex;
 
-    & * {
+    * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
     }
 
-    &>#window-name {
+    >#window-name {
         font-family: "Nunito", Arial, Helvetica, sans-serif;
         align-self: center;
     }
 
-    &>.window-controls {
+    >.window-controls {
         display: flex;
         height: 100%;
         -webkit-app-region: no-drag;
     }
 
     &.windows-style {
-        &>.window-controls {
+        >.window-controls {
             height: 100%;
             position: absolute;
             right: 0;
 
-            & .frame-button {
+            .frame-button {
                 margin: 0;
                 width: 45px;
                 height: 100%;
                 @extend .flex-center;
 
-
-                & svg {
-                    width: 20px;
-                    height: 20px;
-                    margin: auto;
-                }
-
-                & svg>* {
-                    fill: var(--svg-icons-color)
-                }
-
                 &:hover {
                     background-color: var(--background-button-hover);
 
-                    & svg>* {
+                    &.disable svg>* {
+                        fill: var(--svg-icons-color)
+                    }
+
+                    svg>* {
                         fill: var(--svg-icons-color-hover)
                     }
 
                     &:last-child {
                         background-color: rgba(255, 0, 0, 0.712);
 
-                        & svg>* {
+                        svg>* {
                             fill: var(--last-svg-icon-hover);
                         }
                     }
                 }
 
-                &.disable:hover svg>* {
-                    fill: var(--svg-icons-color)
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    margin: auto;
+
+                    >* {
+                        fill: var(--svg-icons-color)
+                    }
                 }
             }
         }
 
-        &>#window-name,
+        >#window-name,
         >#window-icon {
             justify-self: left;
             align-self: center;
         }
 
-        &>#window-icon {
-            &>img {
-                max-width: 20px;
-                max-height: 20px;
-                @extend .flex-center
-            }
-
+        >#window-icon {
             &:not(:empty) {
                 width: fit-content;
                 height: fit-content;
@@ -225,36 +219,42 @@
                 display: grid;
                 place-content: center;
             }
+
+            >img {
+                max-width: 20px;
+                max-height: 20px;
+                @extend .flex-center
+            }
         }
     }
 
     &.macos-style {
         justify-content: center;
 
-        &>#window-icon {
+        >#window-icon {
             display: none;
         }
 
-        &>#window-name {
+        >#window-name {
             justify-self: center;
             order: 1;
         }
 
-        &>.window-controls {
+        >.window-controls {
             justify-self: left;
             order: 0;
             position: absolute;
             left: 5px;
             gap: 5px;
 
-            &>.frame-button {
+            >.frame-button {
                 width: 18px;
                 height: 18px;
                 border-radius: 50%;
                 align-self: center;
                 @extend .flex-center;
 
-                &>svg {
+                >svg {
                     display: none;
                 }
             }
@@ -264,21 +264,21 @@
                 animation: fall 500ms;
             }
 
-            &>#expand {
+            >#expand {
                 background-color: var(--green);
                 order: 2;
 
-                &>svg {
+                >svg {
                     opacity: 0.65;
                 }
             }
 
-            &>#close {
+            >#close {
                 background-color: var(--red);
                 order: 0;
             }
 
-            &>#minimize {
+            >#minimize {
                 background-color: var(--yellow);
                 order: 1;
             }

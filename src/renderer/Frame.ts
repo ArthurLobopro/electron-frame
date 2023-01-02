@@ -52,7 +52,7 @@ export abstract class Frame {
         }
     }
 
-    async insert() {
+    insert() {
         //Rebuild with DOM content
         this.__build()
         injectCSS(__dirname, 'style.css')

@@ -37,4 +37,4 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 ```
 
-* You can customize your frame by passing some options in ElectronFrame class instance or using the special class methods.
+* You can customize your frame by passing some options in the ElectronFrame class instance or using the special class methods.

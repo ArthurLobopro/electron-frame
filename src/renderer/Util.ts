@@ -6,10 +6,22 @@ function loadSVG(...PathSegments: string[]) {
 }
 
 function injectCSS(...pathSegments: string[]) {
-    const css = document.createElement('link')
-    css.rel = "stylesheet"
-    css.href = path.resolve(...pathSegments)
-    document.head.appendChild(css)
+    const cssPath = path.resolve(...pathSegments)
+
+    const links = Array.from(document.querySelectorAll("link")) as HTMLLinkElement[]
+    const css_exists = links.find(link => {
+        return (
+            path.normalize(link.getAttribute('href') as string).replace(/file:\\\\/g, "") ===
+            path.normalize(cssPath)
+        )
+    })
+
+    if (!css_exists) {
+        const css = document.createElement('link')
+        css.rel = "stylesheet"
+        css.href = cssPath
+        document.head.appendChild(css)
+    }
 }
 
 function getIconString() {

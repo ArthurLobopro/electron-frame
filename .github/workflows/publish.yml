@@ -28,9 +28,6 @@ jobs:
     runs-on: windows-latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -48,3 +45,13 @@ jobs:
           dir
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
+  
+  tag-version:
+    runs-on: ubuntu-latest
+    needs: publish-to-npm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Add Tag
+        run: yarn create-tag

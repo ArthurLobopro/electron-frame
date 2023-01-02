@@ -11,6 +11,7 @@ interface makePopUpFrameOptions {
     closeable: boolean
     colors?: frameColors
     frameStyle?: frameStyle
+    autoInsert?: boolean
     onClose?: {
         beforeCallback?: () => true | false
     }
@@ -59,8 +60,16 @@ export class PopUpFrame extends Frame {
             onClose: { beforeCallback() { return true }, },
             ...windowConfig
         }
+
+        const autoInsert = frameOptions?.autoInsert || false
+        delete frameOptions.autoInsert
+
         this.options = { ...defaultConfig, ...frameOptions } as PopUpFrameOptions
         this.__build()
+
+        if (autoInsert) {
+            this.insert()
+        }
     }
 
     __build() {

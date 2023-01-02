@@ -24,6 +24,7 @@ interface makeElectronFrameOptions {
     closeable?: boolean
     colors?: frameColors
     frameStyle?: frameStyle
+    autoInsert?: boolean
     onClose?: {
         beforeCallback?: () => true | false
     }
@@ -49,10 +50,6 @@ interface windowConfig {
     closeable: boolean
 }
 
-export async function makeFrame(frameOptions: makeElectronFrameOptions) {
-    return new ElectronFrame(frameOptions).frame
-}
-
 export class ElectronFrame extends Frame {
     options: frameOptions
 
@@ -68,8 +65,14 @@ export class ElectronFrame extends Frame {
             onClose: { beforeCallback() { return true }, },
             ...windowConfig
         }
+        const autoInsert = frameOptions.autoInsert || false
+        delete frameOptions.autoInsert
         this.options = { ...defaultConfig, ...frameOptions } as frameOptions
         this.__build()
+
+        if (autoInsert) {
+            this.insert()
+        }
     }
 
     __build() {
@@ -102,8 +105,12 @@ export class ElectronFrame extends Frame {
 
         const iconProvider = isWindowsStyle ? icons.windows : icons.macos
 
+        const frameIcon = this.options.frameStyle === "windows" ?
+            `<div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>`
+            : ""
+
         frame.innerHTML = `
-        <div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>
+        ${frameIcon}
         <div id="window-name">${name}</div>
         
         <div class="window-controls">
@@ -136,7 +143,7 @@ export class ElectronFrame extends Frame {
         frameGet('close').onclick = () => actions.close(this)
     }
 
-    async insert(addPaddingTop = true) {
+    insert(addPaddingTop = true) {
         super.insert()
 
         if (addPaddingTop) {
@@ -148,6 +155,8 @@ export class ElectronFrame extends Frame {
         if (removePaddingTop) {
             document.body.style.paddingTop = `0`
         }
+
+        console.log("remove")
 
         super.remove()
     }
