@@ -17,10 +17,11 @@ jobs:
           node-version: '15.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install and Build
-        run: |
-          yarn install
-          yarn build
+      - name: Install
+        run: yarn install
+    
+      - name: Build
+        run: yarn build
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
   
@@ -34,10 +35,17 @@ jobs:
           node-version: '15.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install and Build
-        run: |
-          yarn install
-          yarn build
+      - name: Install
+        run: yarn install
+    
+      - name: Build
+        run: yarn build
+
+      - name: Show Folder
+        run: ls
+
+      - name: Show Results
+        run: ls npm
 
       - name: publish
         run: |
