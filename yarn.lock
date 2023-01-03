@@ -748,10 +748,10 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
 
-sass-compiler@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/sass-compiler/-/sass-compiler-1.3.1.tgz#7e8aacdee0d32cf7d0cbe7b7d68ca426ff7af5ef"
-  integrity sha512-BvLrT3PtzYc9xMaciA3pdSWILUmFOvra3a/YdgN70Rfma9pLRIOsrv21JfjOhj8A38RoJxHrWw10O9WqRmXyCQ==
+sass-compiler@^1.3.2-beta:
+  version "1.3.2-beta"
+  resolved "https://registry.yarnpkg.com/sass-compiler/-/sass-compiler-1.3.2-beta.tgz#83038ef726d63de0843bc1e8eb764e54a5de9eb0"
+  integrity sha512-YORfacvwBs3F6Cfxjfc7TXIKFSVUcbaQCla6BucpGGu2J6DNmZwrUUCNa1jcU6UqahG0mf35zhU4a2eoAbIWvQ==
   dependencies:
     autoprefixer "^10.4.13"
     commander "^9.4.1"
