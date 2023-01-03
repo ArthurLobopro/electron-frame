@@ -11,9 +11,7 @@
   "description": "Electron Frame is a simple and customizable window frame build on HTML for your electron application.",
   "scripts": {
     "build": "node ./scripts/build.js",
-    "update": "yarn build && yarn add file:./npm",
-    "test": "yarn update && electron ./test/main.js",
-    "publish": "yarn build && cd npm && npm publish",
+    "publish": "cd npm && npm publish",
     "create-tag": "node ./scripts/create-tag.js"
   },
   "devDependencies": {
