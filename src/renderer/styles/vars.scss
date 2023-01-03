@@ -1,0 +1,24 @@
+#electron-frame,
+#electron-popup-frame {
+    --background: #fff;
+    --background-button-hover: #ddd;
+    --color: #1e1e1e;
+    --svg-icons-color: #555;
+    --svg-icons-color-hover: #555;
+    --last-svg-icon-hover: #eee;
+
+    &.dark {
+        --background: #1e1e1e;
+        --background-button-hover: #505050;
+        --color: #ddd;
+        --svg-icons-color: #ccc;
+        --svg-icons-color-hover: #ccc;
+        --last-svg-icon-hover: #eee;
+    }
+}
+
+.macos-style {
+    --red: #ef6a5f;
+    --green: #5fc554;
+    --yellow: #f7c050;
+}

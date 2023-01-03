@@ -55,7 +55,7 @@ export abstract class Frame {
     insert() {
         //Rebuild with DOM content
         this.__build()
-        injectCSS(__dirname, 'style.css')
+        injectCSS(__dirname, './styles/main.css')
         document.body.appendChild(this.frame)
         this.__setEvents()
     }
