@@ -60,7 +60,6 @@ export class ElectronFrame extends Frame {
             darkMode: true,
             colors: {},
             frameStyle: "windows",
-            title: document.title,
             icon: "",
             onClose: { beforeCallback() { return true }, },
             ...windowConfig
