@@ -115,7 +115,18 @@
     }
 
     &.macos-style {
-        justify-content: center;
+        margin: 0 5px;
+        justify-content: space-between;
+        gap: 5px;
+
+        >#spacer {
+            flex-shrink: 3;
+            height: 1px;
+            max-width: 72px;
+            min-width: 1px;
+            width: 100%;
+            order: 3;
+        }
 
         >#window-icon {
             display: none;
@@ -123,14 +134,17 @@
 
         >#window-name {
             justify-self: center;
+            flex-shrink: 0;
             order: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: calc(100% - 75px - 7px);
         }
 
         >.window-controls {
             justify-self: left;
             order: 0;
-            position: absolute;
-            left: 5px;
             gap: 5px;
 
             >.frame-button {
@@ -153,10 +167,6 @@
             >#expand {
                 background-color: var(--green);
                 order: 2;
-
-                >svg {
-                    opacity: 0.65;
-                }
             }
 
             >#close {
