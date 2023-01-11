@@ -19,6 +19,7 @@
     color: var(--color);
     -webkit-app-region: drag;
     display: flex;
+    align-items: center;
 
     * {
         margin: 0;
@@ -38,10 +39,17 @@
     }
 
     &.windows-style {
+        justify-content: space-between;
+
+        >#window-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
         >.window-controls {
             height: 100%;
-            position: absolute;
-            right: 0;
 
             .frame-button {
                 margin: 0;
