@@ -6,9 +6,15 @@
   "keywords": [
     "electron",
     "frame",
-    "frameless"
+    "frameless",
+    "titlebar",
+    "title bar",
+    "cross-platform",
+    "crossplatform",
+    "windows",
+    "mac"
   ],
-  "description": "Electron Frame is a simple and customizable window frame build on HTML for your electron application.",
+  "description": "Simple Electron library for creating custom frames in frameless windows.",
   "scripts": {
     "build": "node ./scripts/build.js",
     "publish": "cd npm && npm publish",
