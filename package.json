@@ -12,7 +12,8 @@
     "cross-platform",
     "crossplatform",
     "windows",
-    "mac"
+    "mac",
+    "typescript"
   ],
   "description": "Simple Electron library for creating custom frames in frameless windows.",
   "scripts": {
