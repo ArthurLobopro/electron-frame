@@ -2,13 +2,20 @@
   "name": "electron-frame",
   "author": "Arthur Lobo",
   "license": "MIT",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "keywords": [
     "electron",
     "frame",
-    "frameless"
+    "frameless",
+    "titlebar",
+    "title bar",
+    "cross-platform",
+    "crossplatform",
+    "windows",
+    "mac",
+    "typescript"
   ],
-  "description": "Electron Frame is a simple and customizable window frame build on HTML for your electron application.",
+  "description": "Simple Electron library for creating custom frames in frameless windows.",
   "scripts": {
     "build": "node ./scripts/build.js",
     "publish": "cd npm && npm publish",
