@@ -1,5 +1,6 @@
-import { icons } from "./icons"
+import { ipcRenderer } from "electron"
 import { format, injectCSS } from "./Util"
+import { icons } from "./icons"
 
 export interface BaseFrameOptions {
     darkMode: boolean
@@ -13,7 +14,7 @@ export interface BaseFrameOptions {
     }
 }
 
-interface frameColors {
+export interface frameColors {
     background?: string
     color?: string
     svgIconsColor?: string
@@ -21,19 +22,18 @@ interface frameColors {
     lastSvgIconHover?: string
 }
 
-type frameStyle = "windows" | "macos"
-
+export type frameStyle = "windows" | "macos"
 export abstract class Frame {
     options!: BaseFrameOptions
     frame!: HTMLDivElement
 
     constructor() { }
 
-    abstract __build(): void
+    protected abstract __build(): void
 
-    abstract __setEvents(): void
+    protected abstract __setEvents(): void
 
-    __buildStyle() {
+    protected __buildStyle() {
         const { colors = {} } = this.options
 
         const colorsArray = Object.entries(colors)
@@ -42,7 +42,7 @@ export abstract class Frame {
         return properties
     }
 
-    __updateStyle() {
+    protected __updateStyle() {
         const properties = this.__buildStyle()
         const styleTag = this.frame.querySelector('style') as HTMLElement
         styleTag.innerHTML = `#electron-frame.custom {${properties}}`

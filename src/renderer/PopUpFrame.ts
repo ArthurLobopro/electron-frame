@@ -1,14 +1,13 @@
 import { ipcRenderer } from "electron"
+import { Frame, frameColors, frameStyle } from "./Frame"
 import { actions } from "./actions"
-import { Frame } from "./Frame"
 import { icons } from "./icons"
-import { format, injectCSS } from "./Util"
 
 interface makePopUpFrameOptions {
     darkMode?: boolean
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
+    minimizable?: boolean
+    maximizable?: boolean
+    closeable?: boolean
     colors?: frameColors
     frameStyle?: frameStyle
     autoInsert?: boolean
@@ -16,16 +15,6 @@ interface makePopUpFrameOptions {
         beforeCallback?: () => true | false
     }
 }
-
-interface frameColors {
-    background?: string
-    color?: string
-    svgIconsColor?: string
-    svgIconsColorHover?: string
-    lastSvgIconHover?: string
-}
-
-type frameStyle = "windows" | "macos"
 
 interface windowConfig {
     minimizable: boolean
@@ -50,7 +39,7 @@ export class PopUpFrame extends Frame {
     frame!: HTMLDivElement
     options: PopUpFrameOptions
 
-    constructor(frameOptions: makePopUpFrameOptions) {
+    constructor(frameOptions: makePopUpFrameOptions = {}) {
         super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makePopUpFrameOptions = {
@@ -72,7 +61,7 @@ export class PopUpFrame extends Frame {
         }
     }
 
-    __build() {
+    protected __build() {
 
         if (process.platform === "linux") {
             throw new Error("PopUpFrame is not supported on Linux")
@@ -115,7 +104,7 @@ export class PopUpFrame extends Frame {
         this.__setEvents()
     }
 
-    __setEvents() {
+    protected __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         const hideMenu = () => this.frame.classList.remove('active')

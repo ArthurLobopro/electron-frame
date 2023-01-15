@@ -1,9 +1,8 @@
-import path from 'path'
-import { format, getIconString, injectCSS } from './Util'
 import { ipcRenderer } from 'electron'
-import { icons } from "./icons"
+import { Frame, frameStyle } from "./Frame"
+import { getIconString } from './Util'
 import { actions } from "./actions"
-import { Frame } from "./Frame"
+import { icons } from "./icons"
 
 interface frameColors {
     background?: string
@@ -13,9 +12,7 @@ interface frameColors {
     lastSvgIconHover?: string
 }
 
-export type frameStyle = "windows" | "macos"
-
-interface makeElectronFrameOptions {
+export interface makeElectronFrameOptions {
     darkMode?: boolean
     title?: string
     icon?: HTMLImageElement | string
@@ -53,7 +50,7 @@ interface windowConfig {
 export class ElectronFrame extends Frame {
     options: frameOptions
 
-    constructor(frameOptions: makeElectronFrameOptions) {
+    constructor(frameOptions: makeElectronFrameOptions = {}) {
         super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makeElectronFrameOptions = {
@@ -74,7 +71,7 @@ export class ElectronFrame extends Frame {
         }
     }
 
-    __build() {
+    protected __build() {
         const {
             title, icon,
             darkMode = true, minimizable = true, maximizable = true, closeable = true,
@@ -134,7 +131,7 @@ export class ElectronFrame extends Frame {
         this.__setEvents()
     }
 
-    __setEvents() {
+    protected __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         frameGet('minimize').onclick = () => actions.minimize(this)

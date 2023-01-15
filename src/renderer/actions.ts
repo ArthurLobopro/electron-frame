@@ -12,12 +12,14 @@ export const actions = {
             }
         }
     },
+
     expand(frame: ElectronFrame | PopUpFrame) {
         if (frame.maximizable) {
             ipcRenderer.send('expand')
             frame.toggleExpandIcon()
         }
     },
+
     minimize(frame: ElectronFrame | PopUpFrame) {
         frame.minimizable ? ipcRenderer.send('minimize') : void 0
     }

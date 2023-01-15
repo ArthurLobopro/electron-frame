@@ -1,5 +1,5 @@
-import { loadSVG } from './Util'
 import path from "path"
+import { loadSVG } from './Util'
 
 const assetsFolder = path.resolve(__dirname, "assets")
 
