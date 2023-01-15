@@ -29,11 +29,11 @@ export abstract class Frame {
 
     constructor() { }
 
-    abstract __build(): void
+    protected abstract __build(): void
 
-    abstract __setEvents(): void
+    protected abstract __setEvents(): void
 
-    __buildStyle() {
+    protected __buildStyle() {
         const { colors = {} } = this.options
 
         const colorsArray = Object.entries(colors)
@@ -42,7 +42,7 @@ export abstract class Frame {
         return properties
     }
 
-    __updateStyle() {
+    protected __updateStyle() {
         const properties = this.__buildStyle()
         const styleTag = this.frame.querySelector('style') as HTMLElement
         styleTag.innerHTML = `#electron-frame.custom {${properties}}`

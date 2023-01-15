@@ -71,7 +71,7 @@ export class ElectronFrame extends Frame {
         }
     }
 
-    __build() {
+    protected __build() {
         const {
             title, icon,
             darkMode = true, minimizable = true, maximizable = true, closeable = true,
@@ -131,7 +131,7 @@ export class ElectronFrame extends Frame {
         this.__setEvents()
     }
 
-    __setEvents() {
+    protected __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         frameGet('minimize').onclick = () => actions.minimize(this)

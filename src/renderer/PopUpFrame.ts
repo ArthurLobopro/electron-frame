@@ -61,7 +61,7 @@ export class PopUpFrame extends Frame {
         }
     }
 
-    __build() {
+    protected __build() {
 
         if (process.platform === "linux") {
             throw new Error("PopUpFrame is not supported on Linux")
@@ -104,7 +104,7 @@ export class PopUpFrame extends Frame {
         this.__setEvents()
     }
 
-    __setEvents() {
+    protected __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
         const hideMenu = () => this.frame.classList.remove('active')
