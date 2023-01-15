@@ -50,7 +50,7 @@ interface windowConfig {
 export class ElectronFrame extends Frame {
     options: frameOptions
 
-    constructor(frameOptions: makeElectronFrameOptions) {
+    constructor(frameOptions: makeElectronFrameOptions = {}) {
         super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makeElectronFrameOptions = {

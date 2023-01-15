@@ -5,9 +5,9 @@ import { icons } from "./icons"
 
 interface makePopUpFrameOptions {
     darkMode?: boolean
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
+    minimizable?: boolean
+    maximizable?: boolean
+    closeable?: boolean
     colors?: frameColors
     frameStyle?: frameStyle
     autoInsert?: boolean
@@ -39,7 +39,7 @@ export class PopUpFrame extends Frame {
     frame!: HTMLDivElement
     options: PopUpFrameOptions
 
-    constructor(frameOptions: makePopUpFrameOptions) {
+    constructor(frameOptions: makePopUpFrameOptions = {}) {
         super()
         const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
         const defaultConfig: makePopUpFrameOptions = {
