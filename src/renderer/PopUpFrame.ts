@@ -1,8 +1,7 @@
 import { ipcRenderer } from "electron"
-import { actions } from "./actions"
 import { Frame, frameColors, frameStyle } from "./Frame"
+import { actions } from "./actions"
 import { icons } from "./icons"
-import { format, injectCSS } from "./Util"
 
 interface makePopUpFrameOptions {
     darkMode?: boolean

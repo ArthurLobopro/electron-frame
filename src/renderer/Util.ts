@@ -1,5 +1,5 @@
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 
 function loadSVG(...PathSegments: string[]) {
     return fs.readFileSync(path.resolve(...PathSegments), { encoding: "utf-8" })

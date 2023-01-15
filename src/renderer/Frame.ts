@@ -1,5 +1,6 @@
-import { icons } from "./icons"
+import { ipcRenderer } from "electron"
 import { format, injectCSS } from "./Util"
+import { icons } from "./icons"
 
 export interface BaseFrameOptions {
     darkMode: boolean

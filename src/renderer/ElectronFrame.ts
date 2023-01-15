@@ -1,9 +1,8 @@
-import path from 'path'
-import { format, getIconString, injectCSS } from './Util'
 import { ipcRenderer } from 'electron'
-import { icons } from "./icons"
-import { actions } from "./actions"
 import { Frame, frameStyle } from "./Frame"
+import { getIconString } from './Util'
+import { actions } from "./actions"
+import { icons } from "./icons"
 
 interface frameColors {
     background?: string
