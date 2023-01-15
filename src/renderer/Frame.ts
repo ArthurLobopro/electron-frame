@@ -13,7 +13,7 @@ export interface BaseFrameOptions {
     }
 }
 
-interface frameColors {
+export interface frameColors {
     background?: string
     color?: string
     svgIconsColor?: string
@@ -21,8 +21,7 @@ interface frameColors {
     lastSvgIconHover?: string
 }
 
-type frameStyle = "windows" | "macos"
-
+export type frameStyle = "windows" | "macos"
 export abstract class Frame {
     options!: BaseFrameOptions
     frame!: HTMLDivElement

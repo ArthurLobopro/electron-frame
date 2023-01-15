@@ -3,7 +3,7 @@ import { format, getIconString, injectCSS } from './Util'
 import { ipcRenderer } from 'electron'
 import { icons } from "./icons"
 import { actions } from "./actions"
-import { Frame } from "./Frame"
+import { Frame, frameStyle } from "./Frame"
 
 interface frameColors {
     background?: string
@@ -13,9 +13,7 @@ interface frameColors {
     lastSvgIconHover?: string
 }
 
-export type frameStyle = "windows" | "macos"
-
-interface makeElectronFrameOptions {
+export interface makeElectronFrameOptions {
     darkMode?: boolean
     title?: string
     icon?: HTMLImageElement | string

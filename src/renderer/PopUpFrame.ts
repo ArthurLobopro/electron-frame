@@ -1,6 +1,6 @@
 import { ipcRenderer } from "electron"
 import { actions } from "./actions"
-import { Frame } from "./Frame"
+import { Frame, frameColors, frameStyle } from "./Frame"
 import { icons } from "./icons"
 import { format, injectCSS } from "./Util"
 
@@ -16,16 +16,6 @@ interface makePopUpFrameOptions {
         beforeCallback?: () => true | false
     }
 }
-
-interface frameColors {
-    background?: string
-    color?: string
-    svgIconsColor?: string
-    svgIconsColorHover?: string
-    lastSvgIconHover?: string
-}
-
-type frameStyle = "windows" | "macos"
 
 interface windowConfig {
     minimizable: boolean
