@@ -41,7 +41,7 @@ export class PopUpFrame extends Frame {
 
     constructor(frameOptions: makePopUpFrameOptions = {}) {
         super()
-        const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
+        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
         const defaultConfig: makePopUpFrameOptions = {
             darkMode: true,
             colors: {},

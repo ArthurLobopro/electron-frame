@@ -52,7 +52,7 @@ export class ElectronFrame extends Frame {
 
     constructor(frameOptions: makeElectronFrameOptions = {}) {
         super()
-        const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
+        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
         const defaultConfig: makeElectronFrameOptions = {
             darkMode: true,
             colors: {},

@@ -1,11 +1,11 @@
 import { ipcMain, BrowserWindow } from 'electron'
 
-ipcMain.on('minimize', (event) => {
+ipcMain.on('electron-frame:minimize', (event) => {
     const win = BrowserWindow.fromId(event.sender.id)
     win?.minimize()
 })
 
-ipcMain.on('expand', (event) => {
+ipcMain.on('electron-frame:expand', (event) => {
     const win = BrowserWindow.fromId(event.sender.id)
     if (win?.isMaximized()) {
         win?.restore()
@@ -14,12 +14,12 @@ ipcMain.on('expand', (event) => {
     }
 })
 
-ipcMain.on('close', (event) => {
+ipcMain.on('electron-frame:close', (event) => {
     const win = BrowserWindow.fromId(event.sender.id)
     win?.close()
 })
 
-ipcMain.on('request-window-config', (event) => {
+ipcMain.on('electron-frame:request-window-config', (event) => {
     const win = BrowserWindow.fromId(event.sender.id)
     const minimizable = win?.minimizable
     const maximizable = win?.maximizable
