@@ -1,4 +1,3 @@
-import { ipcRenderer } from "electron"
 import { format, injectCSS } from "./Util"
 import { icons } from "./icons"
 
