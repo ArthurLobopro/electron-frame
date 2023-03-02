@@ -1,6 +1,5 @@
 import { ipcRenderer } from "electron"
 import { Frame, frameColors, frameStyle } from "./Frame"
-import { actions } from "./actions"
 import { icons } from "./icons"
 
 interface makePopUpFrameOptions {
@@ -110,15 +109,17 @@ export class PopUpFrame extends Frame {
         const hideMenu = () => this.frame.classList.remove('active')
 
         frameGet('minimize').onclick = () => {
-            actions.minimize(this)
+            this.__minimize()
             hideMenu()
         }
+
         frameGet('expand').onclick = () => {
-            actions.expand(this)
+            this.__expand()
             hideMenu()
         }
+
         frameGet('close').onclick = () => {
-            actions.close(this)
+            this.__close()
             hideMenu()
         }
 

@@ -1,3 +1,4 @@
+import { ipcRenderer } from "electron"
 import { format, injectCSS } from "./Util"
 import { icons } from "./icons"
 
@@ -48,6 +49,30 @@ export abstract class Frame {
 
         if (!this.frame.classList.contains("custom")) {
             this.frame.classList.add("custom")
+        }
+    }
+
+    //Actions (minimize, expand, close)
+    protected __close() {
+        if (this.closeable) {
+            if (this.options.onClose?.beforeCallback) {
+                this.options.onClose?.beforeCallback() ? ipcRenderer.send('close') : void 0
+            } else {
+                ipcRenderer.send('electron-frame:close')
+            }
+        }
+    }
+
+    protected __expand() {
+        if (this.maximizable) {
+            ipcRenderer.send('electron-frame:expand')
+            this.toggleExpandIcon()
+        }
+    }
+
+    protected __minimize() {
+        if (this.minimizable) {
+            ipcRenderer.send('electron-frame:minimize')
         }
     }
 

@@ -1,7 +1,6 @@
 import { ipcRenderer } from 'electron'
 import { Frame, frameStyle } from "./Frame"
 import { getIconString } from './Util'
-import { actions } from "./actions"
 import { icons } from "./icons"
 
 interface frameColors {
@@ -134,9 +133,9 @@ export class ElectronFrame extends Frame {
     protected __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
-        frameGet('minimize').onclick = () => actions.minimize(this)
-        frameGet('expand').onclick = () => actions.expand(this)
-        frameGet('close').onclick = () => actions.close(this)
+        frameGet('minimize').onclick = () => this.__minimize()
+        frameGet('expand').onclick = () => this.__expand()
+        frameGet('close').onclick = () => this.__close()
     }
 
     insert(addPaddingTop = true) {
