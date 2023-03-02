@@ -158,6 +158,7 @@ export class ElectronFrame extends Frame {
 
     update() {
         const hasFrame = Array.from(document.body.childNodes).includes(this.frame)
+
         if (hasFrame) {
             this.remove(false)
         }
