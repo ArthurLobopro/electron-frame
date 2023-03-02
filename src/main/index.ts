@@ -20,7 +20,7 @@ ipcMain.on('electron-frame:close', (event) => {
 })
 
 ipcMain.on('electron-frame:is-maximized', (event) => {
-    const win: BrowserWindow = BrowserWindow.fromId(event.sender.id)
+    const win = BrowserWindow.fromId(event.sender.id)
     event.returnValue = win?.isMaximized()
 })
 
