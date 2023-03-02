@@ -64,7 +64,7 @@ export abstract class Frame {
     protected __close() {
         if (this.closeable) {
             if (this.options.onClose?.beforeCallback) {
-                this.options.onClose?.beforeCallback() ? ipcRenderer.send('close') : void 0
+                this.options.onClose?.beforeCallback() ? ipcRenderer.send('electron-frame:close') : void 0
             } else {
                 ipcRenderer.send('electron-frame:close')
             }
