@@ -151,8 +151,6 @@ export class ElectronFrame extends Frame {
             document.body.style.paddingTop = `0`
         }
 
-        console.log("remove")
-
         super.remove()
     }
 
