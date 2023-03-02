@@ -1,7 +1,5 @@
 import { ipcRenderer } from "electron"
 import { Frame, frameColors, frameStyle } from "./Frame"
-import { actions } from "./actions"
-import { icons } from "./icons"
 
 interface makePopUpFrameOptions {
     darkMode?: boolean
@@ -41,7 +39,7 @@ export class PopUpFrame extends Frame {
 
     constructor(frameOptions: makePopUpFrameOptions = {}) {
         super()
-        const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
+        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
         const defaultConfig: makePopUpFrameOptions = {
             darkMode: true,
             colors: {},
@@ -85,13 +83,13 @@ export class PopUpFrame extends Frame {
 
         PopUpFrame.innerHTML = `
         <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-            ${icons[frameStyle].minimize}
+            ${this.__icons.minimize}
         </div>
         <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-            ${icons[frameStyle].expand}
+            ${this.__icons.expand}
         </div>
         <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-            ${icons[frameStyle].close}
+            ${this.__icons.close}
         </div>
         
         <style>
@@ -110,15 +108,17 @@ export class PopUpFrame extends Frame {
         const hideMenu = () => this.frame.classList.remove('active')
 
         frameGet('minimize').onclick = () => {
-            actions.minimize(this)
+            this.__minimize()
             hideMenu()
         }
+
         frameGet('expand').onclick = () => {
-            actions.expand(this)
+            this.__expand()
             hideMenu()
         }
+
         frameGet('close').onclick = () => {
-            actions.close(this)
+            this.__close()
             hideMenu()
         }
 

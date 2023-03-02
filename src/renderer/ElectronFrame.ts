@@ -1,8 +1,6 @@
 import { ipcRenderer } from 'electron'
 import { Frame, frameStyle } from "./Frame"
 import { getIconString } from './Util'
-import { actions } from "./actions"
-import { icons } from "./icons"
 
 interface frameColors {
     background?: string
@@ -52,7 +50,7 @@ export class ElectronFrame extends Frame {
 
     constructor(frameOptions: makeElectronFrameOptions = {}) {
         super()
-        const windowConfig = ipcRenderer.sendSync('request-window-config') as windowConfig
+        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
         const defaultConfig: makeElectronFrameOptions = {
             darkMode: true,
             colors: {},
@@ -99,8 +97,6 @@ export class ElectronFrame extends Frame {
             frame.classList.add('custom')
         }
 
-        const iconProvider = isWindowsStyle ? icons.windows : icons.macos
-
         const frameIcon = this.options.frameStyle === "windows" ?
             `<div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>`
             : "<div id='spacer'></div>"
@@ -111,13 +107,13 @@ export class ElectronFrame extends Frame {
         
         <div class="window-controls">
             <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                ${iconProvider.minimize}
+                ${this.__icons.minimize}
             </div>
             <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                ${iconProvider.expand}
+                ${this.__icons.expand}
             </div>
             <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-                ${iconProvider.close}
+                ${this.__icons.close}
             </div>
         </div>
 
@@ -134,9 +130,9 @@ export class ElectronFrame extends Frame {
     protected __setEvents() {
         const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
 
-        frameGet('minimize').onclick = () => actions.minimize(this)
-        frameGet('expand').onclick = () => actions.expand(this)
-        frameGet('close').onclick = () => actions.close(this)
+        frameGet('minimize').onclick = () => this.__minimize()
+        frameGet('expand').onclick = () => this.__expand()
+        frameGet('close').onclick = () => this.__close()
     }
 
     insert(addPaddingTop = true) {
@@ -152,13 +148,12 @@ export class ElectronFrame extends Frame {
             document.body.style.paddingTop = `0`
         }
 
-        console.log("remove")
-
         super.remove()
     }
 
     update() {
         const hasFrame = Array.from(document.body.childNodes).includes(this.frame)
+
         if (hasFrame) {
             this.remove(false)
         }

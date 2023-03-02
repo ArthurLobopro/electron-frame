@@ -52,6 +52,47 @@ export abstract class Frame {
         }
     }
 
+    protected __toggleExpandIcon() {
+        if (this.frameStyle === "macos") {
+            const expand_div = this.frame.querySelector("#expand") as HTMLElement
+            expand_div.innerHTML = this.__icons.expand
+        }
+    }
+
+    //Actions (minimize, expand, close)
+    protected __close() {
+        if (this.closeable) {
+            if (this.options.onClose?.beforeCallback) {
+                this.options.onClose?.beforeCallback() ? ipcRenderer.send('electron-frame:close') : void 0
+            } else {
+                ipcRenderer.send('electron-frame:close')
+            }
+        }
+    }
+
+    protected __expand() {
+        if (this.maximizable) {
+            ipcRenderer.send('electron-frame:expand')
+            this.__toggleExpandIcon()
+        }
+    }
+
+    protected __minimize() {
+        if (this.minimizable) {
+            ipcRenderer.send('electron-frame:minimize')
+        }
+    }
+
+    protected get __icons() {
+        const expand = this.frameStyle === "windows" ? icons.windows.expand : this.isMaximized ? icons.macos.restore : icons.macos.expand
+
+        return {
+            close: icons[this.frameStyle].close,
+            minimize: icons[this.frameStyle].minimize,
+            expand
+        }
+    }
+
     insert() {
         //Rebuild with DOM content
         this.__build()
@@ -73,16 +114,6 @@ export abstract class Frame {
         this.insert()
     }
 
-    toggleExpandIcon() {
-        if (this.frameStyle === "macos") {
-            const expand_div = this.frame.querySelector("#expand") as HTMLElement
-            //Ao inserir o svg dentro de um elemento html ele muda, isso é realmente necessário para comparação
-            const temp_div = document.createElement('div')
-            temp_div.innerHTML = icons.macos.expand
-            expand_div.innerHTML = expand_div.innerHTML.trim() == temp_div.innerHTML.trim() ? icons.macos.restore : icons.macos.expand
-        }
-    }
-
     toggleDarkMode() {
         this.frame.classList.toggle("dark")
         this.options.darkMode = !this.options.darkMode
@@ -101,6 +132,10 @@ export abstract class Frame {
             ...colors
         }
         this.__updateStyle()
+    }
+
+    get isMaximized() {
+        return ipcRenderer.sendSync('electron-frame:is-maximized') as boolean
     }
 
     get colors() {
