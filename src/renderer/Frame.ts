@@ -55,8 +55,7 @@ export abstract class Frame {
     protected __toggleExpandIcon() {
         if (this.frameStyle === "macos") {
             const expand_div = this.frame.querySelector("#expand") as HTMLElement
-            const isMaximized = ipcRenderer.sendSync('electron-frame:is-maximized')
-            expand_div.innerHTML = isMaximized ? icons.macos.restore : icons.macos.expand
+            expand_div.innerHTML = this.__icons.expand
         }
     }
 
@@ -81,6 +80,16 @@ export abstract class Frame {
     protected __minimize() {
         if (this.minimizable) {
             ipcRenderer.send('electron-frame:minimize')
+        }
+    }
+
+    protected get __icons() {
+        const expand = this.frameStyle === "windows" ? icons.windows.expand : this.isMaximized ? icons.macos.restore : icons.macos.expand
+
+        return {
+            close: icons[this.frameStyle].close,
+            minimize: icons[this.frameStyle].minimize,
+            expand
         }
     }
 
@@ -123,6 +132,10 @@ export abstract class Frame {
             ...colors
         }
         this.__updateStyle()
+    }
+
+    get isMaximized() {
+        return ipcRenderer.sendSync('electron-frame:is-maximized') as boolean
     }
 
     get colors() {

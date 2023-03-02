@@ -1,6 +1,5 @@
 import { ipcRenderer } from "electron"
 import { Frame, frameColors, frameStyle } from "./Frame"
-import { icons } from "./icons"
 
 interface makePopUpFrameOptions {
     darkMode?: boolean
@@ -84,13 +83,13 @@ export class PopUpFrame extends Frame {
 
         PopUpFrame.innerHTML = `
         <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-            ${icons[frameStyle].minimize}
+            ${this.__icons.minimize}
         </div>
         <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-            ${icons[frameStyle].expand}
+            ${this.__icons.expand}
         </div>
         <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-            ${icons[frameStyle].close}
+            ${this.__icons.close}
         </div>
         
         <style>

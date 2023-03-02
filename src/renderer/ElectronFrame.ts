@@ -1,7 +1,6 @@
 import { ipcRenderer } from 'electron'
 import { Frame, frameStyle } from "./Frame"
 import { getIconString } from './Util'
-import { icons } from "./icons"
 
 interface frameColors {
     background?: string
@@ -98,8 +97,6 @@ export class ElectronFrame extends Frame {
             frame.classList.add('custom')
         }
 
-        const iconProvider = isWindowsStyle ? icons.windows : icons.macos
-
         const frameIcon = this.options.frameStyle === "windows" ?
             `<div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>`
             : "<div id='spacer'></div>"
@@ -110,13 +107,13 @@ export class ElectronFrame extends Frame {
         
         <div class="window-controls">
             <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                ${iconProvider.minimize}
+                ${this.__icons.minimize}
             </div>
             <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                ${iconProvider.expand}
+                ${this.__icons.expand}
             </div>
             <div id="close" class="frame-button ${closeable ? "" : "disable"}">
-                ${iconProvider.close}
+                ${this.__icons.close}
             </div>
         </div>
 
