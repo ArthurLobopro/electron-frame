@@ -19,6 +19,11 @@ ipcMain.on('electron-frame:close', (event) => {
     win?.close()
 })
 
+ipcMain.on('electron-frame:is-maximized', (event) => {
+    const win: BrowserWindow = BrowserWindow.fromId(event.sender.id)
+    event.returnValue = win?.isMaximized()
+})
+
 ipcMain.on('electron-frame:request-window-config', (event) => {
     const win = BrowserWindow.fromId(event.sender.id)
     const minimizable = win?.minimizable
