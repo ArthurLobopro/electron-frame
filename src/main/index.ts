@@ -1,5 +1,7 @@
 import { ipcMain, BrowserWindow } from 'electron'
 
+import "electron-css-injector/main"
+
 ipcMain.on('electron-frame:minimize', (event) => {
     const win = BrowserWindow.fromId(event.sender.id)
     win?.minimize()

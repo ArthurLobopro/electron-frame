@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@electron-fonts/nunito@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@electron-fonts/nunito/-/nunito-1.0.5.tgz#edb98d55bc2bdc199650b30aba1e1d876e285251"
+  integrity sha512-hYlEo2X2mFNRhI1gX3PXVkl0dHsJScyHaWfczZYpevfJKGXCAhyMIWgv1NzeZVKUrlj2xLgr1Auewq3qev1WfA==
+  dependencies:
+    electron-css-injector "^1.0.0"
+
 "@electron/get@^1.13.0":
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.14.1.tgz#16ba75f02dffb74c23965e72d617adc721d27f40"
@@ -254,6 +261,11 @@ duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
+
+electron-css-injector@^1.0.0, electron-css-injector@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/electron-css-injector/-/electron-css-injector-1.2.0.tgz#248b5aed5c11b3c52dc8785357da53b371140d87"
+  integrity sha512-oON1RYcD+XTNhe5KxkKgKnqSvWbu1dkvlJG2xTiMf30YpuaRSXKQHOgXnF6R6EsSNjSvIeGwIBxZyfzIu+2eIw==
 
 electron-to-chromium@^1.4.251:
   version "1.4.284"
@@ -850,10 +862,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.9.4:
-  version "4.9.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.4.tgz#a2a3d2756c079abda241d75f149df9d561091e78"
-  integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
+typescript@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.0.4.tgz#b217fd20119bd61a94d4011274e0ab369058da3b"
+  integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
 
 universalify@^0.1.0:
   version "0.1.2"
