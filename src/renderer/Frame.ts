@@ -1,6 +1,9 @@
 import { ipcRenderer } from "electron"
-import { format, injectCSS } from "./Util"
+import { format } from "./Util"
 import { icons } from "./icons"
+import { injectCSS } from "electron-css-injector"
+import path from "path"
+
 import NunitoFont from "@electron-fonts/nunito"
 
 NunitoFont.inject()
@@ -99,7 +102,7 @@ export abstract class Frame {
     insert() {
         //Rebuild with DOM content
         this.__build()
-        injectCSS(__dirname, './styles/main.css')
+        injectCSS(path.join(__dirname, './styles/main.css'))
         document.body.appendChild(this.frame)
         this.__setEvents()
     }
