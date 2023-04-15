@@ -1,6 +1,9 @@
 import { ipcRenderer } from "electron"
 import { format, injectCSS } from "./Util"
 import { icons } from "./icons"
+import NunitoFont from "@electron-fonts/nunito"
+
+NunitoFont.inject()
 
 export interface BaseFrameOptions {
     darkMode: boolean
