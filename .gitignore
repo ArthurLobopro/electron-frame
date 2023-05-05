@@ -1,5 +1,4 @@
 node_modules/
-npm/*
-!npm/.gitkeep
 *.css
 !test/*.css
+dist/
