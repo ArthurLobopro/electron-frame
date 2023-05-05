@@ -34,5 +34,27 @@
   "dependencies": {
     "@electron-fonts/nunito": "^1.0.5",
     "electron-css-injector": "^1.2.0"
-  }
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/renderer/index.js",
+      "require": "./dist/renderer/index.js",
+      "types": "./dist/renderer/index.d.ts"
+    },
+    "./main": {
+      "import": "./dist/main/index.js",
+      "require": "./dist/main/index.js",
+      "types": "./dist/main/index.d.ts"
+    },
+    "./renderer": {
+      "import": "./dist/renderer/index.js",
+      "require": "./dist/renderer/index.js",
+      "types": "./dist/renderer/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ]
 }
