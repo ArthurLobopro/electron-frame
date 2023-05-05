@@ -62,7 +62,7 @@ export class PopUpFrame extends Frame {
     protected __build() {
 
         if (process.platform === "linux") {
-            throw new Error("PopUpFrame is not supported on Linux")
+            console.warn("PopUpFrame is not recommended on Linux")
         }
 
         const {
@@ -102,24 +102,28 @@ export class PopUpFrame extends Frame {
         this.__setEvents()
     }
 
+    protected __hideMenu() {
+        this.frame.classList.remove('active')
+    }
+
+    protected __getFrameElement(id: string) {
+        return this.frame.querySelector(`#${id}`) as HTMLElement
+    }
+
     protected __setEvents() {
-        const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
-
-        const hideMenu = () => this.frame.classList.remove('active')
-
-        frameGet('minimize').onclick = () => {
+        this.__getFrameElement('minimize').onclick = () => {
             this.__minimize()
-            hideMenu()
+            this.__hideMenu()
         }
 
-        frameGet('expand').onclick = () => {
+        this.__getFrameElement('expand').onclick = () => {
             this.__expand()
-            hideMenu()
+            this.__hideMenu()
         }
 
-        frameGet('close').onclick = () => {
+        this.__getFrameElement('close').onclick = () => {
             this.__close()
-            hideMenu()
+            this.__hideMenu()
         }
 
         const windowsMouseMove = ({ pageX, pageY, x, y, height }: { pageX: number, pageY: number, x: number, y: number, height: number }) => {
@@ -131,7 +135,7 @@ export class PopUpFrame extends Frame {
 
             if (pageY > y + height + 10 || pageX < x) {
                 if (this.frame.classList.contains('active')) {
-                    hideMenu()
+                    this.__hideMenu()
                 }
             }
         }
@@ -145,7 +149,7 @@ export class PopUpFrame extends Frame {
 
             if (pageY > y + height + 15 || pageX > x + width + 10) {
                 if (this.frame.classList.contains('active')) {
-                    hideMenu()
+                    this.__hideMenu()
                 }
             }
         }
