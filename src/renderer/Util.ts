@@ -1,11 +1,11 @@
 import fs from 'fs'
 import path from 'path'
 
-function loadSVG(...PathSegments: string[]) {
+export function loadSVG(...PathSegments: string[]) {
     return fs.readFileSync(path.resolve(...PathSegments), { encoding: "utf-8" })
 }
 
-function getIconString() {
+export function getIconString() {
     const links = Array.from(document.querySelectorAll("link"))
     const iconLink = links.find(link => link.rel.includes('icon'))
 
@@ -19,5 +19,3 @@ function getIconString() {
 }
 
 export const format = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
-
-export { loadSVG, getIconString }
