@@ -82,15 +82,15 @@ export class PopUpFrame extends Frame {
         PopUpFrame.classList.add(isWindowsStyle ? "windows-style" : "macos-style")
 
         PopUpFrame.innerHTML = `
-        <div id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
+        <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
             ${this.__icons.minimize}
-        </div>
-        <div id="expand" class="frame-button ${maximizable ? "" : "disable"}">
+        </button>
+        <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
             ${this.__icons.expand}
-        </div>
-        <div id="close" class="frame-button ${closeable ? "" : "disable"}">
+        </button>
+        <button id="close" class="frame-button ${closeable ? "" : "disable"}">
             ${this.__icons.close}
-        </div>
+        </button>
         
         <style>
             #electron-frame.custom {
