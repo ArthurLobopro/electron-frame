@@ -21,8 +21,11 @@
 
     &.windows-style {
         >.frame-button {
+            margin: 0;
             width: 45px;
             height: 100%;
+            border: none;
+            border-radius: 0;
             @extend %flex-center;
 
             &:hover {
@@ -52,13 +55,13 @@
         right: auto;
         height: max-content;
         border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
+
         padding: 3px 4px;
         gap: 5px;
 
-        // border: 1px solid white;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
 
         &.active {
             top: 5px;
@@ -70,7 +73,11 @@
             height: 18px;
             border-radius: 50%;
             align-self: center;
+
+            border: none;
             margin: 0;
+            padding: 0;
+
             @extend %flex-center;
         }
 
