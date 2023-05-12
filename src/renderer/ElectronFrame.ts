@@ -28,6 +28,9 @@ export interface makeElectronFrameOptions {
 interface frameOptions {
     darkMode: boolean
     title: string
+    /**
+     * @description HTMLImageElement or a string with the path to the image.
+     */
     icon: HTMLImageElement | string
     minimizable: boolean
     maximizable: boolean
@@ -99,16 +102,24 @@ export class ElectronFrame extends Frame {
         frame.classList.add(darkMode ? "dark" : "light")
         frame.classList.add(isWindowsStyle ? "windows-style" : "macos-style")
 
-        if (colorsArray.length !== 0) {
+        if (!colorsArray.length) {
             frame.classList.add('custom')
         }
 
-        const frameIcon = isWindowsStyle ?
-            `<div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>`
-            : "<div id='spacer'></div>"
+        const frameIcon = document.createElement('div')
+        frameIcon.id = isWindowsStyle ? "window-icon" : "spacer"
+
+        if (windowIconString instanceof Image) {
+            frameIcon.appendChild(windowIconString)
+        } else {
+            const image = new Image()
+            image.src = windowIconString
+
+            frameIcon.appendChild(image)
+        }
 
         frame.innerHTML = `
-        ${frameIcon}
+        ${frameIcon.outerHTML}
         <div id="window-name">${name}</div>
         
         ${this.__buildControls()}
