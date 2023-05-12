@@ -51,10 +51,12 @@
         >.window-controls {
             height: 100%;
 
-            .frame-button {
+            >.frame-button {
                 margin: 0;
                 width: 45px;
                 height: 100%;
+                border: none;
+                border-radius: 0;
                 @extend %flex-center;
 
                 &:hover {
@@ -152,6 +154,7 @@
                 height: 18px;
                 border-radius: 50%;
                 align-self: center;
+                border: none;
                 @extend %flex-center;
 
                 >svg {
