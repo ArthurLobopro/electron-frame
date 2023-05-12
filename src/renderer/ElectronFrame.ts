@@ -173,6 +173,18 @@ export class ElectronFrame extends Frame {
         this.insert(false)
     }
 
+    updateWindowConfig() {
+        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
+
+        if (process.platform === "linux") {
+            console.log("Linux does not support 'updateWindowConfig', ignoring it...")
+            return
+        }
+
+        this.options = { ...this.options, ...windowConfig }
+        this.update()
+    }
+
     setTitle(title: string) {
         this.options.title = title
         this.update()
