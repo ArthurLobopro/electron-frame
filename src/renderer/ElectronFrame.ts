@@ -50,17 +50,23 @@ export class ElectronFrame extends Frame {
 
     constructor(frameOptions: makeElectronFrameOptions = {}) {
         super()
+
         const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
+
         const defaultConfig: makeElectronFrameOptions = {
             darkMode: true,
             colors: {},
             frameStyle: "windows",
             icon: "",
             onClose: { beforeCallback() { return true }, },
+            ...({ minimizable: true, maximizable: true, closeable: true }),
             ...windowConfig
         }
+
         const autoInsert = frameOptions.autoInsert || false
+
         delete frameOptions.autoInsert
+
         this.options = { ...defaultConfig, ...frameOptions } as frameOptions
         this.__build()
 
@@ -72,7 +78,7 @@ export class ElectronFrame extends Frame {
     protected __build() {
         const {
             title, icon,
-            darkMode = true, minimizable = true, maximizable = true, closeable = true,
+            darkMode,
             colors = {},
             frameStyle
         } = this.options
@@ -97,7 +103,7 @@ export class ElectronFrame extends Frame {
             frame.classList.add('custom')
         }
 
-        const frameIcon = this.options.frameStyle === "windows" ?
+        const frameIcon = isWindowsStyle ?
             `<div id="window-icon">${windowIconString instanceof Image ? windowIconString.outerHTML : windowIconString}</div>`
             : "<div id='spacer'></div>"
 
@@ -105,26 +111,32 @@ export class ElectronFrame extends Frame {
         ${frameIcon}
         <div id="window-name">${name}</div>
         
-        <div class="window-controls">
-            <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                ${this.__icons.minimize}
-            </button>
-            <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                ${this.__icons.expand}
-            </button>
-            <button id="close" class="frame-button ${closeable ? "" : "disable"}">
-                ${this.__icons.close}
-            </button>
-        </div>
+        ${this.__buildControls()}
 
         <style>
-            #electron-frame.custom {
-                ${properties}
-            }
+            #electron-frame.custom { ${properties} }
         </style>`
 
         this.frame = frame
         this.__setEvents()
+    }
+
+    private __buildControls() {
+        const { minimizable, maximizable, closeable } = this.options
+
+        return (
+            `<div class="window-controls">
+                <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
+                    ${this.__icons.minimize}
+                </button>
+                <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
+                    ${this.__icons.expand}
+                </button>
+                <button id="close" class="frame-button ${closeable ? "" : "disable"}">
+                    ${this.__icons.close}
+                </button>
+            </div>`
+        )
     }
 
     protected __setEvents() {
