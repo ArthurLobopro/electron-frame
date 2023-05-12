@@ -262,10 +262,15 @@ duplexer3@^0.1.4:
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
 
-electron-css-injector@^1.0.0, electron-css-injector@^1.2.0:
+electron-css-injector@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/electron-css-injector/-/electron-css-injector-1.2.0.tgz#248b5aed5c11b3c52dc8785357da53b371140d87"
   integrity sha512-oON1RYcD+XTNhe5KxkKgKnqSvWbu1dkvlJG2xTiMf30YpuaRSXKQHOgXnF6R6EsSNjSvIeGwIBxZyfzIu+2eIw==
+
+electron-css-injector@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/electron-css-injector/-/electron-css-injector-1.2.1.tgz#e7bd4efc779e56c1d88721157cdb1643755295bf"
+  integrity sha512-yLrZgQ6ksy0LmHmGfH3dUeaA6MYEclCzeeq6yyw7QYfQpLGBK3p4HopiRstD2qGkR+UFHQZnHf38ps1uRThNqQ==
 
 electron-to-chromium@^1.4.251:
   version "1.4.284"
