@@ -24,12 +24,15 @@
             margin: 0;
             width: 45px;
             height: 100%;
-            border: none;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
             border-radius: 0;
             @extend %flex-center;
 
             &:hover {
                 background-color: var(--background-button-hover) !important;
+                border: none !important;
 
                 :last-child {
                     background-color: var(--red) !important;

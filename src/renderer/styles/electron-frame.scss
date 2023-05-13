@@ -38,6 +38,12 @@
         -webkit-app-region: no-drag;
     }
 
+    .frame-button {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
     &.windows-style {
         justify-content: space-between;
 
@@ -155,7 +161,7 @@
                 height: 18px;
                 border-radius: 50%;
                 align-self: center;
-                border: none;
+                border: none !important;
                 @extend %flex-center;
 
                 >svg {
