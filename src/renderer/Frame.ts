@@ -30,7 +30,6 @@ export interface frameColors {
 
 interface buildButtonsOptions {
     type: "close" | "minimize" | "expand"
-    disabled: boolean
 }
 
 export type frameStyle = "windows" | "macos"
@@ -50,7 +49,18 @@ export abstract class Frame {
 
         button.classList.add("frame-button")
 
-        if (options.disabled) {
+        const isDisabled = () => {
+            switch (options.type) {
+                case "close":
+                    return !this.closeable
+                case "minimize":
+                    return !this.minimizable
+                case "expand":
+                    return !this.maximizable
+            }
+        }
+
+        if (isDisabled()) {
             button.classList.add("disable")
         }
 
@@ -96,10 +106,7 @@ export abstract class Frame {
             setTimeout(() => {
                 const old_expand_button = this.frame.querySelector("#expand") as HTMLButtonElement
 
-                const new_expand_button = this.__buildButton({
-                    type: "expand",
-                    disabled: !this.options.maximizable
-                })
+                const new_expand_button = this.__buildButton({ type: "expand" })
 
                 old_expand_button.replaceWith(new_expand_button)
             }, 30)

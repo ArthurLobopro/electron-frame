@@ -39,7 +39,9 @@ export class PopUpFrame extends Frame {
 
     constructor(frameOptions: makePopUpFrameOptions = {}) {
         super()
+
         const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
+
         const defaultConfig: makePopUpFrameOptions = {
             darkMode: true,
             colors: {},
@@ -65,7 +67,7 @@ export class PopUpFrame extends Frame {
         }
 
         const {
-            darkMode = true, minimizable = true, maximizable = true, closeable = true,
+            darkMode = true,
             colors = {},
             frameStyle
         } = this.options
@@ -80,17 +82,14 @@ export class PopUpFrame extends Frame {
 
         PopUpFrame.appendChild(this.__buildButton({
             type: "minimize",
-            disabled: !minimizable
         }))
 
         PopUpFrame.appendChild(this.__buildButton({
             type: "expand",
-            disabled: !maximizable
         }))
 
         PopUpFrame.appendChild(this.__buildButton({
             type: "close",
-            disabled: !closeable
         }))
 
         PopUpFrame.appendChild(this.__buildStyle())

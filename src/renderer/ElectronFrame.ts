@@ -131,24 +131,19 @@ export class ElectronFrame extends Frame {
     }
 
     private __buildControls() {
-        const { minimizable, maximizable, closeable } = this.options
-
         const controls = document.createElement('div')
         controls.className = "window-controls"
 
         controls.appendChild(this.__buildButton({
             type: "minimize",
-            disabled: !minimizable
         }))
 
         controls.appendChild(this.__buildButton({
             type: "expand",
-            disabled: !maximizable
         }))
 
         controls.appendChild(this.__buildButton({
             type: "close",
-            disabled: !closeable
         }))
 
         return controls
