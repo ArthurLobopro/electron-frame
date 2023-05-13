@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { Frame, frameStyle } from "./Frame"
+import { Frame, frameStyle, windowConfig } from "./Frame"
 import { getIconString } from './Util'
 
 interface frameColors {
@@ -42,12 +42,6 @@ interface frameOptions {
     }
 }
 
-interface windowConfig {
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
-}
-
 export class ElectronFrame extends Frame {
     options: frameOptions
 
@@ -60,7 +54,7 @@ export class ElectronFrame extends Frame {
             darkMode: true,
             colors: {},
             frameStyle: "windows",
-            icon: "",
+            icon: getIconString(),
             onClose: { beforeCallback() { return true }, },
             ...({ minimizable: true, maximizable: true, closeable: true }),
             ...windowConfig
@@ -88,15 +82,13 @@ export class ElectronFrame extends Frame {
 
         const colorsArray = Object.entries(colors)
 
-        const properties = this.__buildStyle()
-
         const windowIconString = icon || getIconString()
 
-        const frame = document.createElement('div')
         const name = title || document.title
 
         const isWindowsStyle = frameStyle === "windows"
 
+        const frame = document.createElement('div')
         frame.id = "electron-frame"
 
         frame.classList.add(darkMode ? "dark" : "light")
@@ -109,54 +101,41 @@ export class ElectronFrame extends Frame {
         const frameIcon = document.createElement('div')
         frameIcon.id = isWindowsStyle ? "window-icon" : "spacer"
 
-        if (windowIconString instanceof Image) {
-            frameIcon.appendChild(windowIconString)
-        } else {
-            const image = new Image()
-            image.src = windowIconString
+        if (isWindowsStyle) {
+            if (windowIconString instanceof Image) {
+                frameIcon.appendChild(windowIconString)
+            } else {
+                const image = new Image()
+                image.src = windowIconString
 
-            frameIcon.appendChild(image)
+                frameIcon.appendChild(image)
+            }
         }
 
-        frame.innerHTML = `
-        ${frameIcon.outerHTML}
-        <div id="window-name">${name}</div>
-        
-        ${this.__buildControls()}
+        const windowName = document.createElement('div')
+        windowName.id = "window-name"
+        windowName.innerText = name
 
-        <style>
-            #electron-frame.custom { ${properties} }
-        </style>`
+        frame.appendChild(frameIcon)
+        frame.appendChild(windowName)
+        frame.appendChild(this.__buildControls())
+        frame.appendChild(this.__buildStyle())
 
         this.frame = frame
-        this.__setEvents()
     }
 
     private __buildControls() {
-        const { minimizable, maximizable, closeable } = this.options
+        const controls = document.createElement('div')
+        controls.className = "window-controls"
 
-        return (
-            `<div class="window-controls">
-                <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                    ${this.__icons.minimize}
-                </button>
-                <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                    ${this.__icons.expand}
-                </button>
-                <button id="close" class="frame-button ${closeable ? "" : "disable"}">
-                    ${this.__icons.close}
-                </button>
-            </div>`
-        )
+        controls.appendChild(this.__buildButton("minimize"))
+        controls.appendChild(this.__buildButton("expand"))
+        controls.appendChild(this.__buildButton("close"))
+
+        return controls
     }
 
-    protected __setEvents() {
-        const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
-
-        frameGet('minimize').onclick = () => this.__minimize()
-        frameGet('expand').onclick = () => this.__expand()
-        frameGet('close').onclick = () => this.__close()
-    }
+    protected __setEvents(): void { }
 
     insert(addPaddingTop = true) {
         super.insert()

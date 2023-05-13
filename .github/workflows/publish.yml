@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install
@@ -45,12 +45,8 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Show Folder
-        run: ls
-
       - name: publish
         run: npm publish
-
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
   

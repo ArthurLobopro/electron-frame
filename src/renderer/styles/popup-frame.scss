@@ -6,7 +6,7 @@
 
 #electron-popup-frame {
     position: fixed;
-    background-color: var(--background);
+    background-color: var(--background) !important;
     height: 30px;
     top: 0;
     right: 0;
@@ -24,15 +24,18 @@
             margin: 0;
             width: 45px;
             height: 100%;
-            border: none;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
             border-radius: 0;
             @extend %flex-center;
 
             &:hover {
-                background-color: var(--background-button-hover);
+                background-color: var(--background-button-hover) !important;
+                border: none !important;
 
                 :last-child {
-                    background-color: var(--red);
+                    background-color: var(--red) !important;
                 }
             }
 
@@ -42,7 +45,7 @@
                 margin: auto;
 
                 >* {
-                    fill: var(--svg-icons-color)
+                    fill: var(--svg-icons-color) !important;
                 }
             }
         }
@@ -82,17 +85,17 @@
         }
 
         >#expand {
-            background-color: var(--green);
+            background-color: var(--green) !important;
             order: 2;
         }
 
         >#close {
-            background-color: var(--red);
+            background-color: var(--red) !important;
             order: 0;
         }
 
         >#minimize {
-            background-color: var(--yellow);
+            background-color: var(--yellow) !important;
             order: 1;
         }
     }

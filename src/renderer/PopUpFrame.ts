@@ -1,5 +1,5 @@
 import { ipcRenderer } from "electron"
-import { Frame, frameColors, frameStyle } from "./Frame"
+import { Frame, frameColors, frameStyle, windowConfig } from "./Frame"
 
 interface makePopUpFrameOptions {
     darkMode?: boolean
@@ -12,12 +12,6 @@ interface makePopUpFrameOptions {
     onClose?: {
         beforeCallback?: () => true | false
     }
-}
-
-interface windowConfig {
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
 }
 
 interface PopUpFrameOptions {
@@ -39,7 +33,9 @@ export class PopUpFrame extends Frame {
 
     constructor(frameOptions: makePopUpFrameOptions = {}) {
         super()
+
         const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
+
         const defaultConfig: makePopUpFrameOptions = {
             darkMode: true,
             colors: {},
@@ -60,18 +56,15 @@ export class PopUpFrame extends Frame {
     }
 
     protected __build() {
-
         if (process.platform === "linux") {
             console.warn("PopUpFrame is not recommended on Linux")
         }
 
         const {
-            darkMode = true, minimizable = true, maximizable = true, closeable = true,
+            darkMode = true,
             colors = {},
             frameStyle
         } = this.options
-
-        const properties = this.__buildStyle()
 
         const isWindowsStyle = frameStyle === "windows"
 
@@ -81,22 +74,11 @@ export class PopUpFrame extends Frame {
         PopUpFrame.classList.add(darkMode ? "dark" : "light")
         PopUpFrame.classList.add(isWindowsStyle ? "windows-style" : "macos-style")
 
-        PopUpFrame.innerHTML = `
-        <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-            ${this.__icons.minimize}
-        </button>
-        <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-            ${this.__icons.expand}
-        </button>
-        <button id="close" class="frame-button ${closeable ? "" : "disable"}">
-            ${this.__icons.close}
-        </button>
-        
-        <style>
-            #electron-frame.custom {
-                ${properties}
-            }
-        </style>`
+        PopUpFrame.appendChild(this.__buildButton("minimize"))
+        PopUpFrame.appendChild(this.__buildButton("expand"))
+        PopUpFrame.appendChild(this.__buildButton("close"))
+
+        PopUpFrame.appendChild(this.__buildStyle())
 
         this.frame = PopUpFrame
         this.__setEvents()
@@ -110,22 +92,22 @@ export class PopUpFrame extends Frame {
         return this.frame.querySelector(`#${id}`) as HTMLElement
     }
 
+    protected __minimize(): void {
+        super.__minimize()
+        this.__hideMenu()
+    }
+
+    protected __expand(): void {
+        super.__expand()
+        this.__hideMenu()
+    }
+
+    protected __close(): void {
+        super.__close()
+        this.__hideMenu()
+    }
+
     protected __setEvents() {
-        this.__getFrameElement('minimize').onclick = () => {
-            this.__minimize()
-            this.__hideMenu()
-        }
-
-        this.__getFrameElement('expand').onclick = () => {
-            this.__expand()
-            this.__hideMenu()
-        }
-
-        this.__getFrameElement('close').onclick = () => {
-            this.__close()
-            this.__hideMenu()
-        }
-
         const windowsMouseMove = ({ pageX, pageY, x, y, height }: { pageX: number, pageY: number, x: number, y: number, height: number }) => {
             if (pageY <= 10 && pageX > x) {
                 if (!this.frame.classList.contains('active')) {

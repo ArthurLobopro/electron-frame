@@ -12,7 +12,7 @@ export function getIconString() {
     if (iconLink) {
         const image = new Image()
         image.src = iconLink.href
-        return `${image.outerHTML}`
+        return image
     }
 
     return ''

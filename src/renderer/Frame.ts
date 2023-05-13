@@ -28,6 +28,14 @@ export interface frameColors {
     lastSvgIconHover?: string
 }
 
+export interface windowConfig {
+    minimizable: boolean
+    maximizable: boolean
+    closeable: boolean
+}
+
+type buildButtonType = "close" | "minimize" | "expand"
+
 export type frameStyle = "windows" | "macos"
 export abstract class Frame {
     options!: BaseFrameOptions
@@ -39,19 +47,57 @@ export abstract class Frame {
 
     protected abstract __setEvents(): void
 
+    protected __buildButton(type: buildButtonType) {
+        const button = document.createElement('button')
+        button.id = type
+
+        button.classList.add("frame-button")
+
+        const isDisabled = () => {
+            switch (type) {
+                case "close":
+                    return !this.closeable
+                case "minimize":
+                    return !this.minimizable
+                case "expand":
+                    return !this.maximizable
+            }
+        }
+
+        if (isDisabled()) {
+            button.classList.add("disable")
+        }
+
+        if (type === "expand" && this.frameStyle === "macos") {
+            button.innerHTML = this.__icons.expand
+        } else {
+            button.innerHTML = this.__icons[type]
+        }
+
+        const clickFunction = this[`__${type}`].bind(this)
+
+        button.addEventListener('click', clickFunction)
+
+        return button
+    }
+
     protected __buildStyle() {
         const { colors = {} } = this.options
 
         const colorsArray = Object.entries(colors)
         const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
 
-        return properties
+        const style = document.createElement('style')
+        style.innerHTML = `#electron-frame.custom {${properties}}`
+
+        return style
     }
 
     protected __updateStyle() {
-        const properties = this.__buildStyle()
-        const styleTag = this.frame.querySelector('style') as HTMLElement
-        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
+        const new_style = this.__buildStyle()
+        const old_style = this.frame.querySelector('style') as HTMLStyleElement
+
+        old_style.replaceWith(new_style)
 
         if (!this.frame.classList.contains("custom")) {
             this.frame.classList.add("custom")
@@ -60,8 +106,14 @@ export abstract class Frame {
 
     protected __toggleExpandIcon() {
         if (this.frameStyle === "macos") {
-            const expand_div = this.frame.querySelector("#expand") as HTMLElement
-            expand_div.innerHTML = this.__icons.expand
+            //Delay necessary to avoid a bug
+            setTimeout(() => {
+                const old_expand_button = this.frame.querySelector("#expand") as HTMLButtonElement
+
+                const new_expand_button = this.__buildButton("expand")
+
+                old_expand_button.replaceWith(new_expand_button)
+            }, 30)
         }
     }
 
@@ -90,7 +142,9 @@ export abstract class Frame {
     }
 
     protected get __icons() {
-        const expand = this.frameStyle === "windows" ? icons.windows.expand : this.isMaximized ? icons.macos.restore : icons.macos.expand
+        const expand = this.frameStyle === "windows" ?
+            icons.windows.expand :
+            this.isMaximized ? icons.macos.restore : icons.macos.expand
 
         return {
             close: icons[this.frameStyle].close,
@@ -113,6 +167,7 @@ export abstract class Frame {
 
     update() {
         const hasFrame = Array.from(document.body.childNodes).includes(this.frame)
+
         if (hasFrame) {
             this.remove()
         }
