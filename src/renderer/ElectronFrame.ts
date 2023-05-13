@@ -90,11 +90,11 @@ export class ElectronFrame extends Frame {
 
         const windowIconString = icon || getIconString()
 
-        const frame = document.createElement('div')
         const name = title || document.title
 
         const isWindowsStyle = frameStyle === "windows"
 
+        const frame = document.createElement('div')
         frame.id = "electron-frame"
 
         frame.classList.add(darkMode ? "dark" : "light")
