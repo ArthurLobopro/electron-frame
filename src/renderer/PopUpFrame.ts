@@ -1,5 +1,5 @@
 import { ipcRenderer } from "electron"
-import { Frame, frameColors, frameStyle } from "./Frame"
+import { Frame, frameColors, frameStyle, windowConfig } from "./Frame"
 
 interface makePopUpFrameOptions {
     darkMode?: boolean
@@ -12,12 +12,6 @@ interface makePopUpFrameOptions {
     onClose?: {
         beforeCallback?: () => true | false
     }
-}
-
-interface windowConfig {
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
 }
 
 interface PopUpFrameOptions {

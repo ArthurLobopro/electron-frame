@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { Frame, frameStyle } from "./Frame"
+import { Frame, frameStyle, windowConfig } from "./Frame"
 import { getIconString } from './Util'
 
 interface frameColors {
@@ -40,12 +40,6 @@ interface frameOptions {
     onClose?: {
         beforeCallback?: () => true | false
     }
-}
-
-interface windowConfig {
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
 }
 
 export class ElectronFrame extends Frame {

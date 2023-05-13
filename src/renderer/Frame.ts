@@ -28,6 +28,12 @@ export interface frameColors {
     lastSvgIconHover?: string
 }
 
+export interface windowConfig {
+    minimizable: boolean
+    maximizable: boolean
+    closeable: boolean
+}
+
 type buildButtonType = "close" | "minimize" | "expand"
 
 export type frameStyle = "windows" | "macos"
