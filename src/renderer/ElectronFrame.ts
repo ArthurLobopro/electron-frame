@@ -128,7 +128,6 @@ export class ElectronFrame extends Frame {
         frame.appendChild(this.__buildStyle())
 
         this.frame = frame
-        this.__setEvents()
     }
 
     private __buildControls() {
@@ -137,27 +136,25 @@ export class ElectronFrame extends Frame {
         const controls = document.createElement('div')
         controls.className = "window-controls"
 
-        controls.innerHTML = `
-            <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                ${this.__icons.minimize}
-            </button>
-            <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                ${this.__icons.expand}
-            </button>
-            <button id="close" class="frame-button ${closeable ? "" : "disable"}">
-                ${this.__icons.close}
-            </button>`
+        controls.appendChild(this.__buildButton({
+            type: "minimize",
+            disabled: !minimizable
+        }))
+
+        controls.appendChild(this.__buildButton({
+            type: "expand",
+            disabled: !maximizable
+        }))
+
+        controls.appendChild(this.__buildButton({
+            type: "close",
+            disabled: !closeable
+        }))
 
         return controls
     }
 
-    protected __setEvents() {
-        const frameGet = (id: string) => this.frame.querySelector(`#${id}`) as HTMLElement
-
-        frameGet('minimize').onclick = () => this.__minimize()
-        frameGet('expand').onclick = () => this.__expand()
-        frameGet('close').onclick = () => this.__close()
-    }
+    protected __setEvents(): void { }
 
     insert(addPaddingTop = true) {
         super.insert()

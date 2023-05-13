@@ -78,19 +78,22 @@ export class PopUpFrame extends Frame {
         PopUpFrame.classList.add(darkMode ? "dark" : "light")
         PopUpFrame.classList.add(isWindowsStyle ? "windows-style" : "macos-style")
 
-        PopUpFrame.innerHTML = `
-        <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-            ${this.__icons.minimize}
-        </button>
-        <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-            ${this.__icons.expand}
-        </button>
-        <button id="close" class="frame-button ${closeable ? "" : "disable"}">
-            ${this.__icons.close}
-        </button>
-        
-        ${this.__buildStyle().outerHTML}
-        `
+        PopUpFrame.appendChild(this.__buildButton({
+            type: "minimize",
+            disabled: !minimizable
+        }))
+
+        PopUpFrame.appendChild(this.__buildButton({
+            type: "expand",
+            disabled: !maximizable
+        }))
+
+        PopUpFrame.appendChild(this.__buildButton({
+            type: "close",
+            disabled: !closeable
+        }))
+
+        PopUpFrame.appendChild(this.__buildStyle())
 
         this.frame = PopUpFrame
         this.__setEvents()
@@ -104,22 +107,22 @@ export class PopUpFrame extends Frame {
         return this.frame.querySelector(`#${id}`) as HTMLElement
     }
 
+    protected __minimize(): void {
+        super.__minimize()
+        this.__hideMenu()
+    }
+
+    protected __expand(): void {
+        super.__expand()
+        this.__hideMenu()
+    }
+
+    protected __close(): void {
+        super.__close()
+        this.__hideMenu()
+    }
+
     protected __setEvents() {
-        this.__getFrameElement('minimize').onclick = () => {
-            this.__minimize()
-            this.__hideMenu()
-        }
-
-        this.__getFrameElement('expand').onclick = () => {
-            this.__expand()
-            this.__hideMenu()
-        }
-
-        this.__getFrameElement('close').onclick = () => {
-            this.__close()
-            this.__hideMenu()
-        }
-
         const windowsMouseMove = ({ pageX, pageY, x, y, height }: { pageX: number, pageY: number, x: number, y: number, height: number }) => {
             if (pageY <= 10 && pageX > x) {
                 if (!this.frame.classList.contains('active')) {
