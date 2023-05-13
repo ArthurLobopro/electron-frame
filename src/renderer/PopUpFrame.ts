@@ -60,7 +60,6 @@ export class PopUpFrame extends Frame {
     }
 
     protected __build() {
-
         if (process.platform === "linux") {
             console.warn("PopUpFrame is not recommended on Linux")
         }
@@ -70,8 +69,6 @@ export class PopUpFrame extends Frame {
             colors = {},
             frameStyle
         } = this.options
-
-        const properties = this.__buildStyle()
 
         const isWindowsStyle = frameStyle === "windows"
 
@@ -92,11 +89,8 @@ export class PopUpFrame extends Frame {
             ${this.__icons.close}
         </button>
         
-        <style>
-            #electron-frame.custom {
-                ${properties}
-            }
-        </style>`
+        ${this.__buildStyle().outerHTML}
+        `
 
         this.frame = PopUpFrame
         this.__setEvents()
