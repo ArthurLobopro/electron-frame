@@ -15,7 +15,7 @@
     padding: 0 0 0 2px;
     font-size: 15px;
     user-select: none;
-    background-color: var(--background);
+    background-color: var(--background) !important;
     color: var(--color);
     -webkit-app-region: drag;
     display: flex;
@@ -57,24 +57,25 @@
                 height: 100%;
                 border: none;
                 border-radius: 0;
+                background-color: var(--background) !important;
                 @extend %flex-center;
 
                 &:hover {
-                    background-color: var(--background-button-hover);
+                    background-color: var(--background-button-hover) !important;
 
                     &.disable svg>* {
-                        fill: var(--svg-icons-color)
+                        fill: var(--svg-icons-color) !important;
                     }
 
                     svg>* {
-                        fill: var(--svg-icons-color-hover)
+                        fill: var(--svg-icons-color-hover) !important;
                     }
 
                     &:last-child {
-                        background-color: rgba(255, 0, 0, 0.712);
+                        background-color: rgba(255, 0, 0, 0.712) !important;
 
                         svg>* {
-                            fill: var(--last-svg-icon-hover);
+                            fill: var(--last-svg-icon-hover) !important;
                         }
                     }
                 }
@@ -85,7 +86,7 @@
                     margin: auto;
 
                     >* {
-                        fill: var(--svg-icons-color)
+                        fill: var(--svg-icons-color) !important;
                     }
                 }
             }
@@ -168,17 +169,17 @@
             }
 
             >#expand {
-                background-color: var(--green);
+                background-color: var(--green) !important;
                 order: 2;
             }
 
             >#close {
-                background-color: var(--red);
+                background-color: var(--red) !important;
                 order: 0;
             }
 
             >#minimize {
-                background-color: var(--yellow);
+                background-color: var(--yellow) !important;
                 order: 1;
             }
         }
