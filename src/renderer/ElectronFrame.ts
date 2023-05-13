@@ -88,8 +88,6 @@ export class ElectronFrame extends Frame {
 
         const colorsArray = Object.entries(colors)
 
-        const properties = this.__buildStyle()
-
         const windowIconString = icon || getIconString()
 
         const frame = document.createElement('div')
@@ -120,15 +118,14 @@ export class ElectronFrame extends Frame {
             }
         }
 
-        frame.innerHTML = `
-        ${frameIcon.outerHTML}
-        <div id="window-name">${name}</div>
-        
-        ${this.__buildControls()}
+        const windowName = document.createElement('div')
+        windowName.id = "window-name"
+        windowName.innerText = name
 
-        <style>
-            #electron-frame.custom { ${properties} }
-        </style>`
+        frame.appendChild(frameIcon)
+        frame.appendChild(windowName)
+        frame.appendChild(this.__buildControls())
+        frame.appendChild(this.__buildStyle())
 
         this.frame = frame
         this.__setEvents()
@@ -137,19 +134,21 @@ export class ElectronFrame extends Frame {
     private __buildControls() {
         const { minimizable, maximizable, closeable } = this.options
 
-        return (
-            `<div class="window-controls">
-                <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
-                    ${this.__icons.minimize}
-                </button>
-                <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
-                    ${this.__icons.expand}
-                </button>
-                <button id="close" class="frame-button ${closeable ? "" : "disable"}">
-                    ${this.__icons.close}
-                </button>
-            </div>`
-        )
+        const controls = document.createElement('div')
+        controls.className = "window-controls"
+
+        controls.innerHTML = `
+            <button id="minimize" class="frame-button ${minimizable ? "" : "disable"}">
+                ${this.__icons.minimize}
+            </button>
+            <button id="expand" class="frame-button ${maximizable ? "" : "disable"}">
+                ${this.__icons.expand}
+            </button>
+            <button id="close" class="frame-button ${closeable ? "" : "disable"}">
+                ${this.__icons.close}
+            </button>`
+
+        return controls
     }
 
     protected __setEvents() {
