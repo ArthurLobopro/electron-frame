@@ -52,9 +52,10 @@ export abstract class Frame {
     }
 
     protected __updateStyle() {
-        const properties = this.__buildStyle()
-        const styleTag = this.frame.querySelector('style') as HTMLElement
-        styleTag.innerHTML = `#electron-frame.custom {${properties}}`
+        const new_style = this.__buildStyle()
+        const old_style = this.frame.querySelector('style') as HTMLStyleElement
+
+        this.frame.replaceChild(new_style, old_style)
 
         if (!this.frame.classList.contains("custom")) {
             this.frame.classList.add("custom")
