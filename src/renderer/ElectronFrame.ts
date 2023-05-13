@@ -109,13 +109,15 @@ export class ElectronFrame extends Frame {
         const frameIcon = document.createElement('div')
         frameIcon.id = isWindowsStyle ? "window-icon" : "spacer"
 
-        if (windowIconString instanceof Image) {
-            frameIcon.appendChild(windowIconString)
-        } else {
-            const image = new Image()
-            image.src = windowIconString
+        if (isWindowsStyle) {
+            if (windowIconString instanceof Image) {
+                frameIcon.appendChild(windowIconString)
+            } else {
+                const image = new Image()
+                image.src = windowIconString
 
-            frameIcon.appendChild(image)
+                frameIcon.appendChild(image)
+            }
         }
 
         frame.innerHTML = `
