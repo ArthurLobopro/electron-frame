@@ -60,7 +60,7 @@ export class ElectronFrame extends Frame {
             darkMode: true,
             colors: {},
             frameStyle: "windows",
-            icon: "",
+            icon: getIconString(),
             onClose: { beforeCallback() { return true }, },
             ...({ minimizable: true, maximizable: true, closeable: true }),
             ...windowConfig
