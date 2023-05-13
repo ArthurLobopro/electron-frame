@@ -80,17 +80,9 @@ export class PopUpFrame extends Frame {
         PopUpFrame.classList.add(darkMode ? "dark" : "light")
         PopUpFrame.classList.add(isWindowsStyle ? "windows-style" : "macos-style")
 
-        PopUpFrame.appendChild(this.__buildButton({
-            type: "minimize",
-        }))
-
-        PopUpFrame.appendChild(this.__buildButton({
-            type: "expand",
-        }))
-
-        PopUpFrame.appendChild(this.__buildButton({
-            type: "close",
-        }))
+        PopUpFrame.appendChild(this.__buildButton("minimize"))
+        PopUpFrame.appendChild(this.__buildButton("expand"))
+        PopUpFrame.appendChild(this.__buildButton("close"))
 
         PopUpFrame.appendChild(this.__buildStyle())
 

@@ -28,9 +28,7 @@ export interface frameColors {
     lastSvgIconHover?: string
 }
 
-interface buildButtonsOptions {
-    type: "close" | "minimize" | "expand"
-}
+type buildButtonType = "close" | "minimize" | "expand"
 
 export type frameStyle = "windows" | "macos"
 export abstract class Frame {
@@ -43,14 +41,14 @@ export abstract class Frame {
 
     protected abstract __setEvents(): void
 
-    protected __buildButton(options: buildButtonsOptions) {
+    protected __buildButton(type: buildButtonType) {
         const button = document.createElement('button')
-        button.id = options.type
+        button.id = type
 
         button.classList.add("frame-button")
 
         const isDisabled = () => {
-            switch (options.type) {
+            switch (type) {
                 case "close":
                     return !this.closeable
                 case "minimize":
@@ -64,13 +62,13 @@ export abstract class Frame {
             button.classList.add("disable")
         }
 
-        if (options.type === "expand" && this.frameStyle === "macos") {
+        if (type === "expand" && this.frameStyle === "macos") {
             button.innerHTML = this.__icons.expand
         } else {
-            button.innerHTML = this.__icons[options.type]
+            button.innerHTML = this.__icons[type]
         }
 
-        const clickFunction = this[`__${options.type}`].bind(this)
+        const clickFunction = this[`__${type}`].bind(this)
 
         button.addEventListener('click', clickFunction)
 
@@ -106,7 +104,7 @@ export abstract class Frame {
             setTimeout(() => {
                 const old_expand_button = this.frame.querySelector("#expand") as HTMLButtonElement
 
-                const new_expand_button = this.__buildButton({ type: "expand" })
+                const new_expand_button = this.__buildButton("expand")
 
                 old_expand_button.replaceWith(new_expand_button)
             }, 30)
