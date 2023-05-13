@@ -45,7 +45,10 @@ export abstract class Frame {
         const colorsArray = Object.entries(colors)
         const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
 
-        return properties
+        const style = document.createElement('style')
+        style.innerHTML = `#electron-frame.custom {${properties}}`
+
+        return style
     }
 
     protected __updateStyle() {
