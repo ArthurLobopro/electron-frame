@@ -31,7 +31,7 @@
     "url": "git+https://github.com/ArthurLobopro/electron-frame.git"
   },
   "dependencies": {
-    "@electron-fonts/nunito": "^1.0.5",
+    "@electron-fonts/nunito": "^1.1.0",
     "electron-css-injector": "^1.2.1"
   },
   "exports": {
