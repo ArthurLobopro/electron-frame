@@ -12,6 +12,7 @@ interface makePopUpFrameOptions {
     onClose?: {
         beforeCallback?: () => true | false
     }
+    tabIndex?: false
 }
 
 interface PopUpFrameOptions {
@@ -23,7 +24,8 @@ interface PopUpFrameOptions {
     frameStyle: frameStyle
     onClose?: {
         beforeCallback?: () => true | false
-    }
+    },
+
 }
 
 export class PopUpFrame extends Frame {
@@ -41,7 +43,8 @@ export class PopUpFrame extends Frame {
             colors: {},
             frameStyle: "windows",
             onClose: { beforeCallback() { return true }, },
-            ...windowConfig
+            ...windowConfig,
+            tabIndex: false
         }
 
         const autoInsert = frameOptions?.autoInsert || false

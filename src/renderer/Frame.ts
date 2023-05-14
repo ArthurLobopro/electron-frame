@@ -18,6 +18,7 @@ export interface BaseFrameOptions {
     onClose?: {
         beforeCallback?: () => true | false
     }
+    tabIndex?: boolean
 }
 
 export interface frameColors {
@@ -66,6 +67,10 @@ export abstract class Frame {
 
         if (isDisabled()) {
             button.classList.add("disable")
+        }
+
+        if (!this.options.tabIndex) {
+            button.tabIndex = -1
         }
 
         if (type === "expand" && this.frameStyle === "macos") {

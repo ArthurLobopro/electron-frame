@@ -66,7 +66,8 @@
                 background-color: var(--background) !important;
                 @extend %flex-center;
 
-                &:hover {
+                &:hover,
+                &:focus-visible {
                     background-color: var(--background-button-hover) !important;
 
                     &.disable svg>* {
@@ -169,10 +170,14 @@
                 }
             }
 
-            &:hover>.frame-button>svg {
-                display: flex;
-                animation: fall 500ms;
+            &:hover,
+            &:focus-visible {
+                >.frame-button>svg {
+                    display: flex;
+                    animation: fall 500ms;
+                }
             }
+
 
             >#expand {
                 background-color: var(--green) !important;

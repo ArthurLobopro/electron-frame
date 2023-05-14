@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@electron-fonts/nunito@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@electron-fonts/nunito/-/nunito-1.0.5.tgz#edb98d55bc2bdc199650b30aba1e1d876e285251"
-  integrity sha512-hYlEo2X2mFNRhI1gX3PXVkl0dHsJScyHaWfczZYpevfJKGXCAhyMIWgv1NzeZVKUrlj2xLgr1Auewq3qev1WfA==
+"@electron-fonts/nunito@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@electron-fonts/nunito/-/nunito-1.1.0.tgz#4027735ad04a6500322b2956b485afa5fa26c619"
+  integrity sha512-MceBt+ktvaYJlJnX1Zcg+kkWX00m9N+z+I9bEhjjeMlXpBGg+t48nzWKpiJZoLNDznXu6D7KxfY+ShJhtKBf3Q==
   dependencies:
-    electron-css-injector "^1.0.0"
+    electron-css-injector "1.2.0"
 
 "@electron/get@^1.13.0":
   version "1.14.1"
@@ -262,7 +262,7 @@ duplexer3@^0.1.4:
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
 
-electron-css-injector@^1.0.0:
+electron-css-injector@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/electron-css-injector/-/electron-css-injector-1.2.0.tgz#248b5aed5c11b3c52dc8785357da53b371140d87"
   integrity sha512-oON1RYcD+XTNhe5KxkKgKnqSvWbu1dkvlJG2xTiMf30YpuaRSXKQHOgXnF6R6EsSNjSvIeGwIBxZyfzIu+2eIw==
