@@ -20,6 +20,7 @@ export interface makeElectronFrameOptions {
     colors?: frameColors
     frameStyle?: frameStyle
     autoInsert?: boolean
+    tabIndex?: boolean
     onClose?: {
         beforeCallback?: () => true | false
     }
