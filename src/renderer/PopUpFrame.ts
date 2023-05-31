@@ -10,7 +10,7 @@ interface makePopUpFrameOptions {
     frameStyle?: frameStyle
     autoInsert?: boolean
     onClose?: {
-        beforeCallback?: () => true | false
+        beforeCallback?: () => boolean | Promise<boolean>
     }
     tabIndex?: false
 }
@@ -23,9 +23,8 @@ interface PopUpFrameOptions {
     colors: frameColors
     frameStyle: frameStyle
     onClose?: {
-        beforeCallback?: () => true | false
-    },
-
+        beforeCallback?: () => boolean | Promise<boolean>
+    }
 }
 
 export class PopUpFrame extends Frame {
