@@ -105,8 +105,8 @@ export class PopUpFrame extends Frame {
         this.__hideMenu()
     }
 
-    protected __close(): void {
-        super.__close()
+    protected async __close() {
+        await super.__close()
         this.__hideMenu()
     }
 
