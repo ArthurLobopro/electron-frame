@@ -123,10 +123,19 @@ export abstract class Frame {
     }
 
     //Actions (minimize, expand, close)
-    protected __close() {
+    protected async __close() {
         if (this.closeable) {
             if (this.options.onClose?.beforeCallback) {
-                this.options.onClose?.beforeCallback() ? ipcRenderer.send('electron-frame:close') : void 0
+                const result = this.options.onClose?.beforeCallback() as any
+
+                if (result instanceof Promise) {
+                    if (await result) {
+                        ipcRenderer.send('electron-frame:close')
+                    }
+                } else if (result) {
+                    ipcRenderer.send('electron-frame:close')
+                }
+
             } else {
                 ipcRenderer.send('electron-frame:close')
             }
@@ -200,13 +209,9 @@ export abstract class Frame {
         this.__updateStyle()
     }
 
-    setBeforeCloseCallback(callback: () => true | false) {
-        if (typeof callback === "function") {
-            this.options.onClose = {
-                beforeCallback: callback
-            }
-        } else {
-            console.error("The callback must be a function")
+    setBeforeCloseCallback(callback: (() => boolean) | undefined) {
+        this.options.onClose = {
+            beforeCallback: callback
         }
     }
 
