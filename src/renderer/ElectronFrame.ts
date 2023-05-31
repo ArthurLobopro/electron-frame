@@ -22,7 +22,7 @@ export interface makeElectronFrameOptions {
     autoInsert?: boolean
     tabIndex?: boolean
     onClose?: {
-        beforeCallback?: () => true | false
+        beforeCallback?: () => boolean | Promise<boolean>
     }
 }
 
@@ -39,7 +39,7 @@ interface frameOptions {
     colors: frameColors
     frameStyle: frameStyle
     onClose?: {
-        beforeCallback?: () => true | false
+        beforeCallback?: () => boolean | Promise<boolean>
     }
 }
 

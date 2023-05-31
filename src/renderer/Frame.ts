@@ -16,7 +16,7 @@ export interface BaseFrameOptions {
     colors: frameColors
     frameStyle: frameStyle
     onClose?: {
-        beforeCallback?: () => true | false
+        beforeCallback?: () => boolean | Promise<boolean>
     }
     tabIndex?: boolean
 }
@@ -125,8 +125,8 @@ export abstract class Frame {
     //Actions (minimize, expand, close)
     protected async __close() {
         if (this.closeable) {
-            if (this.options.onClose?.beforeCallback) {
-                const result = this.options.onClose?.beforeCallback() as any
+            if (typeof this.options.onClose?.beforeCallback === "function") {
+                const result = this.options.onClose?.beforeCallback()
 
                 if (result instanceof Promise) {
                     if (await result) {
@@ -209,7 +209,7 @@ export abstract class Frame {
         this.__updateStyle()
     }
 
-    setBeforeCloseCallback(callback: (() => boolean) | undefined) {
+    setBeforeCloseCallback(callback?: () => boolean | Promise<boolean>) {
         this.options.onClose = {
             beforeCallback: callback
         }
