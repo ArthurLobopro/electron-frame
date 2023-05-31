@@ -1,8 +1,8 @@
 import { ipcRenderer } from "electron"
-import { format } from "./Util"
-import { icons } from "./icons"
 import { injectCSS } from "electron-css-injector"
 import path from "path"
+import { format } from "./Util"
+import { icons } from "./icons"
 
 import NunitoFont from "@electron-fonts/nunito"
 
@@ -198,6 +198,16 @@ export abstract class Frame {
             ...colors
         }
         this.__updateStyle()
+    }
+
+    setBeforeCloseCallback(callback: () => true | false) {
+        if (typeof callback === "function") {
+            this.options.onClose = {
+                beforeCallback: callback
+            }
+        } else {
+            console.error("The callback must be a function")
+        }
     }
 
     get isMaximized() {
