@@ -125,9 +125,9 @@
     }
 
     &.macos-style {
-        margin: 0 5px;
         justify-content: space-between;
         gap: 5px;
+        padding: 0 5px;
 
         >#spacer {
             flex-shrink: 3;
