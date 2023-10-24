@@ -54,6 +54,8 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "public/assets",
+    "public/styles/*.css"
   ]
 }
