@@ -21,7 +21,6 @@
     "prepack": "yarn build"
   },
   "devDependencies": {
-    "copy-directory": "https://github.com/ArthurLobopro/copy-directory",
     "electron": "17.4.11",
     "sass-compiler": "^1.3.2-beta",
     "typescript": "^5.0.4"
