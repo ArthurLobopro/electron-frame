@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron'
 import { Frame, frameStyle, windowConfig } from "./Frame"
-import { getIconString } from './Util'
+import { getIcon } from './Util'
 
 interface frameColors {
     background?: string
@@ -55,7 +55,7 @@ export class ElectronFrame extends Frame {
             darkMode: true,
             colors: {},
             frameStyle: "windows",
-            icon: getIconString(),
+            icon: getIcon(),
             onClose: { beforeCallback() { return true }, },
             ...({ minimizable: true, maximizable: true, closeable: true }),
             ...windowConfig
@@ -83,7 +83,7 @@ export class ElectronFrame extends Frame {
 
         const colorsArray = Object.entries(colors)
 
-        const windowIconString = icon || getIconString()
+        const windowIconString = icon || getIcon()
 
         const name = title || document.title
 

@@ -2,7 +2,7 @@
   "name": "electron-frame",
   "author": "Arthur Lobo",
   "license": "MIT",
-  "version": "1.4.5",
+  "version": "1.5.0",
   "keywords": [
     "electron",
     "frame",
@@ -18,10 +18,9 @@
   "description": "Simple Electron library for creating custom frames in frameless windows.",
   "scripts": {
     "build": "node ./scripts/build.js",
-    "create-tag": "node ./scripts/create-tag.js"
+    "prepack": "yarn build"
   },
   "devDependencies": {
-    "copy-directory": "https://github.com/ArthurLobopro/copy-directory",
     "electron": "17.4.11",
     "sass-compiler": "^1.3.2-beta",
     "typescript": "^5.0.4"
@@ -54,6 +53,8 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "public/assets",
+    "public/styles/*.css"
   ]
 }

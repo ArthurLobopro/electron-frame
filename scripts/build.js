@@ -22,16 +22,3 @@ execSync("yarn tsc")
 //Transpile Sass
 console.log("Transpiling scss...")
 execSync("yarn sass-compiler --compile")
-
-//Copy renderer div content
-console.log("Copying files...")
-const { copyDirContent } = require('copy-directory')
-
-copyDirContent(
-    resolve(root_dir, "src/renderer"),
-    resolve(dist_dir, "renderer"),
-    [
-        ".ts",
-        ".scss"
-    ]
-)
