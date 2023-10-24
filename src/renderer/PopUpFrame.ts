@@ -64,7 +64,6 @@ export class PopUpFrame extends Frame {
 
         const {
             darkMode = true,
-            colors = {},
             frameStyle
         } = this.options
 

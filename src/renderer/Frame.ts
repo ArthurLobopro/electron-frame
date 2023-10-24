@@ -182,9 +182,7 @@ export abstract class Frame {
     update() {
         const hasFrame = Array.from(document.body.childNodes).includes(this.frame)
 
-        if (hasFrame) {
-            this.remove()
-        }
+        hasFrame && this.remove()
 
         this.insert()
     }
