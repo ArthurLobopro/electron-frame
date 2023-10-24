@@ -3,6 +3,7 @@ import { injectCSS } from "electron-css-injector"
 import path from "path"
 import { format } from "./Util"
 import { icons } from "./icons"
+import { styles_dir } from "./paths"
 
 import NunitoFont from "@electron-fonts/nunito"
 
@@ -170,7 +171,7 @@ export abstract class Frame {
     insert() {
         //Rebuild with DOM content
         this.__build()
-        injectCSS(path.join(__dirname, './styles/main.css'))
+        injectCSS(path.join(styles_dir, 'main.css'))
         document.body.appendChild(this.frame)
         this.__setEvents()
     }
