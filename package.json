@@ -18,7 +18,8 @@
   "description": "Simple Electron library for creating custom frames in frameless windows.",
   "scripts": {
     "build": "node ./scripts/build.js",
-    "create-tag": "node ./scripts/create-tag.js"
+    "create-tag": "node ./scripts/create-tag.js",
+    "prepack": "yarn build"
   },
   "devDependencies": {
     "copy-directory": "https://github.com/ArthurLobopro/copy-directory",
