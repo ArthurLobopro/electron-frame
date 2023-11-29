@@ -112,7 +112,7 @@ export class ElectronFrame extends Frame {
         if (isWindowsStyle) {
             if (windowIconString instanceof Image) {
                 frameIcon.appendChild(windowIconString)
-            } else {
+            } else if (icon !== "") {
                 const image = new Image()
                 image.src = windowIconString
 
