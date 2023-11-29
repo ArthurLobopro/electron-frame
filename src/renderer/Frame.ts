@@ -40,8 +40,8 @@ type buildButtonType = "close" | "minimize" | "expand"
 
 export type frameStyle = "windows" | "macos"
 export abstract class Frame {
-    options!: BaseFrameOptions
     frame!: HTMLDivElement
+    options!: BaseFrameOptions
 
     constructor() { }
 
