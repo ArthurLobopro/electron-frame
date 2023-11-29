@@ -1,20 +1,6 @@
 import { ipcRenderer } from "electron"
 import { Frame, frameColors, frameStyle, windowConfig } from "./Frame"
 
-interface makePopUpFrameOptions {
-    darkMode?: boolean
-    minimizable?: boolean
-    maximizable?: boolean
-    closeable?: boolean
-    colors?: frameColors
-    frameStyle?: frameStyle
-    autoInsert?: boolean
-    onClose?: {
-        beforeCallback?: () => boolean | Promise<boolean>
-    }
-    tabIndex?: false
-}
-
 interface PopUpFrameOptions {
     darkMode: boolean
     minimizable: boolean
@@ -27,14 +13,30 @@ interface PopUpFrameOptions {
     }
 }
 
-export class PopUpFrame extends Frame {
+interface makePopUpFrameOptions extends Partial<PopUpFrameOptions> {
+    autoInsert?: boolean
+    tabIndex?: false
+}
 
-    frame!: HTMLDivElement
-    options: PopUpFrameOptions
+
+export class PopUpFrame extends Frame {
+    options!: PopUpFrameOptions
 
     constructor(frameOptions: makePopUpFrameOptions = {}) {
         super()
 
+        const autoInsert = frameOptions?.autoInsert || false
+        delete frameOptions.autoInsert
+
+        this.__resolveOptions(frameOptions)
+        this.__build()
+
+        if (autoInsert) {
+            this.insert()
+        }
+    }
+
+    protected __resolveOptions(options: makePopUpFrameOptions) {
         const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
 
         const defaultConfig: makePopUpFrameOptions = {
@@ -46,15 +48,10 @@ export class PopUpFrame extends Frame {
             tabIndex: false
         }
 
-        const autoInsert = frameOptions?.autoInsert || false
-        delete frameOptions.autoInsert
-
-        this.options = { ...defaultConfig, ...frameOptions } as PopUpFrameOptions
-        this.__build()
-
-        if (autoInsert) {
-            this.insert()
-        }
+        this.options = {
+            ...defaultConfig,
+            ...options
+        } as PopUpFrameOptions
     }
 
     protected __build() {
