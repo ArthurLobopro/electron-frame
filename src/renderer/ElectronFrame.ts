@@ -44,28 +44,15 @@ interface frameOptions {
 }
 
 export class ElectronFrame extends Frame {
-    options: frameOptions
+    options!: frameOptions
 
     constructor(frameOptions: makeElectronFrameOptions = {}) {
         super()
 
-        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
-
-        const defaultConfig: makeElectronFrameOptions = {
-            darkMode: true,
-            colors: {},
-            frameStyle: "windows",
-            icon: getIcon(),
-            onClose: { beforeCallback() { return true }, },
-            ...({ minimizable: true, maximizable: true, closeable: true }),
-            ...windowConfig
-        }
-
         const autoInsert = frameOptions.autoInsert || false
-
         delete frameOptions.autoInsert
 
-        this.options = { ...defaultConfig, ...frameOptions } as frameOptions
+        this.__resolveOptions(frameOptions)
         this.__build()
 
         if (autoInsert) {
@@ -73,9 +60,31 @@ export class ElectronFrame extends Frame {
         }
     }
 
+    protected __resolveOptions(options: makeElectronFrameOptions) {
+        const defaultWindowConfig = { minimizable: true, maximizable: true, closeable: true }
+        const defaultConfig: makeElectronFrameOptions = {
+            darkMode: true,
+            colors: {},
+            frameStyle: "windows",
+            icon: getIcon(),
+            title: document.title,
+            onClose: { beforeCallback() { return true }, },
+            ...defaultWindowConfig,
+        }
+
+        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
+
+        this.options = {
+            ...defaultConfig,
+            ...windowConfig,
+            ...options,
+        } as frameOptions
+    }
+
     protected __build() {
         const {
-            title, icon,
+            title,
+            icon,
             darkMode,
             colors = {},
             frameStyle
@@ -83,9 +92,7 @@ export class ElectronFrame extends Frame {
 
         const colorsArray = Object.entries(colors)
 
-        const windowIconString = icon || getIcon()
-
-        const name = title || document.title
+        const windowIconString = icon
 
         const isWindowsStyle = frameStyle === "windows"
 
@@ -115,7 +122,7 @@ export class ElectronFrame extends Frame {
 
         const windowName = document.createElement('div')
         windowName.id = "window-name"
-        windowName.innerText = name
+        windowName.innerText = title
 
         frame.appendChild(frameIcon)
         frame.appendChild(windowName)
