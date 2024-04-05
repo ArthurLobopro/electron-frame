@@ -1,4 +1,5 @@
 import { ipcRenderer } from "electron"
+import { FrameEvents } from "../FrameEvents"
 import { Frame, frameColors, frameStyle, windowConfig } from "./Frame"
 
 interface PopUpFrameOptions {
@@ -37,7 +38,7 @@ export class PopUpFrame extends Frame {
     }
 
     protected __resolveOptions(options: makePopUpFrameOptions) {
-        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
+        const windowConfig = ipcRenderer.sendSync(FrameEvents.getWindowConfig) as windowConfig
 
         const defaultConfig: makePopUpFrameOptions = {
             darkMode: true,

@@ -6,6 +6,7 @@ import { icons } from "./icons"
 import { styles_dir } from "./paths"
 
 import NunitoFont from "@electron-fonts/nunito"
+import { FrameEvents } from "../FrameEvents"
 
 NunitoFont.inject()
 
@@ -131,28 +132,28 @@ export abstract class Frame {
 
                 if (result instanceof Promise) {
                     if (await result) {
-                        ipcRenderer.send('electron-frame:close')
+                        ipcRenderer.send(FrameEvents.onClose)
                     }
                 } else if (result) {
-                    ipcRenderer.send('electron-frame:close')
+                    ipcRenderer.send(FrameEvents.onClose)
                 }
 
             } else {
-                ipcRenderer.send('electron-frame:close')
+                ipcRenderer.send(FrameEvents.onClose)
             }
         }
     }
 
     protected __expand() {
         if (this.maximizable) {
-            ipcRenderer.send('electron-frame:expand')
+            ipcRenderer.send(FrameEvents.onExpand)
             this.__toggleExpandIcon()
         }
     }
 
     protected __minimize() {
         if (this.minimizable) {
-            ipcRenderer.send('electron-frame:minimize')
+            ipcRenderer.send(FrameEvents.onMinimize)
         }
     }
 
@@ -215,7 +216,7 @@ export abstract class Frame {
     }
 
     get isMaximized() {
-        return ipcRenderer.sendSync('electron-frame:is-maximized') as boolean
+        return ipcRenderer.sendSync(FrameEvents.getIsMazimized) as boolean
     }
 
     get colors() {
