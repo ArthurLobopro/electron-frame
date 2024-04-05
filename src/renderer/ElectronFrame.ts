@@ -1,6 +1,4 @@
-import { ipcRenderer } from 'electron'
-import { FrameEvents } from "../FrameEvents"
-import { Frame, frameStyle, windowConfig } from "./Frame"
+import { Frame, frameStyle } from "./Frame"
 import { getIcon } from './Util'
 
 interface frameColors {
@@ -73,7 +71,7 @@ export class ElectronFrame extends Frame {
             ...defaultWindowConfig,
         }
 
-        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
+        const windowConfig = this.__getWindowConfig()
 
         this.options = {
             ...defaultConfig,
@@ -173,7 +171,7 @@ export class ElectronFrame extends Frame {
     }
 
     updateWindowConfig() {
-        const windowConfig = ipcRenderer.sendSync(FrameEvents.getWindowConfig) as windowConfig
+        const windowConfig = this.__getWindowConfig()
 
         if (process.platform === "linux") {
             console.log("Linux does not support 'updateWindowConfig', ignoring it...")
