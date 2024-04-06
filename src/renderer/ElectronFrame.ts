@@ -1,13 +1,5 @@
-import { Frame, frameStyle } from "./Frame"
+import { Frame, FrameColors, frameStyle } from "./Frame"
 import { getIcon } from './Util'
-
-interface frameColors {
-    background?: string
-    color?: string
-    svgIconsColor?: string
-    svgIconsColorHover?: string
-    lastSvgIconHover?: string
-}
 
 export interface makeElectronFrameOptions {
     darkMode?: boolean
@@ -16,7 +8,7 @@ export interface makeElectronFrameOptions {
     minimizable?: boolean
     maximizable?: boolean
     closeable?: boolean
-    colors?: frameColors
+    colors?: FrameColors
     frameStyle?: frameStyle
     autoInsert?: boolean
     tabIndex?: boolean
@@ -35,7 +27,7 @@ interface frameOptions {
     minimizable: boolean
     maximizable: boolean
     closeable: boolean
-    colors: frameColors
+    colors: FrameColors
     frameStyle: frameStyle
     onClose?: {
         beforeCallback?: () => boolean | Promise<boolean>

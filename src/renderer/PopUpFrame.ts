@@ -1,11 +1,11 @@
-import { Frame, frameColors, frameStyle } from "./Frame"
+import { Frame, FrameColors, frameStyle } from "./Frame"
 
 interface PopUpFrameOptions {
     darkMode: boolean
     minimizable: boolean
     maximizable: boolean
     closeable: boolean
-    colors: frameColors
+    colors: FrameColors
     frameStyle: frameStyle
     onClose?: {
         beforeCallback?: () => boolean | Promise<boolean>

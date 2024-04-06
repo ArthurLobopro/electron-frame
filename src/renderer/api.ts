@@ -1,9 +1,27 @@
-import type { FrameApi as FrameApiType } from "../preload"
+import { ipcRenderer } from "electron"
+import { FrameEvents } from "../FrameEvents"
+import { WindowConfig } from "./Frame"
 
-//@ts-expect-error
-if (!window.FrameApi) {
-    throw new Error("Frame API is not injected on window")
+export const FrameApi = {
+    isMaximized() {
+        return ipcRenderer.sendSync(FrameEvents.getIsMazimized) as boolean
+    },
+
+    getWindowConfig() {
+        return ipcRenderer.sendSync('electron-frame:request-window-config') as WindowConfig
+    },
+
+    closeWindow() {
+        return ipcRenderer.send(FrameEvents.onClose)
+    },
+
+    expandWindow() {
+        return ipcRenderer.send(FrameEvents.onExpand)
+    },
+
+    minimizeWindow() {
+        return ipcRenderer.send(FrameEvents.onMinimize)
+    },
 }
 
-//@ts-expect-error
-export const FrameApi = window.FrameApi as FrameApiType
+export type FrameApi = typeof FrameApi

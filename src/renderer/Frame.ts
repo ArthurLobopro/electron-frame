@@ -14,7 +14,7 @@ export interface BaseFrameOptions {
     minimizable: boolean
     maximizable: boolean
     closeable: boolean
-    colors: frameColors
+    colors: FrameColors
     frameStyle: frameStyle
     onClose?: {
         beforeCallback?: () => boolean | Promise<boolean>
@@ -22,7 +22,7 @@ export interface BaseFrameOptions {
     tabIndex?: boolean
 }
 
-export interface frameColors {
+export interface FrameColors {
     background?: string
     color?: string
     svgIconsColor?: string
@@ -30,7 +30,7 @@ export interface frameColors {
     lastSvgIconHover?: string
 }
 
-export interface windowConfig {
+export interface WindowConfig {
     minimizable: boolean
     maximizable: boolean
     closeable: boolean
@@ -204,7 +204,7 @@ export abstract class Frame {
         }
     }
 
-    setColors(colors: frameColors) {
+    setColors(colors: FrameColors) {
         this.options.colors = {
             ...this.options.colors,
             ...colors
@@ -230,7 +230,7 @@ export abstract class Frame {
         return this.options.darkMode
     }
 
-    set colors(colors: frameColors) {
+    set colors(colors: FrameColors) {
         this.setColors(colors)
     }
 
