@@ -105,11 +105,7 @@ export class PopUpFrame extends Frame {
     }
 
     protected __setEvents() {
-        type MouseMoveProps = DOMRect & { pageX: number, pageY: number }
-
-        const windowsMouseMove = (props: MouseMoveProps) => {
-            const { pageX, pageY, x, y, height } = props
-
+        const windowsMouseMove = ({ pageX, pageY, x, y, height }: { pageX: number, pageY: number, x: number, y: number, height: number }) => {
             if (pageY <= 10 && pageX > x) {
                 if (!this.frame.classList.contains('active')) {
                     this.frame.classList.add('active')
@@ -123,9 +119,7 @@ export class PopUpFrame extends Frame {
             }
         }
 
-        const macosMouseMove = (props: MouseMoveProps) => {
-            const { pageY, pageX, x, y, height, width } = props
-
+        const macosMouseMove = ({ pageY, pageX, x, y, height, width }: { pageX: number, pageY: number, x: number, y: number, height: number, width: number }) => {
             if (pageY <= 10 && pageX < x + width) {
                 if (!this.frame.classList.contains('active')) {
                     this.frame.classList.add('active')
@@ -141,14 +135,9 @@ export class PopUpFrame extends Frame {
 
         window.addEventListener('mousemove', event => {
             const { pageX, pageY } = event
+            const { x, height, y, width } = this.frame.getBoundingClientRect()
 
-            const props = {
-                pageX,
-                pageY,
-                ...this.frame.getBoundingClientRect()
-            }
-
-            this.options.frameStyle === "windows" ? windowsMouseMove(props) : macosMouseMove(props)
+            this.options.frameStyle === "windows" ? windowsMouseMove({ pageX, pageY, x, y, height }) : macosMouseMove({ pageX, pageY, x, y, height, width })
         })
     }
 }
