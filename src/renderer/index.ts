@@ -1,3 +1,3 @@
-export { ElectronFrame } from './ElectronFrame'
-export { FrameColors as frameColors, frameStyle } from "./Frame"
-export { PopUpFrame } from "./PopUpFrame"
+export * from './ElectronFrame'
+export * from "./Frame"
+export * from "./PopUpFrame"

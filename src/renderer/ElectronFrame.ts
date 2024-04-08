@@ -1,81 +1,59 @@
-import { Frame, FrameColors, frameStyle } from "./Frame"
+import { BaseFrameOptions, Frame } from "./Frame"
 import { getIcon } from './Util'
 
-export interface makeElectronFrameOptions {
-    darkMode?: boolean
-    title?: string
-    icon?: HTMLImageElement | string
-    minimizable?: boolean
-    maximizable?: boolean
-    closeable?: boolean
-    colors?: FrameColors
-    frameStyle?: frameStyle
-    autoInsert?: boolean
-    tabIndex?: boolean
-    onClose?: {
-        beforeCallback?: () => boolean | Promise<boolean>
-    }
-}
-
-interface frameOptions {
-    darkMode: boolean
+interface ElectronFrameOptions extends BaseFrameOptions {
     title: string
     /**
      * @description HTMLImageElement or a string with the path to the image.
      */
     icon: HTMLImageElement | string
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
-    colors: FrameColors
-    frameStyle: frameStyle
-    onClose?: {
-        beforeCallback?: () => boolean | Promise<boolean>
-    }
 }
 
-export class ElectronFrame extends Frame {
-    options!: frameOptions
+export interface MakeElectronFrameOptions extends Partial<ElectronFrameOptions> {
+    autoInsert?: boolean
+}
 
-    constructor(frameOptions: makeElectronFrameOptions = {}) {
-        super()
-
-        const autoInsert = frameOptions.autoInsert || false
-        delete frameOptions.autoInsert
-
-        this.__resolveOptions(frameOptions)
-        this.__build()
-
-        if (autoInsert) {
-            this.insert()
-        }
-    }
-
-    protected __resolveOptions(options: makeElectronFrameOptions) {
+export class ElectronFrame extends Frame<ElectronFrameOptions, MakeElectronFrameOptions> {
+    protected __resolveOptions(options: MakeElectronFrameOptions) {
         const defaultWindowConfig = { minimizable: true, maximizable: true, closeable: true }
-        const defaultConfig: makeElectronFrameOptions = {
+
+        const windowConfig = Object.assign({}, defaultWindowConfig, this.__getWindowConfig())
+
+        const defaultConfig: MakeElectronFrameOptions = {
             darkMode: true,
             colors: {},
             frameStyle: "windows",
             icon: getIcon(),
             title: document.title,
             onClose: { beforeCallback() { return true }, },
-            ...defaultWindowConfig,
+            ...windowConfig,
         }
-
-        const windowConfig = this.__getWindowConfig()
 
         this.options = {
             ...defaultConfig,
-            ...windowConfig,
             ...options,
-        } as frameOptions
+        } as ElectronFrameOptions
     }
 
     protected __build() {
+        const frame = this.__buildFrame()
+
+        frame.appendChild(this.__buildIcon())
+
+        const windowName = document.createElement('div')
+        windowName.id = "window-name"
+        windowName.innerText = this.options.title
+
+        frame.appendChild(windowName)
+
+        frame.appendChild(this.__buildControls())
+        frame.appendChild(this.__buildStyle())
+
+        this.frame = frame
+    }
+
+    private __buildFrame() {
         const {
-            title,
-            icon,
             darkMode,
             colors = {},
             frameStyle
@@ -83,44 +61,42 @@ export class ElectronFrame extends Frame {
 
         const colorsArray = Object.entries(colors)
 
-        const windowIconString = icon
-
-        const isWindowsStyle = frameStyle === "windows"
-
         const frame = document.createElement('div')
         frame.id = "electron-frame"
 
         frame.classList.add(darkMode ? "dark" : "light")
-        frame.classList.add(isWindowsStyle ? "windows-style" : "macos-style")
+        frame.classList.add(`${frameStyle}-style`)
 
         if (!colorsArray.length) {
             frame.classList.add('custom')
         }
 
+        return frame
+    }
+
+    private __buildIcon() {
+        const {
+            icon,
+            frameStyle
+        } = this.options
+
+        const isWindowsStyle = frameStyle === "windows"
+
         const frameIcon = document.createElement('div')
         frameIcon.id = isWindowsStyle ? "window-icon" : "spacer"
 
         if (isWindowsStyle) {
-            if (windowIconString instanceof Image) {
-                frameIcon.appendChild(windowIconString)
+            if (icon instanceof Image) {
+                frameIcon.appendChild(icon)
             } else if (icon !== "") {
                 const image = new Image()
-                image.src = windowIconString
+                image.src = icon
 
                 frameIcon.appendChild(image)
             }
         }
 
-        const windowName = document.createElement('div')
-        windowName.id = "window-name"
-        windowName.innerText = title
-
-        frame.appendChild(frameIcon)
-        frame.appendChild(windowName)
-        frame.appendChild(this.__buildControls())
-        frame.appendChild(this.__buildStyle())
-
-        this.frame = frame
+        return frameIcon
     }
 
     private __buildControls() {

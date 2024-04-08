@@ -9,19 +9,6 @@ import NunitoFont from "@electron-fonts/nunito"
 
 NunitoFont.inject()
 
-export interface BaseFrameOptions {
-    darkMode: boolean
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
-    colors: FrameColors
-    frameStyle: frameStyle
-    onClose?: {
-        beforeCallback?: () => boolean | Promise<boolean>
-    }
-    tabIndex?: boolean
-}
-
 export interface FrameColors {
     background?: string
     color?: string
@@ -30,20 +17,51 @@ export interface FrameColors {
     lastSvgIconHover?: string
 }
 
+export type FrameStyle = "windows" | "macos"
+
 export interface WindowConfig {
     minimizable: boolean
     maximizable: boolean
     closeable: boolean
 }
 
+export interface BaseFrameOptions extends WindowConfig {
+    darkMode: boolean
+    colors: FrameColors
+    frameStyle: FrameStyle
+    onClose?: {
+        beforeCallback?: () => boolean | Promise<boolean>
+    }
+    tabIndex?: boolean
+}
+
+export interface MakeBaseFrameOptions extends Partial<BaseFrameOptions> {
+    autoInsert?: boolean
+}
+
 type buildButtonType = "close" | "minimize" | "expand"
 
-export type frameStyle = "windows" | "macos"
-export abstract class Frame {
+export abstract class Frame
+    <
+        Options extends BaseFrameOptions,
+        MakeOptions extends MakeBaseFrameOptions
+    > {
     frame!: HTMLDivElement
-    options!: BaseFrameOptions
+    options!: Options
 
-    constructor() { }
+    constructor(frameOptions: MakeOptions) {
+        const autoInsert = frameOptions.autoInsert || false
+        delete frameOptions.autoInsert
+
+        this.__resolveOptions(frameOptions)
+        this.__build()
+
+        if (autoInsert) {
+            this.insert()
+        }
+    }
+
+    protected abstract __resolveOptions(options: MakeOptions): void
 
     protected abstract __build(): void
 
@@ -234,7 +252,7 @@ export abstract class Frame {
         this.setColors(colors)
     }
 
-    set frameStyle(frameStyle: frameStyle) {
+    set frameStyle(frameStyle: FrameStyle) {
         this.setFrameStyle(frameStyle)
     }
 
