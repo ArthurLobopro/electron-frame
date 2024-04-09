@@ -14,7 +14,7 @@ export interface MakeElectronFrameOptions extends Partial<ElectronFrameOptions> 
 }
 
 export class ElectronFrame extends Frame<ElectronFrameOptions, MakeElectronFrameOptions> {
-    protected __resolveOptions(options: MakeElectronFrameOptions) {
+    protected __resolveOptions(options: MakeElectronFrameOptions = {}) {
         const defaultWindowConfig = { minimizable: true, maximizable: true, closeable: true }
 
         const windowConfig = Object.assign({}, defaultWindowConfig, this.__getWindowConfig())

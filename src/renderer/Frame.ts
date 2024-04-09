@@ -49,9 +49,9 @@ export abstract class Frame
     frame!: HTMLDivElement
     options!: Options
 
-    constructor(frameOptions: MakeOptions) {
-        const autoInsert = frameOptions.autoInsert || false
-        delete frameOptions.autoInsert
+    constructor(frameOptions?: MakeOptions) {
+        const autoInsert = frameOptions?.autoInsert || false
+        delete frameOptions?.autoInsert
 
         this.__resolveOptions(frameOptions)
         this.__build()
@@ -61,7 +61,7 @@ export abstract class Frame
         }
     }
 
-    protected abstract __resolveOptions(options: MakeOptions): void
+    protected abstract __resolveOptions(options?: MakeOptions): void
 
     protected abstract __build(): void
 
