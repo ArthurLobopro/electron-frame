@@ -1,7 +1,7 @@
-import { ipcRenderer } from "electron"
 import { injectCSS } from "electron-css-injector"
 import path from "path"
-import { format } from "./Util"
+import { formatCSS } from "./Util"
+import { ipcFrameApi } from "./api"
 import { icons } from "./icons"
 import { styles_dir } from "./paths"
 
@@ -9,20 +9,7 @@ import NunitoFont from "@electron-fonts/nunito"
 
 NunitoFont.inject()
 
-export interface BaseFrameOptions {
-    darkMode: boolean
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
-    colors: frameColors
-    frameStyle: frameStyle
-    onClose?: {
-        beforeCallback?: () => boolean | Promise<boolean>
-    }
-    tabIndex?: boolean
-}
-
-export interface frameColors {
+export interface FrameColors {
     background?: string
     color?: string
     svgIconsColor?: string
@@ -30,20 +17,51 @@ export interface frameColors {
     lastSvgIconHover?: string
 }
 
-export interface windowConfig {
+export type FrameStyle = "windows" | "macos"
+
+export interface WindowConfig {
     minimizable: boolean
     maximizable: boolean
     closeable: boolean
 }
 
+export interface BaseFrameOptions extends WindowConfig {
+    darkMode: boolean
+    colors: FrameColors
+    frameStyle: FrameStyle
+    onClose?: {
+        beforeCallback?: () => boolean | Promise<boolean>
+    }
+    tabIndex?: boolean
+}
+
+export interface MakeBaseFrameOptions extends Partial<BaseFrameOptions> {
+    autoInsert?: boolean
+}
+
 type buildButtonType = "close" | "minimize" | "expand"
 
-export type frameStyle = "windows" | "macos"
-export abstract class Frame {
+export abstract class Frame
+    <
+        Options extends BaseFrameOptions,
+        MakeOptions extends MakeBaseFrameOptions
+    > {
     frame!: HTMLDivElement
-    options!: BaseFrameOptions
+    options!: Options
 
-    constructor() { }
+    constructor(frameOptions?: MakeOptions) {
+        const autoInsert = frameOptions?.autoInsert || false
+        delete frameOptions?.autoInsert
+
+        this.__resolveOptions(frameOptions)
+        this.__build()
+
+        if (autoInsert) {
+            this.insert()
+        }
+    }
+
+    protected abstract __resolveOptions(options?: MakeOptions): void
 
     protected abstract __build(): void
 
@@ -91,7 +109,7 @@ export abstract class Frame {
         const { colors = {} } = this.options
 
         const colorsArray = Object.entries(colors)
-        const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
+        const properties = colorsArray.map(([key, value]) => `--${formatCSS(key)} : ${value} !important`).join(';')
 
         const style = document.createElement('style')
         style.innerHTML = `#electron-frame.custom {${properties}}`
@@ -131,28 +149,28 @@ export abstract class Frame {
 
                 if (result instanceof Promise) {
                     if (await result) {
-                        ipcRenderer.send('electron-frame:close')
+                        ipcFrameApi.closeWindow()
                     }
                 } else if (result) {
-                    ipcRenderer.send('electron-frame:close')
+                    ipcFrameApi.closeWindow()
                 }
 
             } else {
-                ipcRenderer.send('electron-frame:close')
+                ipcFrameApi.closeWindow()
             }
         }
     }
 
     protected __expand() {
         if (this.maximizable) {
-            ipcRenderer.send('electron-frame:expand')
+            ipcFrameApi.expandWindow()
             this.__toggleExpandIcon()
         }
     }
 
     protected __minimize() {
         if (this.minimizable) {
-            ipcRenderer.send('electron-frame:minimize')
+            ipcFrameApi.minimizeWindow()
         }
     }
 
@@ -166,6 +184,10 @@ export abstract class Frame {
             minimize: icons[this.frameStyle].minimize,
             expand
         }
+    }
+
+    protected __getWindowConfig() {
+        return ipcFrameApi.getWindowConfig()
     }
 
     insert() {
@@ -200,7 +222,7 @@ export abstract class Frame {
         }
     }
 
-    setColors(colors: frameColors) {
+    setColors(colors: FrameColors) {
         this.options.colors = {
             ...this.options.colors,
             ...colors
@@ -215,7 +237,7 @@ export abstract class Frame {
     }
 
     get isMaximized() {
-        return ipcRenderer.sendSync('electron-frame:is-maximized') as boolean
+        return ipcFrameApi.isMaximized()
     }
 
     get colors() {
@@ -226,11 +248,11 @@ export abstract class Frame {
         return this.options.darkMode
     }
 
-    set colors(colors: frameColors) {
+    set colors(colors: FrameColors) {
         this.setColors(colors)
     }
 
-    set frameStyle(frameStyle: frameStyle) {
+    set frameStyle(frameStyle: FrameStyle) {
         this.setFrameStyle(frameStyle)
     }
 

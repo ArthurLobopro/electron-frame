@@ -1,45 +1,21 @@
-import { ipcRenderer } from "electron"
-import { Frame, frameColors, frameStyle, windowConfig } from "./Frame"
+import { BaseFrameOptions, Frame } from "./Frame"
 
-interface PopUpFrameOptions {
+interface PopUpFrameOptions extends BaseFrameOptions {
     darkMode: boolean
-    minimizable: boolean
-    maximizable: boolean
-    closeable: boolean
-    colors: frameColors
-    frameStyle: frameStyle
     onClose?: {
         beforeCallback?: () => boolean | Promise<boolean>
     }
 }
 
-interface makePopUpFrameOptions extends Partial<PopUpFrameOptions> {
+export interface MakePopUpFrameOptions extends Partial<PopUpFrameOptions> {
     autoInsert?: boolean
-    tabIndex?: false
 }
 
+export class PopUpFrame extends Frame<PopUpFrameOptions, MakePopUpFrameOptions> {
+    protected __resolveOptions(options: MakePopUpFrameOptions) {
+        const windowConfig = this.__getWindowConfig()
 
-export class PopUpFrame extends Frame {
-    options!: PopUpFrameOptions
-
-    constructor(frameOptions: makePopUpFrameOptions = {}) {
-        super()
-
-        const autoInsert = frameOptions?.autoInsert || false
-        delete frameOptions.autoInsert
-
-        this.__resolveOptions(frameOptions)
-        this.__build()
-
-        if (autoInsert) {
-            this.insert()
-        }
-    }
-
-    protected __resolveOptions(options: makePopUpFrameOptions) {
-        const windowConfig = ipcRenderer.sendSync('electron-frame:request-window-config') as windowConfig
-
-        const defaultConfig: makePopUpFrameOptions = {
+        const defaultConfig: MakePopUpFrameOptions = {
             darkMode: true,
             colors: {},
             frameStyle: "windows",
@@ -90,12 +66,12 @@ export class PopUpFrame extends Frame {
         return this.frame.querySelector(`#${id}`) as HTMLElement
     }
 
-    protected __minimize(): void {
+    protected __minimize() {
         super.__minimize()
         this.__hideMenu()
     }
 
-    protected __expand(): void {
+    protected __expand() {
         super.__expand()
         this.__hideMenu()
     }

@@ -18,4 +18,4 @@ export function getIcon() {
     return ""
 }
 
-export const format = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
+export const formatCSS = (str: string) => str.replaceAll(/([A-Z])/g, s => `-${s.toLowerCase()}`)
