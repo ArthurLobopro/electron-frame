@@ -2,7 +2,7 @@ import { ipcRenderer } from "electron"
 import { FrameEvents } from "../FrameEvents"
 import { WindowConfig } from "./Frame"
 
-export const FrameApi = {
+export const ipcFrameApi = {
     isMaximized() {
         return ipcRenderer.sendSync(FrameEvents.getIsMazimized) as boolean
     },
@@ -24,4 +24,4 @@ export const FrameApi = {
     },
 }
 
-export type FrameApi = typeof FrameApi
+export type ipcFrameApi = typeof ipcFrameApi

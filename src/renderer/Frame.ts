@@ -1,7 +1,7 @@
 import { injectCSS } from "electron-css-injector"
 import path from "path"
-import { format } from "./Util"
-import { FrameApi } from "./api"
+import { formatCSS } from "./Util"
+import { ipcFrameApi } from "./api"
 import { icons } from "./icons"
 import { styles_dir } from "./paths"
 
@@ -109,7 +109,7 @@ export abstract class Frame
         const { colors = {} } = this.options
 
         const colorsArray = Object.entries(colors)
-        const properties = colorsArray.map(([key, value]) => `--${format(key)} : ${value} !important`).join(';')
+        const properties = colorsArray.map(([key, value]) => `--${formatCSS(key)} : ${value} !important`).join(';')
 
         const style = document.createElement('style')
         style.innerHTML = `#electron-frame.custom {${properties}}`
@@ -149,28 +149,28 @@ export abstract class Frame
 
                 if (result instanceof Promise) {
                     if (await result) {
-                        FrameApi.closeWindow()
+                        ipcFrameApi.closeWindow()
                     }
                 } else if (result) {
-                    FrameApi.closeWindow()
+                    ipcFrameApi.closeWindow()
                 }
 
             } else {
-                FrameApi.closeWindow()
+                ipcFrameApi.closeWindow()
             }
         }
     }
 
     protected __expand() {
         if (this.maximizable) {
-            FrameApi.expandWindow()
+            ipcFrameApi.expandWindow()
             this.__toggleExpandIcon()
         }
     }
 
     protected __minimize() {
         if (this.minimizable) {
-            FrameApi.minimizeWindow()
+            ipcFrameApi.minimizeWindow()
         }
     }
 
@@ -187,7 +187,7 @@ export abstract class Frame
     }
 
     protected __getWindowConfig() {
-        return FrameApi.getWindowConfig()
+        return ipcFrameApi.getWindowConfig()
     }
 
     insert() {
@@ -237,7 +237,7 @@ export abstract class Frame
     }
 
     get isMaximized() {
-        return FrameApi.isMaximized()
+        return ipcFrameApi.isMaximized()
     }
 
     get colors() {
