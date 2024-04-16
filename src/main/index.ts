@@ -11,7 +11,7 @@ ipcMain.on(FrameEvents.onMinimize, (event) => {
 ipcMain.on(FrameEvents.onExpand, (event) => {
     const win = BrowserWindow.fromId(event.sender.id)
     if (win?.isMaximized()) {
-        win?.restore()
+        win?.unmaximize()
     } else {
         win?.maximize()
     }
