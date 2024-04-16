@@ -9,6 +9,26 @@ export abstract class FrameBuilder {
 
     abstract build(): void
 
+    updateStyle() {
+        const new_style = this.__buildStyle()
+        const old_style = this.frame.frame.querySelector('style') as HTMLStyleElement
+
+        old_style.replaceWith(new_style)
+
+        if (!this.frame.frame.classList.contains("custom")) {
+            this.frame.frame.classList.add("custom")
+        }
+    }
+
+    updateButtons() {
+        const types = ["close", "minimize", "expand"] as const
+        types.forEach((buttonType) => {
+            const oldBtn = this.frame.frame.querySelector(`#${buttonType}`)
+
+            oldBtn?.replaceWith(this.__buildButton(buttonType))
+        })
+    }
+
     protected get __icons() {
         const expand = this.frame.frameStyle === "windows" ?
             icons.windows.expand :
@@ -69,25 +89,5 @@ export abstract class FrameBuilder {
         style.innerHTML = `#electron-frame.custom {${properties}}`
 
         return style
-    }
-
-    updateStyle() {
-        const new_style = this.__buildStyle()
-        const old_style = this.frame.frame.querySelector('style') as HTMLStyleElement
-
-        old_style.replaceWith(new_style)
-
-        if (!this.frame.frame.classList.contains("custom")) {
-            this.frame.frame.classList.add("custom")
-        }
-    }
-
-    updateButtons() {
-        const types = ["close", "minimize", "expand"] as const
-        types.forEach((buttonType) => {
-            const oldBtn = this.frame.frame.querySelector(`#${buttonType}`)
-
-            oldBtn?.replaceWith(this.__buildButton(buttonType))
-        })
     }
 }
