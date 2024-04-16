@@ -2,12 +2,13 @@ import { ipcFrameApi } from "../api"
 import { Frame } from "../frames/Frame"
 
 export class FrameActions {
-    constructor(private frame: Frame) { }
+    constructor(protected frame: Frame) { }
 
     expand() {
         if (this.frame.maximizable) {
             ipcFrameApi.expandWindow()
         }
+        this.frame.builder.updateButtons()
     }
 
     minimize() {

@@ -1,12 +1,11 @@
 import { injectCSS } from "electron-css-injector"
 import path from "path"
-import { formatCSS } from "../Util"
 import { ipcFrameApi } from "../api"
-import { icons } from "../icons"
 import { styles_dir } from "../paths"
 
 import NunitoFont from "@electron-fonts/nunito"
 import { FrameActions } from "../actions/FrameActions"
+import { FrameBuilder } from "../builders/FrameBuilder"
 
 NunitoFont.inject()
 
@@ -49,9 +48,10 @@ export abstract class Frame
     > {
     frame!: HTMLDivElement
     options!: Options
-    actions: FrameActions = new FrameActions(this)
+    abstract actions: FrameActions
+    abstract builder: FrameBuilder
 
-    constructor(frameOptions?: MakeOptions) {
+    protected __init(frameOptions?: MakeOptions) {
         const autoInsert = frameOptions?.autoInsert || false
         delete frameOptions?.autoInsert
 
@@ -67,94 +67,18 @@ export abstract class Frame
 
     protected abstract __build(): void
 
-    protected abstract __setEvents(): void
+    // protected __toggleExpandIcon() {
+    //     if (this.frameStyle === "macos") {
+    //         //Delay necessary to avoid a bug
+    //         setTimeout(() => {
+    //             const old_expand_button = this.frame.querySelector("#expand") as HTMLButtonElement
 
-    protected __buildButton(type: buildButtonType) {
-        const button = document.createElement('button')
-        button.id = type
+    //             const new_expand_button = this.__buildButton("expand")
 
-        button.classList.add("frame-button")
-
-        const isDisabled = () => {
-            switch (type) {
-                case "close":
-                    return !this.closeable
-                case "minimize":
-                    return !this.minimizable
-                case "expand":
-                    return !this.maximizable
-            }
-        }
-
-        if (isDisabled()) {
-            button.classList.add("disable")
-        }
-
-        if (!this.options.tabIndex) {
-            button.tabIndex = -1
-        }
-
-        if (type === "expand" && this.frameStyle === "macos") {
-            button.innerHTML = this.__icons.expand
-        } else {
-            button.innerHTML = this.__icons[type]
-        }
-
-        // const clickFunction = this[`__${type}`].bind(this)
-        const clickFunction = () => this.actions[type]()
-
-        button.addEventListener('click', clickFunction)
-
-        return button
-    }
-
-    protected __buildStyle() {
-        const { colors = {} } = this.options
-
-        const colorsArray = Object.entries(colors)
-        const properties = colorsArray.map(([key, value]) => `--${formatCSS(key)} : ${value} !important`).join(';')
-
-        const style = document.createElement('style')
-        style.innerHTML = `#electron-frame.custom {${properties}}`
-
-        return style
-    }
-
-    protected __updateStyle() {
-        const new_style = this.__buildStyle()
-        const old_style = this.frame.querySelector('style') as HTMLStyleElement
-
-        old_style.replaceWith(new_style)
-
-        if (!this.frame.classList.contains("custom")) {
-            this.frame.classList.add("custom")
-        }
-    }
-
-    protected __toggleExpandIcon() {
-        if (this.frameStyle === "macos") {
-            //Delay necessary to avoid a bug
-            setTimeout(() => {
-                const old_expand_button = this.frame.querySelector("#expand") as HTMLButtonElement
-
-                const new_expand_button = this.__buildButton("expand")
-
-                old_expand_button.replaceWith(new_expand_button)
-            }, 30)
-        }
-    }
-
-    protected get __icons() {
-        const expand = this.frameStyle === "windows" ?
-            icons.windows.expand :
-            this.isMaximized ? icons.macos.restore : icons.macos.expand
-
-        return {
-            close: icons[this.frameStyle].close,
-            minimize: icons[this.frameStyle].minimize,
-            expand
-        }
-    }
+    //             old_expand_button.replaceWith(new_expand_button)
+    //         }, 30)
+    //     }
+    // }
 
     protected __getWindowConfig() {
         return ipcFrameApi.getWindowConfig()
@@ -165,7 +89,6 @@ export abstract class Frame
         this.__build()
         injectCSS(path.join(styles_dir, 'main.css'))
         document.body.appendChild(this.frame)
-        this.__setEvents()
     }
 
     remove() {
@@ -197,7 +120,7 @@ export abstract class Frame
             ...this.options.colors,
             ...colors
         }
-        this.__updateStyle()
+        this.builder.updateStyle()
     }
 
     setBeforeCloseCallback(callback?: () => boolean | Promise<boolean>) {
