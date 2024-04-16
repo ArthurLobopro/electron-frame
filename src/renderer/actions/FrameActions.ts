@@ -8,7 +8,6 @@ export class FrameActions {
         if (this.frame.maximizable) {
             ipcFrameApi.expandWindow()
         }
-        this.frame.builder.updateButtons()
     }
 
     minimize() {

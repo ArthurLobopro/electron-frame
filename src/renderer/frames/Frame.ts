@@ -39,8 +39,6 @@ export interface MakeBaseFrameOptions extends Partial<BaseFrameOptions> {
     autoInsert?: boolean
 }
 
-type buildButtonType = "close" | "minimize" | "expand"
-
 export abstract class Frame
     <
         Options extends BaseFrameOptions = BaseFrameOptions,
@@ -58,6 +56,8 @@ export abstract class Frame
         this.__resolveOptions(frameOptions)
         this.__build()
 
+        ipcFrameApi.addToggleMaximizeListener(() => this.__handleToggleExpand())
+
         if (autoInsert) {
             this.insert()
         }
@@ -66,6 +66,10 @@ export abstract class Frame
     protected abstract __resolveOptions(options?: MakeOptions): void
 
     protected abstract __build(): void
+
+    protected __handleToggleExpand() {
+        this.builder.updateButtons()
+    }
 
     protected __getWindowConfig() {
         return ipcFrameApi.getWindowConfig()

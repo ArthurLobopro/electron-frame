@@ -1,7 +1,9 @@
 export const enum FrameEvents {
-    onClose = "electron-frame:close",
-    onExpand = "electron-frame:expand",
-    onMinimize = "electron-frame:minimize",
+    close = "electron-frame:close",
+    toggleExpand = "electron-frame:expand",
+    minimize = "electron-frame:minimize",
     getIsMazimized = "electron-frame:is-maximized",
-    getWindowConfig = "electron-frame:request-window-config"
+    getWindowConfig = "electron-frame:request-window-config",
+    listenToggleExpand = "electron-frame:listen-toggle-expand",
+    onToggleExpand = "electron-frame:on-toggle-expand"
 }
