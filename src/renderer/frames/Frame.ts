@@ -1,11 +1,12 @@
 import { injectCSS } from "electron-css-injector"
 import path from "path"
-import { formatCSS } from "./Util"
-import { ipcFrameApi } from "./api"
-import { icons } from "./icons"
-import { styles_dir } from "./paths"
+import { formatCSS } from "../Util"
+import { ipcFrameApi } from "../api"
+import { icons } from "../icons"
+import { styles_dir } from "../paths"
 
 import NunitoFont from "@electron-fonts/nunito"
+import { FrameActions } from "../actions/FrameActions"
 
 NunitoFont.inject()
 
@@ -43,11 +44,12 @@ type buildButtonType = "close" | "minimize" | "expand"
 
 export abstract class Frame
     <
-        Options extends BaseFrameOptions,
-        MakeOptions extends MakeBaseFrameOptions
+        Options extends BaseFrameOptions = BaseFrameOptions,
+        MakeOptions extends MakeBaseFrameOptions = MakeBaseFrameOptions
     > {
     frame!: HTMLDivElement
     options!: Options
+    actions: FrameActions = new FrameActions(this)
 
     constructor(frameOptions?: MakeOptions) {
         const autoInsert = frameOptions?.autoInsert || false
@@ -98,7 +100,8 @@ export abstract class Frame
             button.innerHTML = this.__icons[type]
         }
 
-        const clickFunction = this[`__${type}`].bind(this)
+        // const clickFunction = this[`__${type}`].bind(this)
+        const clickFunction = () => this.actions[type]()
 
         button.addEventListener('click', clickFunction)
 
@@ -138,39 +141,6 @@ export abstract class Frame
 
                 old_expand_button.replaceWith(new_expand_button)
             }, 30)
-        }
-    }
-
-    //Actions (minimize, expand, close)
-    protected async __close() {
-        if (this.closeable) {
-            if (typeof this.options.onClose?.beforeCallback === "function") {
-                const result = this.options.onClose?.beforeCallback()
-
-                if (result instanceof Promise) {
-                    if (await result) {
-                        ipcFrameApi.closeWindow()
-                    }
-                } else if (result) {
-                    ipcFrameApi.closeWindow()
-                }
-
-            } else {
-                ipcFrameApi.closeWindow()
-            }
-        }
-    }
-
-    protected __expand() {
-        if (this.maximizable) {
-            ipcFrameApi.expandWindow()
-            this.__toggleExpandIcon()
-        }
-    }
-
-    protected __minimize() {
-        if (this.minimizable) {
-            ipcFrameApi.minimizeWindow()
         }
     }
 

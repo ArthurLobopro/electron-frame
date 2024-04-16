@@ -1,5 +1,5 @@
+import { getIcon } from '../Util'
 import { BaseFrameOptions, Frame } from "./Frame"
-import { getIcon } from './Util'
 
 interface ElectronFrameOptions extends BaseFrameOptions {
     title: string

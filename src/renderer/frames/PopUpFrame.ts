@@ -1,3 +1,4 @@
+import { PopUpFrameActions } from "../actions/PopUpFrameActions"
 import { BaseFrameOptions, Frame } from "./Frame"
 
 interface PopUpFrameOptions extends BaseFrameOptions {
@@ -12,6 +13,8 @@ export interface MakePopUpFrameOptions extends Partial<PopUpFrameOptions> {
 }
 
 export class PopUpFrame extends Frame<PopUpFrameOptions, MakePopUpFrameOptions> {
+    actions = new PopUpFrameActions(this, this.__hideMenu)
+
     protected __resolveOptions(options: MakePopUpFrameOptions) {
         const windowConfig = this.__getWindowConfig()
 
@@ -64,21 +67,6 @@ export class PopUpFrame extends Frame<PopUpFrameOptions, MakePopUpFrameOptions> 
 
     protected __getFrameElement(id: string) {
         return this.frame.querySelector(`#${id}`) as HTMLElement
-    }
-
-    protected __minimize() {
-        super.__minimize()
-        this.__hideMenu()
-    }
-
-    protected __expand() {
-        super.__expand()
-        this.__hideMenu()
-    }
-
-    protected async __close() {
-        await super.__close()
-        this.__hideMenu()
     }
 
     protected __setEvents() {

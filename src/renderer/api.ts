@@ -1,6 +1,6 @@
 import { ipcRenderer } from "electron"
 import { FrameEvents } from "../FrameEvents"
-import { WindowConfig } from "./Frame"
+import { WindowConfig } from "./frames/Frame"
 
 export const ipcFrameApi = {
     isMaximized() {
