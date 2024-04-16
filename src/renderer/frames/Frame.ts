@@ -67,19 +67,6 @@ export abstract class Frame
 
     protected abstract __build(): void
 
-    // protected __toggleExpandIcon() {
-    //     if (this.frameStyle === "macos") {
-    //         //Delay necessary to avoid a bug
-    //         setTimeout(() => {
-    //             const old_expand_button = this.frame.querySelector("#expand") as HTMLButtonElement
-
-    //             const new_expand_button = this.__buildButton("expand")
-
-    //             old_expand_button.replaceWith(new_expand_button)
-    //         }, 30)
-    //     }
-    // }
-
     protected __getWindowConfig() {
         return ipcFrameApi.getWindowConfig()
     }
