@@ -1,5 +1,7 @@
+import { FrameActions } from "../actions/FrameActions"
+import { ElectronFrameBuilder } from "../builders/ElectronFrameBuilder"
+import { getIcon } from '../Util'
 import { BaseFrameOptions, Frame } from "./Frame"
-import { getIcon } from './Util'
 
 interface ElectronFrameOptions extends BaseFrameOptions {
     title: string
@@ -14,6 +16,19 @@ export interface MakeElectronFrameOptions extends Partial<ElectronFrameOptions> 
 }
 
 export class ElectronFrame extends Frame<ElectronFrameOptions, MakeElectronFrameOptions> {
+    builder: ElectronFrameBuilder
+    actions: FrameActions = new FrameActions(this)
+
+    constructor(frameOptions?: ElectronFrameOptions) {
+        super()
+        this.builder = new ElectronFrameBuilder(this)
+        this.__init(frameOptions)
+    }
+
+    protected __build() {
+        this.builder.build()
+    }
+
     protected __resolveOptions(options: MakeElectronFrameOptions = {}) {
         const defaultWindowConfig = { minimizable: true, maximizable: true, closeable: true }
 
@@ -33,81 +48,6 @@ export class ElectronFrame extends Frame<ElectronFrameOptions, MakeElectronFrame
             ...defaultConfig,
             ...options,
         } as ElectronFrameOptions
-    }
-
-    protected __build() {
-        const frame = this.__buildFrame()
-
-        frame.appendChild(this.__buildIcon())
-
-        const windowName = document.createElement('div')
-        windowName.id = "window-name"
-        windowName.innerText = this.options.title
-
-        frame.appendChild(windowName)
-
-        frame.appendChild(this.__buildControls())
-        frame.appendChild(this.__buildStyle())
-
-        this.frame = frame
-    }
-
-    private __buildFrame() {
-        const {
-            darkMode,
-            colors = {},
-            frameStyle
-        } = this.options
-
-        const colorsArray = Object.entries(colors)
-
-        const frame = document.createElement('div')
-        frame.id = "electron-frame"
-
-        frame.classList.add(darkMode ? "dark" : "light")
-        frame.classList.add(`${frameStyle}-style`)
-
-        if (!colorsArray.length) {
-            frame.classList.add('custom')
-        }
-
-        return frame
-    }
-
-    private __buildIcon() {
-        const {
-            icon,
-            frameStyle
-        } = this.options
-
-        const isWindowsStyle = frameStyle === "windows"
-
-        const frameIcon = document.createElement('div')
-        frameIcon.id = isWindowsStyle ? "window-icon" : "spacer"
-
-        if (isWindowsStyle) {
-            if (icon instanceof Image) {
-                frameIcon.appendChild(icon)
-            } else if (icon !== "") {
-                const image = new Image()
-                image.src = icon
-
-                frameIcon.appendChild(image)
-            }
-        }
-
-        return frameIcon
-    }
-
-    private __buildControls() {
-        const controls = document.createElement('div')
-        controls.className = "window-controls"
-
-        controls.appendChild(this.__buildButton("minimize"))
-        controls.appendChild(this.__buildButton("expand"))
-        controls.appendChild(this.__buildButton("close"))
-
-        return controls
     }
 
     protected __setEvents(): void { }

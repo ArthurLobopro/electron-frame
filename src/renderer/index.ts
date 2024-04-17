@@ -1,3 +1,4 @@
-export * from './ElectronFrame'
-export * from "./Frame"
-export * from "./PopUpFrame"
+export * from './frames/ElectronFrame'
+export * from "./frames/Frame"
+export * from "./frames/PopUpFrame"
+

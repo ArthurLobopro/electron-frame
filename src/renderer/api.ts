@@ -1,6 +1,6 @@
 import { ipcRenderer } from "electron"
 import { FrameEvents } from "../FrameEvents"
-import { WindowConfig } from "./Frame"
+import { WindowConfig } from "./frames/Frame"
 
 export const ipcFrameApi = {
     isMaximized() {
@@ -12,16 +12,22 @@ export const ipcFrameApi = {
     },
 
     closeWindow() {
-        return ipcRenderer.send(FrameEvents.onClose)
+        return ipcRenderer.send(FrameEvents.close)
     },
 
     expandWindow() {
-        return ipcRenderer.send(FrameEvents.onExpand)
+        return ipcRenderer.send(FrameEvents.toggleExpand)
     },
 
     minimizeWindow() {
-        return ipcRenderer.send(FrameEvents.onMinimize)
+        return ipcRenderer.send(FrameEvents.minimize)
     },
+
+    addToggleMaximizeListener(handler: () => void) {
+        ipcRenderer.send(FrameEvents.listenToggleExpand)
+
+        ipcRenderer.on(FrameEvents.onToggleExpand, handler)
+    }
 }
 
 export type ipcFrameApi = typeof ipcFrameApi
