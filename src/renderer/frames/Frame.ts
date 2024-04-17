@@ -46,8 +46,11 @@ export abstract class Frame
     > {
     frame!: HTMLDivElement
     options!: Options
+
     abstract actions: FrameActions
     abstract builder: FrameBuilder
+    protected abstract __resolveOptions(options?: MakeOptions): void
+    protected abstract __build(): void
 
     protected __init(frameOptions?: MakeOptions) {
         const autoInsert = frameOptions?.autoInsert || false
@@ -63,10 +66,6 @@ export abstract class Frame
         }
     }
 
-    protected abstract __resolveOptions(options?: MakeOptions): void
-
-    protected abstract __build(): void
-
     protected __handleToggleExpand() {
         this.builder.updateButtons()
     }
@@ -78,7 +77,7 @@ export abstract class Frame
     insert() {
         //Rebuild with DOM content
         this.__build()
-        injectCSS(path.join(styles_dir, 'main.css'))
+        injectCSS(path.join(styles_dir, 'main.css'), "electron-frame-css")
         document.body.appendChild(this.frame)
     }
 
@@ -107,10 +106,7 @@ export abstract class Frame
     }
 
     setColors(colors: FrameColors) {
-        this.options.colors = {
-            ...this.options.colors,
-            ...colors
-        }
+        Object.assign(this.options.colors, colors)
         this.builder.updateStyle()
     }
 
@@ -130,10 +126,6 @@ export abstract class Frame
 
     get darkmode() {
         return this.options.darkMode
-    }
-
-    set colors(colors: FrameColors) {
-        this.setColors(colors)
     }
 
     set frameStyle(frameStyle: FrameStyle) {
